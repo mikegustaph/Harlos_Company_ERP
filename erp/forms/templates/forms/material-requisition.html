@@ -1,0 +1,128 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'forms' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="pt-2 pb-2 mt-3 mb-3 border-bottom">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="flex-wrap d-flex justify-content-between flex-md-nowrap align-items-center ">
+                                <h1 class="m-0 mt-1 mb-3 main-header"><span class="mr-2 fal fa-file"></span> Material
+                                    Requisition Form
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{{url_for('forms_bp.forms_viewer')}}" class="float-right mr-3"
+                                style="margin-top: 12px;">
+                                <i class="mr-2 far fa-arrow-left"></i>Go Back
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin: 20px 30px;">
+                    <form action="{{url_for('forms_bp.material_requisition')}}" enctype="multipart/form-data"
+                        method="POST">
+
+                        <div>
+                            <div class="repeatable-container"></div>
+                            <input type="button" value="Add New Item" class="add btn h-btn-sm btn-success" />
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Authorized By</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="prepared_by"
+                                        value="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Prepared By</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="requested_by"
+                                        value="{{current_user.fullname}}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Approved By</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="requested_to"
+                                        value="">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <button type="submit" name="submit" class="mr-5 btn btn-success h-btn-sm">Save Form</button>
+                    </form>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+<!-- New Item JS Template - Jquery Repeatable -->
+<script type="text/template" id="FormsAddMore">
+    <div class="row field-group">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="">Item Name</label>
+                <select class="custom-select form-control h-input h-input-sm" name="item_name_{?}" id="a{?}" onchange="adjust_max(this)">
+                    {% if items %}
+                    {% for item in items %}
+                    <option value="{{item.item_name}}" selected>{{item.item_name}}</option>
+                    {% endfor %}
+                    {% else %}
+                    <option>Stock is empty</option>
+                    {% endif %}
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="">Description</label>
+                <input type="text" class="form-control h-input h-input-sm" name="description_{?}" id="description_{?}">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="">Quantity</label>
+                <input type="number" class="form-control h-input h-input-sm" name="quantity_{?}" id="quantity_{?}" min="1" max="3">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="">Date Required</label>
+                <input type="date" class="form-control h-input h-input-sm comNum" name="date_required_{?}" id="date_required_{?}" value={{now}}>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="hidden" name="no_material_req_{?}" value="{?}">
+        </div>
+        <div class="form-group">
+            <input type="button" class="btn btn-danger h-btn-sm delete" value="Remove" style="margin-top:30px" />
+        </div>
+    </div>
+</script>
+
+<script>
+    function adjust_max(select) {
+        var select_id = $(select).attr('id').slice(1, 5);
+        var item = select.value;
+        var response = `{{list_items}}`.replace(/&#34;/g, '"');
+        var list_items = JSON.parse(response)
+        var current_item = list_items[item]
+        document.getElementById('description_' + select_id).setAttribute('value', current_item.description);
+        document.getElementById('quantity_' + select_id).setAttribute('max', current_item.quantity)
+    }
+</script>
+
+{% endblock %}

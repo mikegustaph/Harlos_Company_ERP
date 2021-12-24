@@ -1,0 +1,234 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'crm' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="pt-2 pb-2 mt-3 mb-3 border-bottom">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="flex-wrap d-flex justify-content-between flex-md-nowrap align-items-center ">
+                                <h1 class="m-0 mt-1 mb-3 main-header"><span class="mr-2 fal fa-dice-d6"></span> Leads
+                                </h1>
+                            </div>
+                        </div>
+                        {% if role.can_add_lead %}
+                        <div class="col-md-6">
+                            <button class="float-right mb-3 shadow-sm btn btn-success h-btn-lg" data-toggle="modal"
+                                data-target="#leadModal">
+                                Create Lead <i class="ml-2 fa fa-plus-circle"></i>
+                            </button>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <div class="col-md-4">
+                        <div class="overflow-hidden card">
+                            <a href="" style="color: inherit !important;">
+                                <div class="row">
+                                    <div class="col-md-4" style="background-color: var(--primary-red);">
+                                        <i class="mt-4 fad fa-users"
+                                            style="font-size: 50px; color: #fff;  margin-left: 30px;"></i>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="card-body">
+                                            <h6>All Leads</h6>
+                                            <h3 class="m-0"></h3>
+                                            <h3 class="m-0">{{crm_summary.lead_count}}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="overflow-hidden card">
+                            <a style="color: inherit !important;">
+                                <div class="row">
+                                    <div class="col-md-4 bg-secondary">
+                                        <i class="mt-4 fad fa-users-crown"
+                                            style="font-size: 50px; color: #fff;  margin-left: 30px;"></i>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="card-body">
+                                            <h6>Closed Won</h6>
+                                            <h3 class="m-0"></h3>
+                                            <h3 class="m-0">{{crm_summary.closed_won}}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="overflow-hidden card">
+                            <a style="color: inherit !important;">
+                                <div class="row">
+                                    <div class="col-md-4" style="background-color: var(--primary-red);">
+                                        <i class="mt-4 fad fa-users-slash"
+                                            style="font-size: 50px; color: #fff;  margin-left: 30px;"></i>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="card-body">
+                                            <h6>Closed Lost</h6>
+                                            <h3 class="m-0"></h3>
+                                            <h3 class="m-0">{{crm_summary.closed_lost}}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <ul class="mb-3 nav nav-tabs" id="myTab" role="tablist">
+
+                    {% if role.can_view_lead %}
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{url_for('crm_bp.crm')}}">Leads <span
+                                class="badge badge-light">{{crm_summary.lead_count}}</span></a>
+                    </li>
+                    {% endif %} {% if role.can_view_deal %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('crm_bp.deals')}}">Deals <span
+                                class="badge badge-light">{{crm_summary.deal_count}}</span></a>
+                    </li>
+                    {% endif %} {% if role.can_view_crm_accounts %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('crm_bp.accounts')}}">Accounts <span
+                                class="badge badge-light">{{crm_summary.account_count}}</span></a>
+                    </li>
+                    {% endif %} {% if role.can_view_crm_activity %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('crm_bp.activities')}}">Activities</a>
+                    </li>
+                    {% endif %} {% if role.can_view_crm_contact %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('crm_bp.crm_contacts')}}">Contacts</a>
+                    </li>
+                    {% endif %} {% if role.can_view_crm_settings %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('crm_bp.crm_settings')}}">Settings</a>
+                    </li>
+                    {% endif %}
+
+                </ul>
+
+                <div class="mb-3">
+                    <!-- SearchPane Button -->
+                    <button id="spButton" class="btn h-btn-sm btn-success" type="button" data-toggle="collapse"
+                        data-target="#spCont" aria-expanded="false" aria-controls="collapseSP">
+                        <i class="mr-2 far fa-search"></i>Advanced Filtering
+                    </button>
+
+                    <!-- SearchBuilder Button -->
+                    <button id="sbButton" class="btn h-btn-sm btn-success" type="button" data-toggle="collapse"
+                        data-target="#sbCont" aria-expanded="false" aria-controls="collapseSB">
+                        <i class="mr-2 far fa-filter"></i>Condition Filtering
+                    </button>
+                </div>
+
+                <div class="mb-5 table-responsive">
+                    <div class="table-responsive">
+                        <table id="leadsTable" class="display nowrap stripe" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Company</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Persona</th>
+                                    <th>Title</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                    <th>Group</th>
+                                    <th>Lead Source</th>
+                                    <th>Lead Owner</th>
+                                    <th>City</th>
+                                    <th>Created On</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for lead in all_leads %} {% if (lead.lead_owner == current_user.email and
+                                role.can_view_lead) or current_user.is_admin or (not current_user.is_sales and
+                                role.can_view_lead)%}
+                                <tr>
+                                    <td></td>
+                                    <td>{{lead.lead_id}}</td>
+                                    {% if not current_user.is_admin and not current_user.is_sales %}
+                                    <td>{{lead.lead_name}}</td>
+                                    {% else %}
+                                    <td><a href="{{lead.lead_id}}" data-toggle="modal"
+                                            data-target="#bc{{lead.lead_id}}">{{lead.lead_name}}
+                                            <i class="ml-2 far fa-eye"></i>
+                                        </a>
+                                    </td>
+                                    {% endif %}
+                                    <td>{{lead.company}}</td>
+                                    <td>{{lead.email}}</td>
+                                    <td>{{lead.phone}}</td>
+                                    <td>{{lead.persona}}</td>
+                                    <td>{{lead.lead_title}}</td>
+                                    <td>{{lead.lead_product}}</td>
+                                    <td>{{lead.lead_status}}</td>
+                                    <td>{{lead.group}}</td>
+                                    <td>{{lead.lead_source}}</td>
+                                    <td>{{lead.lead_owner}}</td>
+                                    <td>{{lead.city}}</td>
+                                    <td>{{lead.date_created.strftime('%d/%m/%Y')}}</td>
+                                    <td>
+                                        {% if lead.lead_id in d_leads %}
+                                        <a href="" class="p-2 btn btn-sm btn-warning">
+                                            <i class="mr-2 fas fa-info-circle"></i> PENDING
+                                        </a>
+                                        {% else %}
+                                        <button class="btn btn-sm btn-danger" data-toggle="modal"
+                                            data-target="#LdeleteModal{{lead.lead_id}}">
+                                            DELETE <i class="ml-2 fas fa-trash"></i>
+                                        </button>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endif %} {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Modal -->
+                {% include 'modals/create_lead.html' %}
+
+                <!-- Modal 2 -->
+                {% include 'modals/convert_modal.html' %}
+
+                <!-- Modal 3 -->
+                {% include 'modals/lead-delete.html' %}
+
+            </main>
+        </div>
+
+    </div>
+</div>
+
+
+
+{% endblock %}

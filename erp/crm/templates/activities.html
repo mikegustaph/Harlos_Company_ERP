@@ -1,0 +1,118 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'crm' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="pt-2 pb-2 mt-3 mb-3 border-bottom">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="flex-wrap d-flex justify-content-between flex-md-nowrap align-items-center ">
+                                <h1 class="m-0 mt-1 mb-3 main-header"><span class="mr-2 fal fa-dice-d6"></span> CRM
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="float-right mb-3 shadow-sm btn btn-success h-btn-lg" data-toggle="modal"
+                                data-target="#activityModal">
+                                Create Activity <i class="ml-2 fa fa-plus-circle"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <ul class="mb-3 nav nav-tabs" id="myTab" role="tablist">
+                    {% if role.can_view_lead %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('crm_bp.crm')}}">Leads <span
+                                class="badge badge-light">{{crm_summary.lead_count}}</span></a>
+                    </li>
+                    {% endif %} {% if role.can_view_deal %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('crm_bp.deals')}}">Deals <span
+                                class="badge badge-light">{{crm_summary.deal_count}}</span></a>
+                    </li>
+                    {% endif %} {% if role.can_view_crm_accounts %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('crm_bp.accounts')}}">Accounts <span
+                                class="badge badge-light">{{crm_summary.account_count}}</span></a>
+                    </li>
+                    {% endif %} {% if role.can_view_crm_activity %}
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{url_for('crm_bp.activities')}}">Activities</a>
+                    </li>
+                    {% endif %} {% if role.can_view_crm_contact %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('crm_bp.crm_contacts')}}">Contacts</a>
+                    </li>
+                    {% endif %} {% if role.can_view_crm_settings %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('crm_bp.crm_settings')}}">Settings</a>
+                    </li>
+                    {% endif %}
+
+                </ul>
+
+                <div class="table-responsive">
+                    <div class="table-responsive">
+                        <table id="activitiesTable" class="display nowrap" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Type</th>
+                                    <th>Date</th>
+                                    <th>Account</th>
+                                    <th>User</th>
+                                    <th>Status</th>
+                                    <th>Created Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for activity in all_activities %} {% if activity.activity_owner == current_user.email
+                                or current_user.is_admin %}
+                                <tr>
+                                    <td>{{activity.a_id}}</td>
+                                    <td>{{activity.a_type}}</td>
+                                    <td>{{activity.a_time}}</td>
+                                    <td>{{activity.a_account}}</td>
+                                    <td>{{activity.a_owner}}</td>
+                                    <td>
+                                        <a href="" data-toggle="modal" data-target="#activitySModal{{activity.a_id}}">
+                                            <span class="badge badge-info sent">{{activity.a_status}}</span>
+                                            <i class="ml-2 fa fa-pencil"></i>
+                                        </a>
+                                    </td>
+                                    <td>{{activity.date_created.strftime('%d/%m/%Y')}}</td>
+                                </tr>
+                                {% endif %} {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Modal -->
+                {% include 'modals/activities_modal.html' %}
+
+                <!-- Modal -->
+                {% include 'modals/activity_status_modal.html' %}
+
+            </main>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,389 @@
+{% for lead in all_leads %}
+<div class="modal fade" id="bc{{lead.lead_id}}" tabindex="-1" aria-labelledby="leadModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-sm modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Convert
+                </h5>
+                <button class="btn btn-success h-btn-sm pulse-button" id="modalBtn{{lead.lead_id}}">
+                    Convert
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <!-- Info form -->
+                <form action="{{url_for('crm_bp.crm')}}" enctype="multipart/form-data" method="POST" class="ml-4 mr-4">
+                    <div id="mainView{{lead.lead_id}}">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Firstname</label>
+                                    <input type="text" class="form-control h-input" id="" name="firstname"
+                                        value="{{lead.firstname}}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Lastname</label>
+                                    <input type="text" class="form-control h-input" id="" name="lastname"
+                                        value="{{lead.lastname}}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Company</label>
+                                    <input type="text" class="form-control h-input" id="" name="company"
+                                        value="{{lead.company}}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Email</label>
+                                    <input type="email" class="form-control h-input" id="" name="email"
+                                        value="{{lead.email}}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Phone</label>
+                                    <input type="text" class="form-control h-input" id="" name="phone"
+                                        value="{{lead.phone}}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Persona</label>
+                                    <select class="custom-select h-padd form-control" name="persona">
+                                        {% if default_fields.lead_persona %}
+                                        {% for persona in json.loads(default_fields.lead_persona) %}
+                                        <option selected value="{{persona}}">{{persona}}</option>
+                                        {% endfor %}
+                                        {% else %}
+                                        <option value="None">None</option>
+                                        {% endif %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Country</label>
+                                    <select class="custom-select h-padd form-control" name="country">
+                                        {% for country in countries %}
+                                        {% if country.name == lead.country %}
+                                        <option selected value="{{country.name}}">{{country.name}}</option>
+                                        {% else %}
+                                        <option value="{{country.name}}">{{country.name}}</option>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">City</label>
+                                    <input type="text" class="form-control h-input" id="" name="city"
+                                        value="{{lead.city}}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="">Address</label>
+                                    <input type="text" class="form-control h-input" id="" name="address"
+                                        value="{{lead.address}}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Lead Title</label>
+                                    <input type="text" class="form-control h-input" id="" name="lead_title"
+                                        value="{{lead.lead_title}}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Lead Source <span style="color: crimson;">*</span></label>
+                                    <select class="custom-select h-padd form-control" name="lead_source">
+                                        {% if default_fields.lead_sources %}
+                                        {% for lead_source in json.loads(default_fields.lead_sources) %}
+                                        <option selected value="{{lead_source}}">{{lead_source}}</option>
+                                        {% endfor %}
+                                        {% else %}
+                                        <option value="None">None</option>
+                                        {% endif %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Type</label>
+                                    <select class="custom-select h-padd form-control" name="lead_product">
+                                        <option value="{{lead.lead_product}}">{{lead.lead_product}}</option>
+                                        <option value="40HC">40HC</option>
+                                        <option value="40ST">40ST</option>
+                                        <option value="20ST">20ST</option>
+                                        <option value="20RF">20RF</option>
+                                        <option value="40RH">40RH</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Status <span style="color: crimson;">*</span></label>
+                                    <select class="custom-select h-padd form-control" name="lead_status" required>
+                                        <option selected value="{{lead.lead_status}}">{{lead.lead_status}}
+                                            {% if default_fields.lead_status %}
+                                            {% for status in json.loads(default_fields.lead_status) %}
+                                            {% if status != lead.lead_status %}
+                                        <option value="{{status}}">{{status}}</option>
+                                        {% endif %}
+                                        {% endfor %}
+                                        {% else %}
+                                        <option value="None">None</option>
+                                        {% endif %}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Industry</label>
+                                    <select class="custom-select h-padd form-control" name="industry">
+                                        <option selected value="{{lead.industry}}">{{lead.industry}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Group</label>
+                                    <input type="text" class="form-control h-input" name="group" value="{{lead.group}}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="">Lead Owner</label>
+                                    <input type="text" class="form-control h-input" id="" name="lead_owner"
+                                        value="{{current_user.fullname}}" disabled>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Description</label>
+                            <textarea type="text" class="form-control h-input" id="" name="description"
+                                value="{{lead.description}}"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="hidden" name="_method" value="put">
+                        </div>
+
+
+                        <div class="form-group">
+                            <input type="hidden" name="registered_lead_id" value="{{lead.lead_id}}">
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success h-btn-sm" name="submit" id="btnSubmit">Save
+                                Changes</button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Convert Form -->
+                <form action="{{url_for('crm_bp.deals')}}" enctype="multipart/form-data" method="POST"
+                    class="ml-4 mr-4">
+                    <div id="secView{{lead.lead_id}}" class="secMod">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Deal Name <span style="color: crimson;">*</span></label>
+                                    <input type="text" class="form-control h-input" id="" name="deal_name"
+                                        value="{{lead.lead_name}}" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Stage <span style="color: crimson;">*</span></label>
+                                    <select class="custom-select h-padd form-control" name="deal_stage" required>
+                                        <option selected value="Qualification">Qualification</option>
+                                        <option value="Needs Analysis">Needs Analysis</option>
+                                        <option value="Value Proposition">Value Proposition</option>
+                                        <option value="Identify Decision Makers">Id.Decision Makers</option>
+                                        <option value="Proposal/Price Quote">Proposal/Price Quote</option>
+                                        <option value="Negotiation/Review">Negotiation/Review</option>
+                                        <option value="Closed Won">Closed Won</option>
+                                        <option value="Closed Lost">Closed Lost</option>
+                                        <option value="Closed Lost to Competition">Closed Lost to Competition</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Contact Role <span style="color: crimson;">*</span></label>
+                                    <select class="custom-select h-padd form-control" name="contact_role" required>
+                                        {% if default_fields.contact_roles %}
+                                        {% for contact_role in json.loads(default_fields.contact_roles) %}
+                                        <option selected value="{{contact_role}}">{{contact_role}}</option>
+                                        {% endfor %}
+                                        {% else %}
+                                        <option value="None">None</option>
+                                        {% endif %}
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Closing Date <span style="color: crimson;">*</span></label>
+                                    <input type="text" class="form-control h-input dateSelector" name="closing_date"
+                                        value="" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Campaign Source</label>
+                                    <select class="custom-select h-padd form-control" name="">
+                                        {% for campaign in campaigns %}
+                                        {% if campaign == lead.lead_source %}
+                                        <option selected value="Social Media Campaigns" value="{{lead.lead_source}}">
+                                            {{lead.lead_source}}
+                                        </option>
+                                        {% else %}
+                                        <option value="{{campaign}}">
+                                            {{campaign}}
+                                        </option>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group input_fields_wrap">
+                                    <label for="">No. of Containers <span style="color: crimson;">*</span></label>
+                                    <div class="mb-2">
+                                        <div class="row maya" style="margin-left: 0px;">
+                                            <div class="p-1 col-md-4">
+                                                <select class="custom-select h-padd form-control" name="size_1"
+                                                    required>
+                                                    <option selected value="40HC">40HC</option>
+                                                    <option value="40DV">40DV</option>
+                                                    <option value="40RH">40RH</option>
+                                                    <option value="20RF">20RF</option>
+                                                    <option value="20DV">20DV</option>
+                                                </select>
+                                            </div>
+                                            <div class="p-1 col-md-4">
+                                                <input type="number" class="form-control h-input" name="quantity_1"
+                                                    placeholder="Quantity" required>
+                                            </div>
+                                            <div class="p-1 col-md-4">
+                                                <input type="number" class="form-control h-input" name="price_1"
+                                                    placeholder="Price" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="add_field_button btn-sm btn-success">
+                                        <i class="far fa-plus-circle"></i> Add More
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="hidden" name="lead_id" value="{{lead.lead_id}}">
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" class="count_rows" name="total_rows" value="1">
+                        </div>
+
+                        <div class="modal-footer">
+                            <a class="btn h-btn-disabled h-btn-sm" id="cancelBtn{{lead.lead_id}}">Cancel</a>
+                            <button type="submit" class="btn btn-success h-btn-sm" name="submit" id="btnSubmit">Save
+                                Deal</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function switchVisible(view_number, event) {
+        console.log(view_number);
+        console.log(event);
+        var mainView = document.getElementById('mainView' + view_number),
+            secView = document.getElementById('secView' + view_number);
+        convBtn = document.getElementById('modalBtn' + view_number);
+
+        if (!mainView) return;
+        if (getComputedStyle(mainView).display == 'block') {
+            mainView.style.display = 'none';
+            convBtn.style.display = 'none';
+            secView.style.display = 'block';
+        } else {
+            mainView.style.display = 'block';
+            convBtn.style.display = 'block';
+            secView.style.display = 'none';
+        }
+    }
+
+    function cancelVisible(view_number, event) {
+        console.log(view_number);
+        console.log(event);
+        var mainView = document.getElementById('mainView' + view_number),
+            secView = document.getElementById('secView' + view_number);
+        convBtn = document.getElementById('modalBtn' + view_number);
+
+        if (!mainView) return;
+        if (getComputedStyle(secView).display == 'block') {
+            mainView.style.display = 'block';
+            convBtn.style.display = 'block';
+            secView.style.display = 'none';
+        } else {
+            mainView.style.display = 'none';
+            convBtn.style.display = 'none';
+            secView.style.display = 'block';
+        }
+    }
+
+    document.getElementById('cancelBtn{{lead.lead_id}}').addEventListener('click', cancelVisible.bind(event,
+        '{{lead.lead_id}}'), false);
+    document.getElementById('modalBtn{{lead.lead_id}}').addEventListener('click', switchVisible.bind(event,
+        '{{lead.lead_id}}'), false);
+</script>
+{% endfor %}

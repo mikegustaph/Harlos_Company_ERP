@@ -1,0 +1,151 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'crm' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="border-bottom pt-2 pb-2 mb-3 mt-3">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center ">
+                                <h1 class="main-header m-0 mt-1 mb-3"><span class="fal fa-dice-d6 mr-2"></span> CRM
+                                    Settings
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn shadow-sm btn-success h-btn-lg float-right mb-3" data-toggle="modal"
+                                data-target="#activityModal">
+                                Add New <i class="fa fa-plus-circle ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
+                    {% if role.can_view_lead %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('crm_bp.crm')}}">Leads <span
+                                class="badge badge-light">{{crm_summary.lead_count}}</span></a>
+                    </li>
+                    {% endif %} {% if role.can_view_deal %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('crm_bp.deals')}}">Deals <span
+                                class="badge badge-light">{{crm_summary.deal_count}}</span></a>
+                    </li>
+                    {% endif %} {% if role.can_view_crm_accounts %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('crm_bp.accounts')}}">Accounts <span
+                                class="badge badge-light">{{crm_summary.account_count}}</span></a>
+                    </li>
+                    {% endif %} {% if role.can_view_crm_activity %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('crm_bp.activities')}}">Activities</a>
+                    </li>
+                    {% endif %} {% if role.can_view_crm_contact %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('crm_bp.crm_contacts')}}">Contacts</a>
+                    </li>
+                    {% endif %} {% if role.can_view_crm_settings %}
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{url_for('crm_bp.crm_settings')}}">Settings</a>
+                    </li>
+                    {% endif %}
+
+                </ul>
+
+                <div class="container mb-5 crm-settings">
+                    <div class="mt-4">
+                        <h5><i class="fa fa-cog mr-2"></i>Lead Sources</h5>
+                        <div>
+                            <form action="{{url_for('crm_bp.crm_settings')}}" method="POST">
+                                <input class="tags" name="lead_sources" placeholder="Enter tags"
+                                    value="{{preset_settings.lead_sources}}">
+                                {% if role.can_edit_crm_settings %}
+                                <button type="submit" name="submit" class="btn btn-sm btn-success mt-2">Save</button> {%
+                                endif %}
+                            </form>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="mt-4">
+                        <h5><i class="fa fa-cog mr-2"></i>Lead Status</h5>
+                        <form action="{{url_for('crm_bp.crm_settings')}}" method="POST">
+                            <input class="tags" name="lead_status" placeholder="Enter tags"
+                                value="{{preset_settings.lead_status}}"> {% if role.can_edit_crm_settings %}
+                            <button type="submit" name="submit" class="btn btn-sm btn-success mt-2">Save</button> {%
+                            endif %}
+                        </form>
+                    </div>
+                    <hr>
+                    <div class="mt-4">
+                        <h5><i class="fa fa-cog mr-2"></i>Lead Industries</h5>
+                        <form action="{{url_for('crm_bp.crm_settings')}}" method="POST">
+                            <input class="tags" name="lead_industries" placeholder="Enter tags"
+                                value="{{preset_settings.lead_industries}}"> {% if role.can_edit_crm_settings %}
+                            <button type="submit" name="submit" class="btn btn-sm btn-success mt-2">Save</button> {%
+                            endif %}
+                        </form>
+                    </div>
+                    <hr>
+                    <div class="mt-4">
+                        <h5><i class="fa fa-cog mr-2"></i>Deal Types</h5>
+                        <form action="{{url_for('crm_bp.crm_settings')}}" method="POST">
+                            <input class="tags" name="deal_types" placeholder="Enter tags"
+                                value="{{preset_settings.deal_types}}"> {% if role.can_edit_crm_settings %}
+                            <button type="submit" name="submit" class="btn btn-sm btn-success mt-2">Save</button> {%
+                            endif %}
+                        </form>
+                    </div>
+                    <hr>
+                    <div class="mt-4">
+                        <h5><i class="fa fa-cog mr-2"></i>Lead Persona</h5>
+                        <form action="{{url_for('crm_bp.crm_settings')}}" method="POST">
+                            <input class="tags" name="lead_persona" placeholder="Enter tags"
+                                value="{{preset_settings.lead_persona}}"> {% if role.can_edit_crm_settings %}
+                            <button type="submit" name="submit" class="btn btn-sm btn-success mt-2">Save</button> {%
+                            endif %}
+                        </form>
+                    </div>
+                    <hr>
+                    <div class="mt-4">
+                        <h5><i class="fa fa-cog mr-2"></i>Contact Roles</h5>
+                        <form action="{{url_for('crm_bp.crm_settings')}}" method="POST">
+                            <input class="tags" name="contact_roles" placeholder="Enter tags"
+                                value="{{preset_settings.contact_roles}}"> {% if role.can_edit_crm_settings %}
+                            <button type="submit" name="submit" class="btn btn-sm btn-success mt-2">Save</button> {%
+                            endif %}
+                        </form>
+                    </div>
+                    <div class="mt-4">
+                        <h5><i class="fa fa-cog mr-2"></i>Activity Types</h5>
+                        <form action="{{url_for('crm_bp.crm_settings')}}" method="POST">
+                            <input class="tags" name="activity_types" placeholder="Enter tags"
+                                value="{{preset_settings.activity_types}}"> {% if role.can_edit_crm_settings %}
+                            <button type="submit" name="submit" class="btn btn-sm btn-success mt-2">Save</button> {%
+                            endif %}
+                        </form>
+                    </div>
+                </div>
+
+
+            </main>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock %}

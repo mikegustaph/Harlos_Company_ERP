@@ -1,0 +1,94 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'forms' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="border-bottom pt-2 pb-2 mb-3 mt-3">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center ">
+                                <h1 class="main-header m-0 mt-1 mb-3"><span class="fal fa-file mr-2"></span> Cash Depost
+                                    Form
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{{url_for('forms_bp.forms_viewer')}}" class="float-right mr-3"
+                                style="margin-top: 12px;">
+                                <i class="far fa-arrow-left mr-2"></i>Go Back
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin: 20px 30px;">
+                    <form action="{{url_for('forms_bp.cash_deposit')}}" enctype="multipart/form-data" method="POST">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Account No.</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="account_no">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Amount</label>
+                                    <input type="text" class="form-control h-input h-input" id="input" name="amount">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Amount in words</label>
+                                    <textarea class="form-control h-input h-input-sm" name="amount_in_words" cols="5"
+                                        id="output"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Attach Payslip</label>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="customFile" name="attachment"
+                                            accept=".pdf" required>
+                                        <label class="custom-file-label" for="customFile">Choose a file to
+                                            upload</label>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="form-group">
+                                    <label for="">Prepared By</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="prepared_by"
+                                        value="Loserian">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Signed By</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="signed_by"
+                                        value="Loserian">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <button type="submit" name="submit" class="mr-5 btn btn-success h-btn-sm">Save Form</button>
+                    </form>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+
+<!-- Numbers to words -->
+<script src="{{ url_for('static', filename='vendors/numberToWords.js') }}"></script>
+<script>
+    var input = document.getElementById('input');
+    var output = document.getElementById('output');
+
+    input.addEventListener('input', function () {
+        output.innerHTML = numberToWords(parseInt(input.value, 10)) + " only";
+    });
+</script>
+{% endblock %}

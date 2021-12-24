@@ -1,0 +1,37 @@
+<div class="modal fade" id="testimonialModal" tabindex="-1" aria-labelledby="testimonialModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-sm modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New Testimonial
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="far fa-times"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form action="{{url_for('website_bp.website')}}" enctype="multipart/form-data" method="POST"
+                    class="ml-4 mr-4">
+                    <div class="form-group">
+                        <label for="">Name</label>
+                        <input type="text" class="form-control h-input" name="t_name">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Title</label>
+                        <input type="text" class="form-control h-input" name="t_title">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Review</label>
+                        <textarea class="form-control h-input" name="review" cols="4" rows="4"></textarea>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success h-btn-sm" name="submit" id="btnSubmit">Save
+                            Form
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

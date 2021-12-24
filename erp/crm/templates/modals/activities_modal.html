@@ -1,0 +1,61 @@
+<div class="modal fade" id="activityModal" tabindex="-1" aria-labelledby="leadModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-sm modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create Activity
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="far fa-times"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form action="" enctype="multipart/form-data" method="POST" class="mr-4 ml-4">
+                    <div class="form-group">
+                        <label for="">Activity Type</label>
+                        <select class="custom-select h-padd form-control" name="a_type">
+                            {% if default_fields.activity_types %}
+                            {% for activity in json.loads(default_fields.activity_types) %}
+                            <option selected value="{{activity}}">{{activity}}</option>
+                            {% endfor %}
+                            {% else %}
+                            <option value="None">None</option>
+                            {% endif %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Activity Account <span style="color: crimson;">*</span></label>
+                        <select class="custom-select h-padd form-control" name="accounts" required>
+                            {% for account in accounts %}
+                            <option selected value="{{account.account_name}}">{{account.account_name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Date <span style="color: crimson;">*</span></label>
+                        <input type="text" class="form-control h-input dateTimeSelector" name="a_time" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Description</label>
+                        <textarea cols="4" rows="4" class="form-control h-input" name=""></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Owner</label>
+                        <input type="text" class="form-control h-input" id="" name="" disabled value="Loserian Losai">
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success h-btn-sm" name="submit" id="btnSubmit">Save
+                            Activity
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

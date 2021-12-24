@@ -1,0 +1,132 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'forms' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="pt-2 pb-2 mt-3 mb-3 border-bottom">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="flex-wrap d-flex justify-content-between flex-md-nowrap align-items-center ">
+                                <h1 class="m-0 mt-1 mb-3 main-header"><span class="mr-2 fal fa-file"></span> Payment
+                                    Voucher
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{{url_for('forms_bp.forms_viewer')}}" class="float-right mr-3"
+                                style="margin-top: 12px;">
+                                <i class="mr-2 far fa-arrow-left"></i>Go Back
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin: 20px 30px;">
+                    <form action="{{url_for('forms_bp.payment_voucher')}}" enctype="multipart/form-data" method="POST">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Pay To</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="pay_to">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Date</label>
+                                    <input type="text" class="form-control h-input h-input-sm dateSelector"
+                                        name="date_made">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Voucher Type</label>
+                                    <select class="chosen-select form-control" name="voucher_type">
+                                        <option value="Payed">Payee</option>
+                                        <option value="Cash">Cash</option>
+                                        <option value="Transfer">Transfer</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div>
+                            <div class="repeatable-container"></div>
+                            <input type="button" value="Add New" class="add btn h-btn-sm btn-success" />
+                            <div class="mt-3">
+                                <label for="">Attach File</label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="customFile" name="attachment"
+                                        accept=".pdf" required>
+                                    <label class="custom-file-label" for="customFile">Choose a file to upload</label>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Approved By</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="" value="Loserian"
+                                        disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Prepared By</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="" value="Loserian"
+                                        disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <button type="submit" name="submit" class="mr-5 btn btn-success h-btn-sm">Save Form</button>
+                    </form>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+
+<!-- New Item JS Template - Jquery Repeatable -->
+<script type="text/template" id="FormsAddMore">
+    <div class="row field-group">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="">Particulars</label>
+                <input type="text" class="form-control h-input h-input-sm" name="particulars_{?}">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="">Reference No.</label>
+                <input type="text" class="form-control h-input h-input-sm" name="reference_{?}">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="">Amount</label>
+                <input type="text" class="form-control h-input h-input-sm comNum" name="amount_{?}">
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="hidden" name="no_payment_vouchers_{?}" value="{?}">
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <input type="button" class="btn btn-danger h-btn-sm delete" value="Remove" style="margin-top:30px" />
+            </div>
+        </div>
+    </div>
+</script>
+{% endblock %}

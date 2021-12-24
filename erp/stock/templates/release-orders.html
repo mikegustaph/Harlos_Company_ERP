@@ -1,0 +1,91 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'stock' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="pt-2 pb-2 mt-3 mb-3 border-bottom">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="flex-wrap d-flex justify-content-between flex-md-nowrap align-items-center ">
+                                <h1 class="m-0 mt-1 mb-3 main-header">
+                                    <span class="mr-2 fal fa-container-storage"></span>Release Orders
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <ul class="mb-3 nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('stock_bp.stock')}}">Containers
+                            <span class="badge badge-light">{{stock_summary.available}}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{url_for('stock_bp.release_orders')}}">Release Orders</a>
+                    </li>
+                </ul>
+
+                <div class="table-responsive">
+                    <div class="table-responsive">
+                        <table id="globalTable" class="display nowrap" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Container No.</th>
+                                    <th>Type</th>
+                                    <th>Released To</th>
+                                    <th>Released Date</th>
+                                    <th>Location</th>
+                                    <th>Quantity</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for container in all_containers %}
+                                {% for invoice in invoices %}
+                                {% if container.invoice_number == invoice.invoice_number %}
+                                <tr>
+                                    <td>{{container.number}}</td>
+                                    <td>{{container.size}}</td>
+                                    <td>{{invoice.deal_name}}</td>
+                                    <td>{{container.release_date}}</td>
+                                    <td>{{container.depot}}</td>
+                                    <td>1</td>
+                                    <td>
+                                        <a href="" data-toggle="modal" data-target="#statusReleaseModal">
+                                            Pending
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{{url_for('stock_bp.release_order', c_number=container.number)}}"
+                                            class="btn-sm h-btn-sm btn-success">View Release Order</a>
+                                    </td>
+                                </tr>
+                                {% endif %}
+                                {% endfor %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Modal: Add Container -->
+                {% include 'modals/status_release.html' %}
+            </main>
+        </div>
+    </div>
+</div>
+{% endblock %}

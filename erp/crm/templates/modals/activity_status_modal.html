@@ -1,0 +1,38 @@
+{% for activity in all_activities %}
+<div class="modal fade" id="activitySModal{{activity.a_id}}" tabindex="-1" aria-labelledby="activitySModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-sm modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Activity Status
+                </h5>
+            </div>
+            <div class="modal-body">
+                <form action="{{url_for('crm_bp.update_activity')}}" enctype="multipart/form-data" method="POST"
+                    class="ml-4 mr-4">
+                    <div class="form-group input_fields_wrap">
+                        <label for="">Status </label>
+                        <div class="row">
+                            <div class="p-1 col-md-12">
+                                <select class="custom-select h-padd form-control" name="status">
+                                    <option value="Complete">Complete</option>
+                                    <option value="Active">Active</option>
+                                    <option value="Planning">Planning</option>
+                                    <option value="Inactive">Inactive</option>
+                                </select>
+                                <input type="hidden" name="id" value="{{activity.a_id}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success btn-block h-btn-sm" name="submit"
+                            id="btnSubmit">Save
+                            Status
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}

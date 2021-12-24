@@ -1,0 +1,108 @@
+{% for supplier in suppliers %}
+<div class="modal fade" id="viewsupModal_{{supplier.supplier_id}}" tabindex="-1" aria-labelledby="viewsupModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-sm modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">View Supplier
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="far fa-times"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form action="{{url_for('purchase_bp.purchase')}}" enctype="multipart/form-data" method="POST"
+                    class="mr-4 ml-4">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Company/Supplier Name <span style="color: crimson;">*</span></label>
+                                <input type="text" class="form-control h-input" name="supplier_name"
+                                    value="{{supplier.name}}" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Phone<span style="color: crimson;">*</span></label>
+                                <input type="text" class="form-control h-input" name="supplier_phone"
+                                    value="{{supplier.phone}}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Email</label>
+                                <input type="email" class="form-control h-input" name="supplier_email"
+                                    value="{{supplier.email}}">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Supplier Type</label>
+                                <select class="custom-select h-padd form-control" name="supplier_type">
+                                    {% if supplier.supplier_type == "Supplier" %}
+                                    <option selected value="Supplier">Supplier</option>
+                                    <option value="Regulator">Regulator</option>
+                                    {% else %}
+                                    <option value="Supplier">Supplier</option>
+                                    <option selected value="Regulator">Regulator</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Address</label>
+                                <textarea class="form-control h-input" name="supplier_address"
+                                    cols="2">{{supplier.address}}</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Product/Service</label>
+                                <textarea class="form-control h-input" name="product_or_service"
+                                    cols="2">{{supplier.product_or_service}}</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Payment Details</label>
+                                <textarea class="form-control h-input" name="payment_details"
+                                    cols="2">{{supplier.payment_details}}</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Previous Credit Balance</label>
+                                <input type="text" class="form-control h-input comNum" name="prev_credit_balance"
+                                    value="{{supplier.prev_credit_balance}}">
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" name="update_request" value="1">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success h-btn-sm" name="submit" id="btnSubmit">Save
+                            Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endfor %}

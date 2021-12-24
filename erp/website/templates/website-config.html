@@ -1,0 +1,86 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'website' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="pt-2 pb-2 mt-3 mb-3 border-bottom">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="flex-wrap d-flex justify-content-between flex-md-nowrap align-items-center ">
+                                <h1 class="m-0 mt-1 mb-3 main-header"><span class="mr-2 fal fa-browser"></span>
+                                    Ecommerce Config.
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="float-right mb-3 shadow-sm btn btn-success h-btn-lg" data-toggle="modal"
+                                data-target="#testimonialModal">
+                                New Testimonial <i class="ml-2 fa fa-plus-circle"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <ul class="mb-3 nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{url_for('website_bp.website')}}">Testimonials</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('website_bp.stats')}}">Statistics</a>
+                    </li>
+                </ul>
+
+                <div class="table-responsive">
+                    <div class="table-responsive">
+                        <table id="globalTable" class="display nowrap" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Title</th>
+                                    <th>Review</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for testimony in all_testmonials %}
+                                <tr>
+                                    <td>{{testimony.name}}</td>
+                                    <td>{{testimony.title}}</td>
+                                    <td>{{testimony.review}}</td>
+                                    <td>
+                                        <a href="{{url_for('website_bp.delete_testimony', testimony_id=testimony.id)}}"
+                                            class="btn btn-sm btn-danger">
+                                            <i class="mr-2 fas fa-trash"></i> DELETE
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Modal -->
+                {% include 'modals/testimonial-modal.html' %}
+            </main>
+        </div>
+
+    </div>
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %} {% block content %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="text-center p-5">
+                    <i class="fad fa-user-slash" style="font-size: 50px;"></i>
+                    <h1>401 UNAUTHORIZED</h1>
+                    <span style="font-size: 18px;">You are not authorized, please contact your administrator to upgrade
+                        your role.</span>
+                </div>
+            </main>
+        </div>
+
+    </div>
+</div>
+
+
+
+{% endblock %}

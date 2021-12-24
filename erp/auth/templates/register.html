@@ -1,0 +1,91 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="container-fluid full-height">
+    <div class="row full-height">
+
+        <div class="col-md-6 position-relative">
+            <div class="text-center p-5">
+                <img src="{{ url_for('static', filename='img/logo.png') }}" class="img-responsive" width="80">
+            </div>
+
+            <!-- Form -->
+            <form action="" method="" class="main-form" autocomplete="off">
+                <h3 class="mb-3">Register</h3>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="">First Name</label>
+                            <input type="text" class="form-control" id="" name="" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="">Last Name</label>
+                            <input type="text" class="form-control" id="" name="" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Gender</label>
+                    <select class="form-control custom-select">
+                        <option selected value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Date of Birth</label>
+                    <input type="date" class="form-control" id="" name="" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Profile Image</label>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="validatedCustomFile" name="" accept="image/x-png,image/gif,image/jpeg" required>
+                        <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
+                        <div class="invalid-feedback">Invalid file</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Signature</label>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="validatedCustomFile" name="" accept="image/x-png,image/gif,image/jpeg" required>
+                        <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
+                        <div class="invalid-feedback">Invalid file</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Password</label>
+                    <input type="password" class="form-control" id="" name="" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="">User Type</label>
+                    <select class="form-control custom-select" required>
+                        <option selected value="Admin">Admin</option>
+                        <option value="User">User</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-block shadow-sm h-btn-red h-btn-lg mt-4 mb-5" id="btnSpinner">Register</button>
+            </form>
+
+            <!-- Form End -->
+        </div>
+
+        <div class="col-md-6 auth-cover">
+            <div class="text-center position-absolute" style="bottom: 40px; right: 20px; font-size: 14px; color: #fff">
+                <span><i class="fa fa-question-circle"></i> Need Help? </span>
+            </div>
+            <div class="bg-back"></div>
+            <div class="auth-img"></div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

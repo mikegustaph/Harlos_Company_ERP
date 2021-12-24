@@ -1,0 +1,114 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'forms' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="pt-2 pb-2 mt-3 mb-3 border-bottom">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="flex-wrap d-flex justify-content-between flex-md-nowrap align-items-center ">
+                                <h1 class="m-0 mt-1 mb-3 main-header"><span class="mr-2 fal fa-file"></span> Cash
+                                    Requisition Form
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{{url_for('forms_bp.forms_viewer')}}" class="float-right mr-3"
+                                style="margin-top: 12px;">
+                                <i class="mr-2 far fa-arrow-left"></i>Go Back
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin: 20px 30px;">
+                    <form action="{{url_for('forms_bp.cash_requisition')}}" enctype="multipart/form-data" method="POST">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Date</label>
+                                    <input type="text" class="form-control h-input h-input-sm dateSelector"
+                                        name="date_submitted">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="">Department</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="department">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Total Amount</label>
+                                    <input type="number" class="form-control h-input h-input-sm" name="amount">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="">Prepared By</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="requested_by"
+                                        value="{{current_user.fullname}}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Description of Expense:</label>
+                                    <textarea class="form-control h-input h-input-sm"
+                                        name="description_of_expense"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Attach File</label>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="customFile" name="attachment"
+                                            accept=".pdf">
+                                        <label class="custom-file-label" for="customFile">Choose a file to
+                                            upload</label>
+                                    </div>
+                                </div>
+
+                                <hr>
+                                <div class="mb-4">
+                                    <span><b>Declaration</b></span><br>
+                                    <i>I declare that total amount requested will be used by me sorely in the course of
+                                        business of Harlos Comp. Limited, as indicated above (on description of
+                                        Expense)</i>
+                                </div>
+                                <hr>
+
+                                <div class="form-group">
+                                    <label for="">Signed By</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="signed_by"
+                                        value="{{admin}}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Authorized By</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="authorized_by"
+                                        value="{{accountant}}">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <button type="submit" name="submit" class="mr-5 btn btn-success h-btn-sm">Save Form</button>
+                    </form>
+                </div>
+
+            </main>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

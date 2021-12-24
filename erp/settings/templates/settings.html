@@ -1,0 +1,101 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'settings' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="pt-2 pb-2 mt-3 mb-3 border-bottom">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="flex-wrap d-flex justify-content-between flex-md-nowrap align-items-center ">
+                                <h1 class="m-0 mt-1 mb-3 main-header"><span class="mr-2 fal fa-cog"></span> General
+                                    Settings
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <ul class="mb-3 nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{url_for('settings_bp.settings')}}">Organization</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('settings_bp.display')}}">Display</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('settings_bp.advanced')}}">Advanced</a>
+                    </li>
+                </ul>
+
+                <form method="POST" action="{{url_for('settings_bp.settings')}}" autocomplete="off">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="">Logo</label>
+                            <div class="mb-3 logo-holder">
+                                <img src="{{ url_for('static', filename='img/logo.png') }}" alt="logo">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Organization Name</label>
+                                <input type="text" class="form-control h-input" value="{{settings.name}}"
+                                    name="organization_name">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Email</label>
+                                <input type="text" class="form-control h-input" value="{{settings.email}}"
+                                    name="organization_email">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Telephone</label>
+                                <input type="text" class="form-control h-input" value="{{settings.telephone}}"
+                                    name="organization_telephone">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Website</label>
+                                <input type="text" class="form-control h-input" value="www.harloscontainers.com"
+                                    name="">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Address</label>
+                                <textarea class="form-control h-input" cols="4"
+                                    name="organization_address">{{settings.address}}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Bank Details</label>
+                                <textarea class="form-control h-input" cols="5" rows="5" name="">ACCOUNT NAME: HARLOS COMP LIMITED&#013;ACCOUNT NO-USD: 30014973003&#013;BANK: I&M BANK-NYERERE ROAD BRANCH&#013;SWIFT CODE: IMBLTZ&#013;TZ DAR ES SALAAAM
+                                </textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <button type="submit" class="pl-5 pr-5 mb-3 btn btn-success h-btn-sm" name="submit"
+                        id="btnSubmit">Save
+                    </button>
+                </form>
+
+
+
+
+            </main>
+        </div>
+
+    </div>
+</div>
+
+
+
+{% endblock %}

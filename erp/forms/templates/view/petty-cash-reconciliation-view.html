@@ -1,0 +1,193 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'forms' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="pt-2 pb-2 mt-3 mb-3 border-bottom">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="flex-wrap d-flex justify-content-between flex-md-nowrap align-items-center ">
+                                <h1 class="m-0 mt-1 mb-3 main-header"><span class="mr-2 fal fa-file"></span> Petty Cash
+                                    Reconciliation
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            {% if petty_cash_reco_data.status in ["Pending", None] %}
+                            <div class="float-right mb-3 mr-3 shadow-sm btn btn-danger h-btn-lg" id="formReject">
+                                <a href="{{url_for('forms_bp.form_decision', reference=petty_cash_reco_data.reference.replace('/', '-'), decision="
+                                    Rejected " )}}" style="color: whitesmoke;">
+                                    Reject
+                                    <i class="ml-2 fa fa-times-circle"></i>
+                                </a>
+                            </div>
+                            <div class="float-right mb-3 mr-3 shadow-sm btn btn-success h-btn-lg" id="formApprovee">
+                                <a href="{{url_for('forms_bp.form_decision',reference=petty_cash_reco_data.reference.replace('/', '-'), decision="
+                                    Approved ")}}" style="color: whitesmoke;">
+                                    Approve
+                                    <i class="ml-2 fa fa-check-circle"></i>
+                                </a>
+                            </div>
+                            {% elif petty_cash_reco_data.status == "Approved" %}
+                            <div class="float-right mb-3 mr-3 shadow-sm btn btn-success h-btn-lg" id="formApproved">
+                                Approved
+                                <i class="ml-2 fa fa-check-circle"></i>
+                            </div>
+                            {% elif petty_cash_reco_data.status == "Rejected" %}
+                            <div class="float-right mb-3 mr-3 shadow-sm btn btn-danger h-btn-lg" id="formRejected">
+                                Rejected <i class="ml-2 fa fa-times-circle"></i>
+                            </div>
+                            {% endif %}
+                            <a href="{{url_for('forms_bp.forms')}}" class="float-right mr-3" style="margin-top: 12px;">
+                                <i class="mr-2 far fa-arrow-left"></i>Go Back
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin: 20px 30px;">
+                    <form action="" method="POST">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Cheque No.</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name=""
+                                        value="{{petty_cash_reco_data.cheq_no}}" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">ORM No.</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name=""
+                                        value="{{petty_cash_reco_data.orm_no}}" disabled>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="mb-4">
+                            <span><b>CASH SUMMARY FORM</b></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Prev Date</label>
+                                    <input type="text" class="form-control h-input h-input-sm dateSelector" name=""
+                                        value="{{petty_cash_reco_data.prev_date}}" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Withdraw Date</label>
+                                    <input type="text" class="form-control h-input h-input-sm dateSelector" name=""
+                                        value="{{petty_cash_reco_data.withdraw_date}}" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Cash From</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name=""
+                                        value="{{petty_cash_reco_data.cash_from}}" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Balance b/d</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name=""
+                                        value="{{petty_cash_reco_data.balance_bd}}" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Additional Cash</label>
+                                    <input type="text" class="form-control h-input h-input-sm comNum" name=""
+                                        value="{{petty_cash_reco_data.additional_cash}}" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for=""><b>Total</b></label>
+                                    <input type="text" class="form-control h-input h-input-sm" name=""
+                                        value="{{petty_cash_reco_data.total_amount}}" disabled>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="m-3 mt-5">
+                            <div>
+                                <div class="row field-group">
+                                    <table class="table" id="pettycashrecoTable">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">S/N</th>
+                                                <th scope="col">Payment Date</th>
+                                                <th scope="col">Description</th>
+                                                <th scope="col">Amount (TZS)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for voucher in target_vouchers %}
+                                            {% if voucher %}
+                                            <tr>
+                                                <th>{{voucher.form_id}}</th>
+                                                <td>{{voucher.date_created}}</td>
+                                                <td>{{voucher.description}}</td>
+                                                <td>{{voucher.total_amount}}</td>
+                                            </tr>
+                                            {% endif %}
+                                            {% endfor %}
+                                            <td class="table-total">
+                                                TOTAL: TZS {{total_amount}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Cash Handler</label>
+                                        <input type="text" class="mb-3 form-control h-input h-input-sm" name=""
+                                            value="Zainabu" disabled>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">CEO</label>
+                                        <input type="text" class="mb-3 form-control h-input h-input-sm" name=""
+                                            value="Loserian" disabled>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Finance Manager</label>
+                                        <input type="text" class="mb-3 form-control h-input h-input-sm" name=""
+                                            value="Zainabu" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3 ml-3 shadow-sm btn btn-success btn-sm" id="pdfBtn">
+                        View attached document
+                    </div>
+                    <div id="pdfDiv" style="display: none;"></div>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+<!-- PDF Viewer -->
+<script src="{{ url_for('static', filename='vendors/pdfobject.min.js') }}"></script>
+<script>
+    PDFObject.embed("{{ url_for('static', filename=petty_cash_reco_data.attachment) }}", "#pdfDiv");
+</script>
+{% endblock %}

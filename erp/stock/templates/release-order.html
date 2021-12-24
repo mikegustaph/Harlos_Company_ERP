@@ -1,0 +1,118 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'stock' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="pt-2 pb-2 mt-3 mb-3 border-bottom">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="flex-wrap d-flex justify-content-between flex-md-nowrap align-items-center ">
+                                <h1 class="m-0 mt-1 mb-3 main-header"><span class="mr-2 fal fa-file-invoice"></span>
+                                    Release Order
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <button id="printRel" class="float-right ml-2 shadow-sm btn h-btn-lg btn-success">Print PDF
+                                <i class="ml-3 fa fa-file-pdf"></i>
+                            </button>
+                            <a href="{{url_for('stock_bp.stock')}}" class="float-right mr-3" style="margin-top: 12px;">
+                                <i class="mr-2 far fa-arrow-left"></i>Go Back
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-5 release-order card">
+                    <div class="release-order-box">
+                        <div class="release-order-header">
+                            <div class="pb-5">
+                                <div class="float-left">
+                                    <h3 class="mb-3"><b>Halros Comp. Limited</b></h3>
+                                    <p>New National Steel Building 1st Floor</p>
+                                    <p>Saza Road - Chang'ombe Temeke, Dar Es Salaam</p>
+                                    <p>P.O.Box 45248</p>
+                                    <p>Dar Es Salaam</p>
+                                    <p>Tel: +255718235915/+255742084094</p>
+                                    <p>Website: www.harloscontainers.com</p>
+                                </div>
+                                <div class="float-right">
+                                    <img src="{{ url_for('static', filename = 'img/logo-bg.png')}}"
+                                        alt="harloscontainers" width="130" class="float-right">
+                                </div>
+                            </div>
+                            <div style="clear: both;"></div>
+
+                            <div class="mt-4 mb-4">
+                                <h5 class="mb-2"><b>Released To:</b></h5>
+                                <h3 class="mb-3"><b>Halros Comp. Limited</b></h3>
+                                <p>Chang'ombe, Saza-Road, New National</p>
+                                <p>Steel Building</p>
+                            </div>
+                        </div>
+
+                        <div class="release-order-body">
+                            <h3 class="mt-5 mb-4 text-center"><b>RELEASE ORDER</b></h3>
+
+                            <div class="mb-4">
+                                <h5 class="mb-2"><b>Release Ref:</b></h5>
+                                <h5 class="mb-2"><b>Release To: </b></h5>
+                                <h5 class="mb-2"><b>Date: </b></h5>
+                            </div>
+
+                            <table class="table mt-4 mb-4">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col">Type</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Location</th>
+                                        <th scope="col">Container Numbers</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">{{target_container.size}}</th>
+                                        <td>1</td>
+                                        <td>{{target_container.depot}}</td>
+                                        <td>{{target_container.number}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <hr>
+                            <div class="mb-4"><i>NOTE: Container(s) being purchased must take delivery within one week
+                                    (7
+                                    days)</i>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h5 class="mb-3"><b>DEPOT DETAILS</b></h5>
+                                    <p>P.O.Box:</p>
+                                    <p>Dar Es Salaam, Tanzania</p>
+                                    <p>Contact:</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <img src="{{ url_for('static', filename = 'img/stamp.jpg')}}"
+                                        alt="harloscontainers stamp" width="250" class="float-right mt-5"
+                                        style="transform: rotate(20deg);">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+{% endblock %}

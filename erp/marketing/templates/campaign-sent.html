@@ -1,0 +1,146 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'marketing' %}
+<!-- Header -->
+{% include 'partials/header.html' %}
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="pt-2 pb-2 mt-3 mb-3 border-bottom">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="flex-wrap d-flex justify-content-between flex-md-nowrap align-items-center ">
+                                <h1 class="m-0 mt-1 mb-3 main-header"><span class="mr-2 fal fa-paper-plane"></span>
+                                    Campaigns Sent
+                                </h1>
+                            </div>
+                            <div class="mb-3 h-breadcrumbs">
+                                <span>
+                                    <a href="{{url_for('marketing_bp.marketing')}}">Marketing</a>
+                                </span>/
+                                <span>Campaigns Sent</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+
+                            {% if role.can_do_marketing %}
+                            <div class="float-right dropdown">
+                                <button class="btn h-btn-lg btn-success dropdown-toggle" type="button"
+                                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                    Create New Campaign
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="{{url_for('marketing_bp.sms_marketing')}}"><span
+                                            class="mr-1 fal fa-sms"></span> SMS Marketing</a>
+                                    <a class="dropdown-item" href="{{url_for('marketing_bp.email_marketing')}}"><span
+                                            class="mr-1 fal fa-envelope-open"></span> Email Marketing</a>
+                                    <a class="dropdown-item" href="{{url_for('marketing_bp.custom_marketing')}}"><span
+                                            class="mr-1 fal fa-bullseye-arrow"></span> Custom Marketing</a>
+                                </div>
+                            </div>
+                            {% endif %}
+                            <a href="{{url_for('marketing_bp.marketing')}}" class="float-right mr-3"
+                                style="margin-top: 12px;">
+                                <i class="mr-2 far fa-arrow-left"></i>Go Back
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <ul class="mb-3 nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                            aria-controls="home" aria-selected="true">All Campaigns <span
+                                class="badge badge-light">0</span></a>
+                    </li>
+                </ul>
+
+                <div class="table-responsive">
+                    <table id="campaignsTable" class="display nowrap" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Campaign ID</th>
+                                <th>Campaign Name</th>
+                                <th>Campaign Type</th>
+                                <th>Campaign Status</th>
+                                <th>Audience Reached</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for campaign in all_campaigns %}
+                            <tr>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck"
+                                            name="example1">
+                                        <label class="custom-control-label" for="customCheck"></label>
+                                    </div>
+                                </td>
+                                <td>{{campaign.campaign_id}}</td>
+                                <td>{{campaign.campaign_name}}</td>
+                                <td>{{campaign.campaign_type}}</td>
+                                <td>
+                                    <a href="" data-toggle="modal"
+                                        data-target="#campaignSModal{{campaign.campaign_id}}">
+                                        {% if campaign.campaign_status == "Complete" %}
+                                        <span class="badge badge-success sent">Complete</span>
+                                        {% elif campaign.campaign_status == "Active" %}
+                                        <span class="badge badge-primary in-progress">Active</span>
+                                        {% elif campaign.campaign_status == "Planning" %}
+                                        <span class="badge badge-warning not-sent">Planning</span>
+                                        {% elif campaign.campaign_status == "Inactive" %}
+                                        <span class="badge badge-danger not-sent">Inactive</span>
+                                        {% else %}
+                                        <span class="badge badge-info not-sent">{{campaign.campaign_status}}</span>
+                                        {% endif %}
+                                        <i class="ml-2 fa fa-pencil"></i>
+                                    </a>
+                                </td>
+                                <td>{{campaign.audience_reached}}</td>
+                                <td>{{campaign.start_date.strftime('%d/%m/%Y')}}</td>
+                                <td>{{campaign.end_date.strftime('%d/%m/%Y')}}</td>
+                                {% if campaign.campaign_id not in d_campaigns %}
+                                <td>
+                                    <!-- <a href="" class="p-2 btn btn-sm btn-warning">
+                                        <i class="mr-2 fas fa-info-circle"></i> PENDING
+                                    </a> -->
+                                    <button class="btn btn-sm btn-danger" data-toggle="modal"
+                                        data-target="#CdeleteModal{{campaign.campaign_id}}">
+                                        DELETE <i class="ml-2 fas fa-trash"></i>
+                                    </button>
+                                </td>
+                                {% else %}
+                                <td>
+                                    <a href="" class="p-2 btn btn-block btn-sm btn-warning">
+                                        <i class="mr-2 fas fa-info-circle"></i> PENDING
+                                    </a>
+                                </td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Modal -->
+                {% include 'modals/campaign-modal.html' %}
+
+                <!--Delete Modal -->
+                {% include 'modals/campaign-delete.html' %}
+            </main>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

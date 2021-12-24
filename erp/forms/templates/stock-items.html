@@ -1,0 +1,88 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'forms' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="border-bottom pt-2 pb-2 mb-3 mt-3">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center ">
+                                <h1 class="main-header m-0 mt-1 mb-3"><span class="fal fa-boxes-alt mr-2"></span> Stock
+                                    Items
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                    </div>
+                </div>
+
+                <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('forms_bp.forms')}}">Forms</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{url_for('forms_bp.stock_items')}}">Stock Items
+                            <span class="badge badge-light">0</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="table-responsive">
+                    <div class="table-responsive">
+                        <table id="globalTable" class="display nowrap" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Name</th>
+                                    <th>Quantity</th>
+                                    <th>Status</th>
+                                    <th>Updated At</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for stock_item in stock_items %}
+                                <tr>
+                                    <td>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck"
+                                                name="example1">
+                                            <label class="custom-control-label" for="customCheck"></label>
+                                        </div>
+                                    </td>
+                                    <td>{{stock_item.item_name}}</td>
+                                    <td>{{stock_item.stock_amount}}</td>
+                                    {% if stock_item.stock_amount == 0 %}
+                                    <td>
+                                        <span class="badge badge-danger">Sold Out</span>
+                                    </td>
+                                    {% else %}
+                                    <td>
+                                        <span class='badge badge-success'>Available</span>
+                                    </td>
+                                    {% endif %}
+                                    <td>{{stock_item.updated_on}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

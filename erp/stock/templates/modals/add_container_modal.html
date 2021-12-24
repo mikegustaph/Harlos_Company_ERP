@@ -1,0 +1,207 @@
+<div class="modal fade" id="addcontModal" tabindex="-1" aria-labelledby="addcontModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-sm modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New Container
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="far fa-times"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form action="" enctype="multipart/form-data" method="POST" class="ml-4 mr-4">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Container Number <span style="color: crimson;">*</span></label>
+                                <input type="text" class="form-control h-input" name="container_number" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Sale Price <span style="color: crimson;">*</span></label>
+                                <input type="text" class="form-control h-input comNum" name="sale_price" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Stock In Date <span style="color: crimson;">*</span></label>
+                                <input type="text" class="form-control h-input dateSelector" name="stock_in_date"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Stock Out Date</label>
+                                <input type="text" class="form-control h-input" name="" value="Disabled" disabled>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Category</label>
+                                <select class="custom-select h-padd form-control" name="category" id="UniOptions">
+                                    <option selected>Select Category</option>
+                                    <option value="Dry Unit">Dry Unit</option>
+                                    <option value="Reffer">Reffer</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Size</label>
+                                <select class="custom-select h-padd form-control" name="size" id="UniChoices">
+                                    <option value="" disabled selected>Select Category First</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">General Category</label>
+                                <select class="custom-select h-padd form-control" name="general_condition" required>
+                                    <option selected value="Cargo worth">Cargo worth</option>
+                                    <option value="Water and wind tight">Water and wind tight</option>
+                                    <option value="As it is">As it is</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Condition</label>
+                                <select class="custom-select h-padd form-control multi" multiple style="width:100%;"
+                                    id="conditions">
+                                    <option value="Dent">Dent</option>
+                                    <option value="Rusty">Rusty</option>
+                                    <option value="Pushed Out">Pushed Out</option>
+                                    <option value="Pushed In">Pushed In</option>
+                                    <option value="Hole">Hole</option>
+                                    <option value="Patches">Patches</option>
+                                    <option value="Floor Deformed">Floor Deformed</option>
+                                    <option value="Door Problem">Door Problem</option>
+                                    <option value="Normal">Normal</option>
+                                    <option value="Good">Good</option>
+                                    <option value="Very Good">Very Good</option>
+                                    <option value="Cut">Cut</option>
+                                    <option value="Not inspected">Not inspected</option>
+                                    <option value="Function">Function</option>
+                                    <option value="Not Function">Not Function</option>
+                                </select>
+                                <input type="hidden" name="condition" class="form-control h-input"
+                                    id="conditionInput"></input>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Supplier</label>
+                                <select class="custom-select" name="supplier">
+                                    {% if suppliers %}
+                                    {% for supplier in suppliers %}
+                                    <option value="{{supplier.name}}">{{supplier.name}}</option>
+                                    {% endfor %}
+                                    {% else %}
+                                    <option>No supplier found!!</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Depot</label>
+                                <select class="custom-select h-padd form-control" name="depot">
+                                    <option selected value="BAM, Airport">BAM, Airport</option>
+                                    <option value="Fantuzii">Fantuzii</option>
+                                    <option value="National Steel">National Steel</option>
+                                    <option value="KCT">KCT</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Tax</label>
+                                <select class="custom-select form-control" name="tax">
+                                    <option selected value="18">18%</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Visibilty on Website</label>
+                                <div class="form-group">
+                                    <select class="custom-select h-padd form-control" name="visible_on_website">
+                                        <option selected value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-0 form-group">
+                                <label for="">Container Images <span style="color: crimson;">*</span></label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="uploadFile" name="main_image"
+                                        accept=".png,.jpeg,.jpg" required>
+                                    <label class="custom-file-label" for="customFile">1. Choose main image to upload
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="mb-0 form-group">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="uploadFile2" name="main_image2"
+                                        accept=".png,.jpeg,.jpg">
+                                    <label class="custom-file-label" for="customFile">2. Choose second image to upload
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="mb-0 form-group">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="uploadFile3" name="main_image3"
+                                        accept=".png,.jpeg,.jpg">
+                                    <label class="custom-file-label" for="customFile">3. Choose third image to upload
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="mb-0 form-group">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="uploadFile4" name="main_image4"
+                                        accept=".png,.jpeg,.jpg">
+                                    <label class="custom-file-label" for="customFile">4. Choose fourth image to upload
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="hidden" class="_method" name="just_post" value="1">
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success h-btn-sm" name="submit" id="btnSubmit">Save
+                            Container
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

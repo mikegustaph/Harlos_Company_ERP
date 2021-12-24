@@ -1,0 +1,175 @@
+ <!-- Vendors JS -->
+ <script src="{{ url_for('static', filename='vendors/jquery/jquery-3.5.1.min.js') }}"></script>
+ <script src="{{ url_for('static', filename='vendors/idletime/moment.min.js') }}"></script>
+ <script src="{{ url_for('static', filename='vendors/idletime/idle-timer.min.js') }}"></script>
+ <script src="{{ url_for('static', filename='vendors/datatables/datatables.min.js') }}"></script>
+ <script src="{{ url_for('static', filename='vendors/jszip.min.js') }}"></script>
+ <script src="{{ url_for('static', filename='vendors/popper/popper.min.js') }}"></script>
+ <script src="{{ url_for('static', filename='vendors/bootstrap/js/bootstrap.min.js') }}"></script>
+ <script src="{{ url_for('static', filename='vendors/idletime/respond.js') }}"></script>
+ <script src="{{ url_for('static', filename='vendors/flatpickr/flatpickr.js') }}"></script>
+ <script src="{{ url_for('static', filename='vendors/jquery.repeatable.js') }}"></script>
+ <script src="{{ url_for('static', filename='vendors/jquery-progresspiesvg.js') }}"></script>
+ <script src="{{ url_for('static', filename='vendors/html2pdf.bundle.min.js') }}"></script>
+ <script src="{{ url_for('static', filename='vendors/printThis.js') }}"></script>
+ <script src="{{ url_for('static', filename='vendors/jspdf.min.js') }}"></script>
+ <script src="{{ url_for('static', filename='vendors/chosen/chosen.jquery.min.js') }}"></script>
+ <script src="{{ url_for('static', filename='vendors/tagify/jquery.tagify.min.js') }}"></script>
+ <script src="{{ url_for('static', filename='vendors/select2/select2.min.js') }}"></script>
+ <script src="{{ url_for('static', filename='vendors/jsCalendar/jsCalendar.min.js') }}"></script>
+ <!-- <script src="{{ url_for('static', filename='vendors/tourguide/tourguide.min.js') }}"></script> -->
+ <script src="{{ url_for('static', filename='vendors/pace/pace.min.js') }}"></script>
+ <script src="{{ url_for('static', filename='vendors/offlinejs/offline.min.js') }}"></script>
+ <!-- Main JS -->
+ <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+ <script src="{{ url_for('static', filename='js/datatables.js') }}"></script>
+ <script src="{{ url_for('static', filename='js/filter.js') }}"></script>
+
+ <!-- *******************************************************************
+     This script initialize tourguide plugin on page.
+     More info: https://github.com/LikaloLLC/tourguide.js
+    ************************************************************************ -->
+ <!-- <script>
+     var tourguide = new Tourguide();
+
+     function startTour() {
+         tourguide.start();
+     }
+     var tourbutton = document.getElementById("tourbutton");
+     tourbutton.addEventListener("click", startTour);
+ </script> -->
+
+ <div class="modal fade" id="sessionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+     data-backdrop="static">
+     <div class="modal-dialog">
+         <div class="modal-content">
+             <div class="modal-header">
+                 <h4 class="modal-title">Session Expiration</h4>
+             </div>
+             <div class="modal-body">
+                 <p>You've been inactive for a while. For your security, we'll log you out automatically. Click
+                     "Stay
+                     Online" to continue your session. </p>
+                 <p>Your session will expire in <span class="bold" id="sessionSecondsRemaining">120</span> seconds.
+                 </p>
+             </div>
+             <div class="modal-footer">
+                 <button id="extendSession" type="button" class="btn btn-success h-btn-sm" data-dismiss="modal">Stay
+                     Online</button>
+                 <button id="logoutSession" type="button" class="btn btn-default" data-dismiss="modal">Logout</button>
+             </div>
+         </div>
+     </div>
+ </div>
+
+ <script>
+     (function ($) {
+         var
+             session = {
+                 //Logout Settings
+                 inactiveTimeout: 599990, //(ms) The time until we display a warning message
+                 warningTimeout: 600000, //(ms) The time until we log them out
+                 minWarning: 599990, //(ms) If they come back to page (on mobile), The minumum amount, before we just log them out
+                 warningStart: null, //Date time the warning was started
+                 warningTimer: null, //Timer running every second to countdown to logout
+                 logout: function () { //Logout function once warningTimeout has expired
+                     //window.location = settings.autologout.logouturl;
+                     window.location = "/signout"
+                 },
+
+                 //Keepalive Settings
+                 keepaliveTimer: null,
+                 keepaliveUrl: "",
+                 keepaliveInterval: 5000, //(ms) the interval to call said url
+                 keepAlive: function () {
+                     $.ajax({
+                         url: session.keepaliveUrl
+                     });
+                 }
+             };
+
+
+         $(document).on("idle.idleTimer", function (event, elem, obj) {
+             //Get time when user was last active
+             var
+                 diff = (+new Date()) - obj.lastActive - obj.timeout,
+                 warning = (+new Date()) - diff;
+
+             //On mobile js is paused, so see if this was triggered while we were sleeping
+             if (diff >= session.warningTimeout || warning <= session.minWarning) {
+                 $("#mdlLoggedOut").modal("show");
+             } else {
+                 //Show dialog, and note the time
+                 $('#sessionSecondsRemaining').html(Math.round((session.warningTimeout - diff) / 1000));
+                 $("#sessionModal").modal("show");
+                 session.warningStart = (+new Date()) - diff;
+
+                 //Update counter downer every second
+                 session.warningTimer = setInterval(function () {
+                     var remaining = Math.round((session.warningTimeout / 1000) - (((+
+                         new Date()) - session.warningStart) / 1000));
+                     if (remaining >= 0) {
+                         $('#sessionSecondsRemaining').html(remaining);
+                     } else {
+                         session.logout();
+                     }
+                 }, 1000)
+             }
+         });
+
+         // create a timer to keep server session alive, independent of idle timer
+         session.keepaliveTimer = setInterval(function () {
+             session.keepAlive();
+         }, session.keepaliveInterval);
+
+         //User clicked ok to extend session
+         $("#extendSession").click(function () {
+             clearTimeout(session.warningTimer);
+         });
+         //User clicked logout
+         $("#logoutSession").click(function () {
+             session.logout();
+         });
+
+         //Set up the timer, if inactive for 10 seconds log them out
+         $(document).idleTimer(session.inactiveTimeout);
+     })(jQuery);
+ </script>
+
+
+
+ <!-- Stock Button Filtering -->
+ <script>
+     (function ($) {
+         $(document).ready(function () {
+             $('.columnReason').hide();
+             $('.columnOutwards').hide();
+         });
+
+         // Buttons
+         $('.btnAvailable').click(function () {
+             $('.columnReason').hide();
+             $('.columnOutwards').hide();
+         })
+
+         $('.btnBooked').click(function () {
+             $('.columnReason').hide();
+             $('.columnOutwards').hide();
+         })
+
+         $('.btnHold').click(function () {
+             $('.columnReason').show();
+             $('.columnOutwards').hide();
+         })
+
+         $('.btnOutwards').click(function () {
+             $('.columnReason').hide();
+             $('.columnOutwards').show();
+         })
+
+         $('.btnSold').click(function () {
+             $('.columnReason').hide();
+             $('.columnOutwards').hide();
+         })
+     })(jQuery);
+ </script>

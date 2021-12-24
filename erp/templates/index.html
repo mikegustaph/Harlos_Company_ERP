@@ -1,0 +1,215 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'dashboard' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+
+        <!-- Main -->
+        <div class="col-md-10">
+            <main class="main-content">
+                <div class="pt-2 pb-2 mt-3 mb-3 border-bottom">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="flex-wrap d-flex justify-content-between flex-md-nowrap align-items-center ">
+                                <h1 class="m-0 mb-1 main-header"><span id="lblGreetings"></span>,
+                                    {{current_user.firstname}}!
+                                </h1>
+                            </div>
+                            <div class="mb-3 h-breadcrumbs">
+                                Harlos ERP Overview
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h1 class="float-right m-0 mb-1 main-header" id='ct6'></h1>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <button class="btn btn-primary" onclick="GeneratePDF();">Generate PDF Invoice</button> -->
+
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="mb-3 row">
+                            <div class="col-md-6">
+                                <div class="shadow-sm card dashboard-card"
+                                    data-tour="step: 1; title: View More Info; content: Example cart promo code text displays promo code description">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="text-center col-md-6" style="margin-top: 12px">
+                                                <h2>{{summary.campaigns}}</h2>
+                                                <span>All Campaigns</span>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <ul>
+                                                    <li>
+                                                        <span>{{summary.marketing_contact}} Contacts </span>
+                                                    </li>
+                                                    <li>
+                                                        <span>{{summary.campaigns}} Sent Campaigns</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>{{summary.campaigns}} Sent Campaigns</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a href="{{url_for('marketing_bp.marketing')}}" class="btn h-btn-lg btn-block"
+                                        style="background-color: var(--primary-red);">
+                                        View Marketing
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="shadow-sm card dashboard-card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="text-center col-md-6" style="margin-top: 12px">
+                                                <h2>{{summary.crm_accounts}}</h2>
+                                                <span>All Accounts</span>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <ul>
+                                                    <li>
+                                                        <span>{{summary.leads}} Leads</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>{{summary.deals}} Deals</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>{{summary.activity}} Activities</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a href="{{url_for('crm_bp.crm')}}" class="btn h-btn-lg btn-block"
+                                        style="background-color: var(--primary-red);">
+                                        View CRM
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="shadow-sm card dashboard-card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="text-center col-md-6" style="margin-top: 12px">
+                                                <h2>{{summary.stock}}</h2>
+                                                <span>All Stock</span>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <ul>
+                                                    <li>
+                                                        <span>{{summary.stock_available}} Available </span>
+                                                    </li>
+                                                    <li>
+                                                        <span>{{summary.stock_booked}} Booked</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>{{summary.sold}} Sold</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a href="{{url_for('stock_bp.stock')}}" class="btn h-btn-lg btn-block"
+                                        style="background-color: var(--primary-red);">
+                                        View Stock
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="shadow-sm card dashboard-card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="text-center col-md-6" style="margin-top: 12px">
+                                                <h2>{{summary.deals}}</h2>
+                                                <span>All Record(s)</span>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <ul>
+                                                    <li>
+                                                        <span>{{summary.deals}} Proforma</span>
+                                                    </li>
+                                                    <li>
+                                                    </li>
+                                                    <li>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a href="{{url_for('accounting_bp.accounting')}}" class="btn h-btn-lg btn-block"
+                                        style="background-color: var(--primary-red);">
+                                        View Accounting
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3 shadow-sm card dashboard-card">
+                            <div class="card-header">
+                                <i class="mr-2 fad fa-calendar-alt"></i>All Schedules
+                            </div>
+                            <div class="card-body">
+                                <span>No schedules found</span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 shadow-sm card dashboard-card">
+                            <div class="card-header">
+                                <i class="mr-2 fad fa-user-clock"></i>Recent Activities
+                            </div>
+                            <div class="card-body">
+                                {% if summary.activities %}
+                                {% for activity in summary.activities %}
+                                <span>{{activity.a_type}} - {{activity.a_time.strftime('%d/%m/%Y')}}</span><br>
+                                {% endfor %}
+                                {% else %}
+                                <span>No new added</span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="auto-jsCalendar material-theme green"></div>
+                        </div>
+
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+
+<!-- Greet humans -->
+<script>
+    var myDate = new Date();
+    var hrs = myDate.getHours();
+    var greet;
+
+    if (hrs < 12) {
+        greet = 'Good Morning';
+    } else if (hrs >= 12 && hrs <= 17) {
+        greet = 'Good Afternoon';
+    } else if (hrs >= 17 && hrs <= 24) {
+        greet = 'Good Evening';
+    }
+    document.getElementById('lblGreetings').innerHTML = greet;
+</script>
+
+
+{% endblock %}

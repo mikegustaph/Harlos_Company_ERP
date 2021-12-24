@@ -1,0 +1,349 @@
+{% for account in all_accounts %}
+<div class="modal fade" id="accountsModal{{account.account_id}}" tabindex="-1" aria-labelledby="accountsModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-sm modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Account Details
+                </h5>
+                <button class="btn btn-success h-btn-sm pulse-button" id="modalBtn{{account.account_id}}">
+                    Create Deal
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{url_for('crm_bp.accounts')}}" enctype="multipart/form-data" method="POST"
+                    class="ml-4 mr-4">
+                    <div id="mainView{{account.account_id}}">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">First Name <span style="color: crimson;">*</span></label>
+                                    <input type="text" class="form-control h-input" id="" name="firstname"
+                                        value="{{account.firstname}}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Last Name <span style="color: crimson;">*</span></label>
+                                    <input type="text" class="form-control h-input" id="" name="lastname"
+                                        value="{{account.lastname}}" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Account Name <span style="color: crimson;">*</span></label>
+                                    <input type="text" class="form-control h-input" id="" name="account_name"
+                                        value="{{account.account_name}}" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Company Name <span style="color: crimson;">*</span></label>
+                                    <input type="text" class="form-control h-input" id="" name="account_company" ,
+                                        value="{{account.company}}" disabled>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Company Email</label>
+                                    <input type="email" class="form-control h-input" id="" name="account_email" ,
+                                        value="{{account.email}}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Company Mobile</label>
+                                    <input type="text" class="form-control h-input" id="" name="account_mobile"
+                                        value="{{account.phone}}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Company Address</label>
+                                    <input type="text" class="form-control h-input" id="" name="account_address"
+                                        value="{{account.address}}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Title</label>
+                                    <input type="text" class="form-control h-input" name="account_title"
+                                        value="{{account.title}}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Country</label>
+                                    <select class="custom-select h-padd form-control" name="account_country">
+                                        <option selected value="{{account.country}}">{{account.country}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">City</label>
+                                    <input type="text" class="form-control h-input" value="{{account.city}}"
+                                        name="account_city">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Lead Source</label>
+                                    <select class="custom-select h-padd form-control" name="account_source">
+                                        {% if campaigns %}
+                                        {% for campaign in campaigns %}
+                                        {% if campaign == account.source %}
+                                        <option selected value="Social Media Campaigns" value="{{lead.lead_source}}">
+                                            {{lead.lead_source}}
+                                        </option>
+                                        {% else %}
+                                        <option value="{{campaign}}">{{campaign}}</option>
+                                        {% endif %}
+                                        {% endfor %}
+                                        {% else %}
+                                        <option value="{{account.source}}">{{account.source}}</option>
+                                        {% endif %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Industry</label>
+                                    <input type="text" class="form-control h-input" name="account_industry"
+                                        value="{{current_user.industry}}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Persona</label>
+                                    <select class="custom-select h-padd form-control" name="account_persona">
+                                        {% if default_fields.lead_persona %}
+                                        {% for persona in json.loads(default_fields.lead_persona) %}
+                                        {% if persona == account.persona %}
+                                        <option selected value="{{persona}}">{{persona}}</option>
+                                        {% else %}
+                                        <option value="{{persona}}">{{persona}}</option>
+                                        {% endif %}
+                                        {% endfor %}
+                                        {% else %}
+                                        <option selected value="{{account.persona}}">{{account.persona}}</option>
+                                        {% endif %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Owner</label>
+                                    <input type="text" class="form-control h-input" name=""
+                                        value="{{current_user.fullname}}" disabled>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Description</label>
+                            <textarea type="text" class="form-control h-input" name=""
+                                value="{{account.description}}"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="hidden" class="form-control h-input" name="_method" value="put">
+                        </div>
+
+                        <div class="form-group">
+                            <input type="hidden" class="form-control h-input" name="account_id"
+                                value="{{account.account_id}}">
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success h-btn-sm" name="submit" id="btnSubmit">Save
+                                Changes</button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Convert Form -->
+                <form action="{{url_for('crm_bp.deals')}}" enctype="multipart/form-data" method="POST"
+                    class="ml-4 mr-4">
+                    <div id="secView{{account.account_id}}" class="secMod">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Deal Name <span style="color: crimson;">*</span></label>
+                                    <input type="text" class="form-control h-input" id="" name="deal_name"
+                                        value="{{account.account_name}}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Stage <span style="color: crimson;">*</span></label>
+                                    <select class="custom-select h-padd form-control" name="deal_stage" required>
+                                        <option selected value="Qualification">Qualification</option>
+                                        <option value="Needs Analysis">Needs Analysis</option>
+                                        <option value="Value Proposition">Value Proposition</option>
+                                        <option value="Identify Decision Makers">Id.Decision Makers</option>
+                                        <option value="Proposal/Price Quote">Proposal/Price Quote</option>
+                                        <option value="Negotiation/Review">Negotiation/Review</option>
+                                        <option value="Closed Won">Closed Won</option>
+                                        <option value="Closed Lost">Closed Lost</option>
+                                        <option value="Closed Lost to Competition">Closed Lost to Competition</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Contact Role <span style="color: crimson;">*</span></label>
+                                    <select class="custom-select h-padd form-control" name="contact_role" required>
+                                        <option selected value="None">None</option>
+                                        <option value="Developer/Evaluator">Developer/Evaluator</option>
+                                        <option value="Decision Maker">Decision Maker</option>
+                                        <option value="Purchasing">Purchasing</option>
+                                        <option value="Excutive Sponsor">Excutive Sponsor</option>
+                                        <option value="Engineering Lead">Engineering Lead</option>
+                                        <option value="Economic Decision Maker">Economic Decision Maker</option>
+                                        <option value="Product Manager">Product Manager</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Closing Date <span style="color: crimson;">*</span></label>
+                                    <input type="text" class="form-control h-input dateSelector" name="closing_date"
+                                        value="" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group input_fields_wrap">
+                                    <label for="">No. of Containers <span style="color: crimson;">*</span></label>
+                                    <div class="mb-2">
+                                        <div class="row">
+                                            <div class="p-1 col-md-4">
+                                                <select class="custom-select h-padd form-control" name="size_1"
+                                                    required>
+                                                    <option selected value="40HC">40HC</option>
+                                                    <option value="40DV">40DV</option>
+                                                    <option value="20DV">20DV</option>
+                                                    <option value="40RH">40RH</option>
+                                                    <option value="20RF">20RF</option>
+                                                </select>
+                                            </div>
+                                            <div class="p-1 col-md-4">
+                                                <input type="number" class="form-control h-input" name="quantity_1"
+                                                    placeholder="Quantity" required>
+                                            </div>
+                                            <div class="p-1 col-md-4">
+                                                <input type="number" class="form-control h-input" name="price_1"
+                                                    placeholder="Price" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="hidden" class="count_rows" name="total_rows" value="1">
+                                        </div>
+                                    </div>
+                                    <span class="add_field_button btn-sm btn-success">
+                                        <i class="far fa-plus-circle"></i> Add More
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Contact Name <span style="color: crimson;">*</span></label>
+                                    <select class="custom-select h-padd form-control" name="deal_stage" required>
+                                        {% for crm_contact in all_crm_contacts %}
+                                        {% if crm_contact.company == account.company %}
+                                        <option value="{{crm_contact.contact_name}}">{{crm_contact.contact_name}}
+                                        </option>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <input type="hidden" class="form-control h-input" name="account_id"
+                                value="{{account.account_id}}">
+                        </div>
+
+                        <div class="form-group">
+                            <input type="hidden" class="form-control h-input" name="is_account" value="yes">
+                        </div>
+
+                        <div class="modal-footer">
+                            <a class="btn h-btn-disabled h-btn-sm" id="cancelBtn{{account.account_id}}">Cancel</a>
+                            <button type="submit" class="btn btn-success h-btn-sm" name="submit" id="btnSubmit">Save
+                                Deal</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function switchVisible(view_number, event) {
+        var mainView = document.getElementById('mainView' + view_number),
+            secView = document.getElementById('secView' + view_number);
+        convBtn = document.getElementById('modalBtn' + view_number);
+
+        if (!mainView) return;
+        if (getComputedStyle(mainView).display == 'block') {
+            mainView.style.display = 'none';
+            convBtn.style.display = 'none';
+            secView.style.display = 'block';
+        } else {
+            mainView.style.display = 'block';
+            convBtn.style.display = 'block';
+            secView.style.display = 'none';
+        }
+    }
+
+    function cancelVisible(view_number, event) {
+        var mainView = document.getElementById('mainView' + view_number),
+            secView = document.getElementById('secView' + view_number);
+        convBtn = document.getElementById('modalBtn' + view_number);
+
+        if (!mainView) return;
+        if (getComputedStyle(secView).display == 'block') {
+            mainView.style.display = 'block';
+            convBtn.style.display = 'block';
+            secView.style.display = 'none';
+        } else {
+            mainView.style.display = 'none';
+            convBtn.style.display = 'none';
+            secView.style.display = 'block';
+        }
+    }
+
+    document.getElementById('cancelBtn{{account.account_id}}').addEventListener('click', cancelVisible.bind(event,
+        '{{account.account_id}}'), false);
+    document.getElementById('modalBtn{{account.account_id}}').addEventListener('click', switchVisible.bind(event,
+        '{{account.account_id}}'), false);
+</script>
+{% endfor %}

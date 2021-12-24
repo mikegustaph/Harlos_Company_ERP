@@ -1,0 +1,80 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'marketing' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="border-bottom pt-2 pb-2 mb-3 mt-3">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center ">
+                                <h1 class="main-header m-0 mt-1 mb-2"><span class="fal fa-sms mr-2"></span> SMS Campaign
+                                </h1>
+                            </div>
+                            <div class="h-breadcrumbs mb-3">
+                                <span>
+                                    <a href="{{url_for('marketing_bp.marketing')}}">Marketing</a>
+                                </span>/
+                                <span>SMS Campaign</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{{url_for('marketing_bp.marketing')}}" class="float-right mr-3"
+                                style="margin-top: 12px;">
+                                <i class="far fa-arrow-left mr-2"></i>Go Back
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <!-- Form -->
+                        <form action="" method="POST">
+                            <h3 class="mb-3">New SMS Campaign</h3>
+                            <div class="form-group">
+                                <label for="">Campaign Name</label>
+                                <input type="text" class="form-control h-input" id="" name="campaign_name">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="">Message</label>
+                                <textarea name="campaign_message" id="" placeholder="" class="form-control h-input"
+                                    cols="4" rows="4" required></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="">Recipient(s)</label>
+                                <select class="chosen-select form-control" name="contact_type">
+                                    <option selected>All</option>
+                                    {% if groups %}
+                                    {% for group in groups %}
+                                    <option value="{{group.group_name}}">{{group.group_name}}</option>
+                                    {% endfor %}
+                                    {% else %}
+                                    <option>No available groups</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+                            <button type="submit" name="submit" class="btn shadow-sm btn-success h-btn-lg mt-4 mb-4"
+                                id="btnSubmit">Send SMS</button>
+                        </form>
+                    </div>
+                    <div class="col-md-6"></div>
+                </div>
+            </main>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

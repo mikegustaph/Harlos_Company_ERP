@@ -1,0 +1,90 @@
+<div class="modal fade" id="addsupModal" tabindex="-1" aria-labelledby="addsupModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-sm modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New Supplier
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="far fa-times"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form action="{{url_for('purchase_bp.purchase')}}" enctype="multipart/form-data" method="POST"
+                    class="mr-4 ml-4">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Company/Supplier Name <span style="color: crimson;">*</span></label>
+                                <input type="text" class="form-control h-input" name="supplier_name" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Phone<span style="color: crimson;">*</span></label>
+                                <input type="text" class="form-control h-input" name="supplier_phone" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Email</label>
+                                <input type="email" class="form-control h-input" name="supplier_email">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Supplier Type</label>
+                                <select class="custom-select h-padd form-control" name="supplier_type">
+                                    <option selected value="Supplier">Supplier</option>
+                                    <option value="Regulator">Regulator</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Address</label>
+                                <textarea class="form-control h-input" name="supplier_address" cols="2"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Product/Service</label>
+                                <textarea class="form-control h-input" name="product_or_service" cols="2"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Payment Details</label>
+                                <textarea class="form-control h-input" name="payment_details" cols="2"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Previous Credit Balance</label>
+                                <input type="text" class="form-control h-input comNum" name="prev_credit_balance">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success h-btn-sm" name="submit" id="btnSubmit">Save
+                            Supplier
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

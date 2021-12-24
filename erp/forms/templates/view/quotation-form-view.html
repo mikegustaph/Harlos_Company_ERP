@@ -1,0 +1,189 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'forms' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="pt-2 pb-2 mt-3 mb-3 border-bottom">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="flex-wrap d-flex justify-content-between flex-md-nowrap align-items-center ">
+                                <h1 class="m-0 mt-1 mb-3 main-header"><span class="mr-2 fal fa-file"></span> Quotation
+                                    Form
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            {% if quotation_form_data.status in ["Pending", None] %}
+                            <div class="float-right mb-3 mr-3 shadow-sm btn btn-danger h-btn-lg" id="formReject">
+                                <a href="{{url_for('forms_bp.form_decision', reference=quotation_form_data.reference.replace('/', '-'), decision=" Rejected " )}}"
+                                    style="color: whitesmoke;">
+                                    Reject
+                                    <i class="ml-2 fa fa-times-circle"></i>
+                                </a>
+                            </div>
+                            <div class="float-right mb-3 mr-3 shadow-sm btn btn-success h-btn-lg" id="formApprovee">
+                                <a href="{{url_for('forms_bp.form_decision',reference=quotation_form_data.reference.replace('/', '-'), decision=" Approved ")}}"
+                                    style="color: whitesmoke;">
+                                    Approve
+                                    <i class="ml-2 fa fa-check-circle"></i>
+                                </a>
+                            </div>
+                            {% elif quotation_form_data.status == "Approved" %}
+                            <div class="float-right mb-3 mr-3 shadow-sm btn btn-success h-btn-lg" id="formApproved">
+                                Approved
+                                <i class="ml-2 fa fa-check-circle"></i>
+                            </div>
+                            {% elif quotation_form_data.status == "Rejected" %}
+                            <div class="float-right mb-3 mr-3 shadow-sm btn btn-danger h-btn-lg" id="formRejected">
+                                Rejected <i class="ml-2 fa fa-times-circle"></i>
+                            </div>
+                            {% endif %}
+                            <a href="{{url_for('forms_bp.forms')}}" class="float-right mr-3" style="margin-top: 12px;">
+                                <i class="mr-2 far fa-arrow-left"></i>Go Back
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin: 20px 30px;">
+                    <form action="" method="POST">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-4">
+                                    <span><b>Client Info</b></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Name</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="name"
+                                        value="{{quotation_form_data.name}}" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Address</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="address"
+                                        value="{{quotation_form_data.address}}" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">City</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="city"
+                                        value="{{quotation_form_data.city}}" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-5">
+                                    <span></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Quotation Date</label>
+                                    <input type="text" class="form-control h-input h-input-sm dateSelector"
+                                        name="quotation_date" value="{{quotation_form_data.quotation_date}}" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Exipiry Date</label>
+                                    <input type="text" class="form-control h-input h-input-sm dateSelector"
+                                        name="expiry_date" value="{{quotation_form_data.expiry_date}}" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Sales Person</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="sales_person"
+                                        value="{{quotation_form_data.sales_person}}" disabled>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="">Description</label>
+                                <input type="text" class="form-control h-input h-input-sm" name="description"
+                                    value="{{quotation_form_data.description}}" disabled>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="">Amount (TZS)</label>
+                                    <input type="text" class="form-control h-input h-input-sm comNum" name="amount"
+                                        value="{{quotation_form_data.amount}}" disabled>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="">Tax collected</label>
+                                    <input type="text" class="form-control h-input h-input-sm comNum"
+                                        name="tax_collected" value="{{quotation_form_data.tax_collected}}" disabled>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mt-4 mb-4">
+                                    <span><b>Terms</b></span><br>
+                                    <ul>
+                                        <li>Containers to be collected within five (5) days after the release notice is
+                                            issued.
+                                            Failure to do so, customer will incur storage charges. However customer
+                                            should
+                                            contact Harlos earlier (3 days before deadline) in case
+                                            of anything.
+                                        </li>
+                                        <li>Buyer is responsible for all other fees of moving container from depo to
+                                            their
+                                            premises except loading of container onto the truck
+                                        </li>
+                                        <li>Payment should be made fully in advance prior collecting the container
+                                        </li>
+                                        <li>This pro forma is valid to 7 days, further to that pro forma is cancelled
+                                            automatically
+                                        </li>
+                                        <li>Inform us once payment is done through communication details above
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Quote Produced By</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="prepared_by"
+                                        value="{{current_user.fullname}}" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </form>
+                </div>
+                <!-- <div class="col-md-6">
+                    <div class="mb-3 ml-3 shadow-sm btn btn-success btn-sm" id="pdfBtn">
+                        View attached document
+                    </div>
+                    <div id="pdfDiv" style="display: none;"></div>
+                </div> -->
+            </main>
+        </div>
+    </div>
+</div>
+<!-- PDF Viewer -->
+<script src="{{ url_for('static', filename='vendors/pdfobject.min.js') }}"></script>
+<script>
+    PDFObject.embed("{{ url_for('static', filename=quotation_form_data.attachment) }}", "#pdfDiv");
+</script>
+{% endblock %}

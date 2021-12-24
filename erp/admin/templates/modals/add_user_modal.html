@@ -1,0 +1,137 @@
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-sm modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New User
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="far fa-times"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form action="{{url_for('admin_bp.admin')}}" enctype="multipart/form-data" method="POST"
+                    class="ml-4 mr-4" autocomplete="off">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">First Name <span style="color: crimson;">*</span></label>
+                                <input type="text" class="form-control h-input" name="firstname" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Last Name <span style="color: crimson;">*</span></label>
+                                <input type="text" class="form-control h-input" name="lastname" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Gender <span style="color: crimson;">*</span></label>
+                                <select class="custom-select h-padd form-control" name="gender" required>
+                                    <option selected>Select Option</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Date of Birth <span style="color: crimson;">*</span></label>
+                                <input type="text" class="form-control h-input dateSelector" name="date_of_birth"
+                                    required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Email<span style="color: crimson;">*</span></label>
+                                <input type="email" class="form-control h-input" name="email" autocomplete="email"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Password <span style="color: crimson;">*</span></label>
+                                <input type="password" class="form-control h-input" name="password"
+                                    autocomplete="new-password" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">User Image <span style="color: crimson;">*</span></label>
+                                <div class="mb-3 custom-file">
+                                    <input type="file" class="custom-file-input" id="uploadFile" name="image"
+                                        accept=".png,.jpeg,.jpg" required>
+                                    <label class="custom-file-label" for="customFile">Choose a file to upload</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">User Signature <span style="color: crimson;">*</span></label>
+                                <div class="mb-3 custom-file">
+                                    <input type="file" class="custom-file-input" name="signature"
+                                        accept=".png,.jpeg,.jpg" required>
+                                    <label class="custom-file-label" for="customFile">Choose a file to upload</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">User Type <span style="color: crimson;">*</span></label>
+                                <select class="custom-select h-padd form-control" name="user_type" required>
+                                    <option selected>Select Option</option>
+                                    <option value="admin">Admin - Can access everything</option>
+                                    <option value="user">User - Can access by role assigned</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Role<span style="color: crimson;">*</span></label>
+                                <select class="custom-select h-padd form-control" name="role" required>
+                                    <option selected>Select Option</option>
+                                    <option value="administrator">Administrator</option>
+                                    <option value="accountant">Accounts</option>
+                                    <option value="marketing">Marketing</option>
+                                    <option value="sales">Sales</option>
+                                    <option value="operation">Operations</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">User Status <span style="color: crimson;">*</span></label>
+                                <select class="custom-select h-padd form-control" name="user_status" required>
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success h-btn-sm" name="submit" id="btnSubmit">Save
+                            User
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

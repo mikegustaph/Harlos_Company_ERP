@@ -1,0 +1,142 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'forms' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="pt-2 pb-2 mt-3 mb-3 border-bottom">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="flex-wrap d-flex justify-content-between flex-md-nowrap align-items-center ">
+                                <h1 class="m-0 mt-1 mb-3 main-header"><span class="mr-2 fal fa-file"></span> Cash
+                                    Requisition Form
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            {% if cash_requisition_data.status == "Pending" or cash_requisition_data.status == None %}
+                            <div class="float-right mb-3 mr-3 shadow-sm btn btn-danger h-btn-lg" id="formReject">
+                                <a href="{{url_for('forms_bp.form_decision', reference=cash_requisition_data.reference.replace('/', '-'), decision="
+                                    Rejected " )}}" style="color: whitesmoke;">
+                                    Reject
+                                    <i class="ml-2 fa fa-times-circle"></i>
+                                </a>
+                            </div>
+                            <div class="float-right mb-3 mr-3 shadow-sm btn btn-success h-btn-lg" id="formApprovee">
+                                <a href="{{url_for('forms_bp.form_decision',reference=cash_requisition_data.reference.replace('/', '-'), decision="
+                                    Approved ")}}" style="color: whitesmoke;">
+                                    Approve
+                                    <i class="ml-2 fa fa-check-circle"></i>
+                                </a>
+                            </div>
+                            {% elif cash_requisition_data.status == "Approved" %}
+                            <div class="float-right mb-3 mr-3 shadow-sm btn btn-success h-btn-lg" id="formApproved">
+                                Approved
+                                <i class="ml-2 fa fa-check-circle"></i>
+                            </div>
+                            {% elif cash_requisition_data.status == "Rejected" %}
+                            <div class="float-right mb-3 mr-3 shadow-sm btn btn-danger h-btn-lg" id="formRejected">
+                                Rejected <i class="ml-2 fa fa-times-circle"></i>
+                            </div>
+                            {% endif %}
+                            <a href="{{url_for('forms_bp.forms')}}" class="float-right mr-3" style="margin-top: 12px;">
+                                <i class="mr-2 far fa-arrow-left"></i>Go Back
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin: 20px 30px;">
+                    <form action="" method="POST">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Date</label>
+                                    <input type="text" class="form-control h-input h-input-sm dateSelector"
+                                        name="date_submitted" value="{{cash_requisition_data.date_created}}" disabled>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="">Department</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="department"
+                                        value="{{cash_requisition_data.department}}" disabled>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Total Amount</label>
+                                    <input type="number" class="form-control h-input h-input-sm" name="amount"
+                                        value="{{cash_requisition_data.amount}}" disabled>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="">Prepared By</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="requested_by"
+                                        value="{{current_user.fullname}}" disabled>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Description of Expense:</label>
+                                    <textarea class="form-control h-input h-input-sm" name="description_of_expense"
+                                        disabled>{{cash_requisition_data.description_of_expense}}</textarea>
+                                </div>
+                                <hr>
+                                <div class="mb-4">
+                                    <span><b>Declaration</b></span><br>
+                                    <i>I declare that total amount requested will be used by me sorely in the course of
+                                        business of Harlos Comp. Limited, as indicated above (on description of
+                                        Expense)</i>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="">Signed By</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="signed_by"
+                                        value="{{cash_requisition_data.approved_by}}" disabled>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="">Authorized By</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name=""
+                                        value="{{cash_requisition_data.authorized_by}}" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </form>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="mb-3 ml-3 shadow-sm btn btn-success btn-sm" id="pdfBtn">
+                        View attached document
+                    </div>
+                    <div id="pdfDiv" style="display: none;"></div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+</div>
+{% if cash_requisition_data.attachment %}
+PDF Viewer
+<script src="{{ url_for('static', filename='vendors/pdfobject.min.js') }}"></script>
+<script>
+    PDFObject.embed("{{ url_for('static', filename=cash_requisition_data.attachment) }}", "#pdfDiv");
+</script>
+{% endif %}
+{% endblock %}

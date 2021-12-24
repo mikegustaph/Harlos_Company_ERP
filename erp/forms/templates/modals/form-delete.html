@@ -1,0 +1,36 @@
+{% for form in all_forms %}
+<div class="modal fade" id="FdeleteModal{{form.form.form_id}}" tabindex="-1" aria-labelledby="FdeleteModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-sm modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header" style="border-top: 8px solid #dc3545">
+                <h5 class="modal-title text-danger" id="exampleModalLabel">Delete Data
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="far fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{url_for('forms_bp.delete_form')}}" enctype="multipart/form-data" method="POST"
+                    class="ml-4 mr-4">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="">Reason to Delete</label>
+                                <textarea cols="5" rows="4" class="form-control h-input" name="reason"
+                                    required></textarea>
+                            </div>
+                            <input type="hidden" name="reference" value="{{form.form.reference}}">
+                            <input type="hidden" name="form_type" value="{{form.form.form_type}}" </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="p-2 btn btn-block btn-sm btn-danger">
+                                <i class="mr-2 fas fa-trash"></i> DELETE
+                            </button>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}

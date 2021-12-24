@@ -1,0 +1,70 @@
+<div class="modal fade" id="newModal" tabindex="-1" aria-labelledby="newModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-sm modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New Contact
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="far fa-times"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form action="{{url_for('contacts_bp.add_contact_manually')}}" enctype="multipart/form-data"
+                    method="POST" class="ml-4 mr-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Contact Name <span style="color: crimson;">*</span></label>
+                                <input type="text" class="form-control h-input" id="" name="contact_name" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Email <span style="color: crimson;">*</span></label>
+                                <input type="text" class="form-control h-input" id="" name="email" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Phone/Mobile <span style="color: crimson;">*</span></label>
+                                <input type="tel" class="form-control h-input" id="" name="phone" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Contact Owner </label>
+                                <input type="email" class="form-control h-input" id="" value="{{current_user.fullname}}"
+                                    name="contact_owner" readonly="readonly">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Department</label>
+                                <input type="texr" class="form-control h-input" id="" name="department">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Address </label>
+                                <input type="text" class="form-control h-input" id="" value="" name="address">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success h-btn-sm" name="submit" id="btnSubmit">Add
+                            Contact</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

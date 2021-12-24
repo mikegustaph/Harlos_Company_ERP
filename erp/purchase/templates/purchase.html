@@ -1,0 +1,109 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'purchase' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="pt-2 pb-2 mt-3 mb-3 border-bottom">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="flex-wrap d-flex justify-content-between flex-md-nowrap align-items-center ">
+                                <h1 class="m-0 mt-1 mb-3 main-header"><span class="mr-2 fal fa-shopping-basket"></span>
+                                    Purchase
+                                </h1>
+                            </div>
+                        </div>
+                        {% if role.can_add_supplier %}
+                        <div class="col-md-6">
+                            <button class="float-right mb-3 mr-3 shadow-sm btn btn-success h-btn-lg" data-toggle="modal"
+                                data-target="#addsupModal">
+                                Add Supplier <i class="ml-2 fa fa-plus-circle"></i>
+                            </button>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if role.can_view_supplier %}
+                <!-- Tabs -->
+                <ul class="mb-3 nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="">Suppliers</a>
+                    </li>
+                </ul>
+
+                <div class="table-responsive">
+                    <div class="table-responsive">
+                        <table id="globalTable" class="display nowrap" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Supplier Name</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Address</th>
+                                    <th>Credit Balance</th>
+                                    <th>Type</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for supplier in suppliers %}
+                                <tr>
+                                    <td>{{supplier.supplier_id}}</td>
+                                    <td>
+                                        <a href="#" data-toggle="modal"
+                                            data-target="#viewsupModal_{{supplier.supplier_id}}">{{supplier.name}}
+                                            <i class="ml-2 far fa-eye"></i>
+                                        </a>
+                                    </td>
+                                    <td>{{supplier.phone}}</td>
+                                    <td>{{supplier.email}}</td>
+                                    <td>{{supplier.address}}</td>
+                                    <td>{{supplier.prev_credit_balance}}</td>
+                                    <td>{{supplier.supplier_type}}</td>
+                                    <td>
+                                        {% if supplier.supplier_id in d_suppliers %}
+                                        <a href="" class="p-2 btn btn-block btn-sm btn-warning">
+                                            <i class="mr-2 fas fa-info-circle"></i> PENDING
+                                        </a>
+                                        {% else %}
+                                        <button class="btn btn-sm btn-danger" data-toggle="modal"
+                                            data-target="#PdeleteModal{{supplier.supplier_id}}">
+                                            DELETE <i class="ml-2 fas fa-trash"></i>
+                                        </button>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {% endif %}
+                <!-- Modal Add -->
+                {% include 'modals/add_supplier_modal.html' %}
+                <!-- Modal View -->
+                {% include 'modals/view_supplier_modal.html' %}
+                <!-- Modal View -->
+                {% include 'modals/purchase-delete.html' %}
+            </main>
+        </div>
+
+    </div>
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,154 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'accounting' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="pt-2 pb-2 mt-3 mb-3 border-bottom">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="flex-wrap d-flex justify-content-between flex-md-nowrap align-items-center ">
+                                <h1 class="m-0 mt-1 mb-3 main-header"><span class="mr-2 fal fa-calculator-alt"></span>
+                                    Accounting
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <ul class="mb-3 nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="">Pro Forma</a>
+                    </li>
+                </ul>
+
+                <div class="table-responsive">
+                    <table id="globalTable" class="display nowrap stripe" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Invoice No.</th>
+                                <th>Deal Name</th>
+                                <th>Account</th>
+                                <th>Amount</th>
+                                <th>Created Date</th>
+                                <th>Closed Date</th>
+                                <th>Status</th>
+                                <th>Convert To Invoice</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for proforma in deals %}
+                            <tr>
+                                <td>{{proforma.deal_id}}</td>
+                                <td><a href="{{url_for('accounting_bp.account_proforma', deal_id = proforma.deal_id)}}">
+                                        {{proforma.invoice_number}}
+                                        <i class="ml-2 far fa-eye"></i>
+                                    </a>
+                                </td>
+                                <td>{{proforma.deal_name}}</td>
+                                <td>{{proforma.account_name}}</td>
+                                <td>{{proforma.amount}}</td>
+                                <td>{{proforma.created_date.strftime('%d/%m/%Y')}}</td>
+                                <td>{{proforma.closing_date.strftime('%d/%m/%Y')}}</td>
+                                {% if proforma.approved_invoice %}
+                                <td><span class="p-2 badge badge-success">Paid</span></td>
+                                {% else %}
+                                <td><span class="p-2 badge badge-warning">Not Paid</span></td>
+                                {% endif %}
+                                {% if not proforma.approved_invoice and proforma.deal_stage != "Closed Lost" %}
+                                <td>
+                                    <a data-toggle="modal" data-target="#convModal{{proforma.deal_id}}"
+                                        class="btn-sm h-btn-sm btn-success">Convert</a>
+                                </td>
+                                {% elif proforma.deal_stage == "Closed Lost" %}
+                                <td>
+                                    <span class="badge badge-danger">Deal Closed</span>
+                                </td>
+                                {% else %}
+                                <td>
+                                    <span class="badge badge-success">Approved Invoice</span>
+                                </td>
+                                {% endif %}
+                                <td>
+                                    <button class="btn btn-sm btn-danger" data-toggle="modal"
+                                        data-target="#AcdeleteModal">
+                                        DELETE <i class="ml-2 fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Modal -->
+                {% for proforma in deals %}
+                <div class="modal fade" id="convModal{{proforma.deal_id}}" tabindex="-1"
+                    aria-labelledby="convModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-sm modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Convert Pro Forma
+                                </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <i class="far fa-times"></i>
+                                </button>
+                            </div>
+
+                            <div class="modal-body">
+                                <form action="{{url_for('accounting_bp.accounting')}}" enctype="multipart/form-data"
+                                    method="POST" class="ml-4 mr-4">
+                                    <div class="form-group">
+                                        <label for="">Upload Payslip <span style="color: crimson;">*</span></label>
+                                        <div class="mb-3 custom-file">
+                                            <input type="file" class="custom-file-input" id="uploadFile" name="payslip"
+                                                accept=".pdf,.csv,.jpg,.png,.doc" required>
+                                            <label class="custom-file-label" for="customFile">Choose a file to
+                                                upload</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="hidden" name="deal_id" value="{{proforma.deal_id}}">
+                                        </div>
+                                    </div>
+                                    {% if not proforma.approved_invoice %}
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-success h-btn-sm" name="submit"
+                                            id="btnSubmit"> Convert
+                                        </button>
+                                    </div>
+                                    {% endif %}
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+                <!-- Modal: Delete-->
+                {% include 'modals/accounting-delete.html' %}
+            </main>
+        </div>
+
+    </div>
+</div>
+
+
+
+{% endblock %}

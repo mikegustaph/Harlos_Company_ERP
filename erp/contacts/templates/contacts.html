@@ -1,0 +1,172 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'marketing' %}
+<!-- Header -->
+{% include 'partials/header.html' %}
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="pt-2 pb-2 mt-3 mb-3 border-bottom">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="flex-wrap d-flex justify-content-between flex-md-nowrap align-items-center ">
+                                <h1 class="m-0 mt-1 mb-2 main-header"><span class="mr-2 fal fa-address-book"></span>
+                                    Contacts
+                                </h1>
+                            </div>
+                            <div class="mb-3 h-breadcrumbs">
+                                <span>
+                                    <a href="{{url_for('marketing_bp.marketing')}}">Marketing</a>
+                                </span>/
+                                <span>Contacts</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="float-right mb-3 ml-3 shadow-sm btn btn-success h-btn-lg" data-toggle="modal"
+                                data-target="#Modal">
+                                Upload CSV <i class="ml-2 fa fa-upload"></i>
+                            </button>
+                            <button class="float-right mb-3 shadow-sm btn btn-success h-btn-lg" data-toggle="modal"
+                                data-target="#newModal">
+                                Add New <i class="ml-2 fa fa-plus-circle"></i>
+                            </button>
+                            <a href="{{url_for('marketing_bp.marketing')}}" class="float-right mr-3"
+                                style="margin-top: 12px;">
+                                <i class="mr-2 far fa-arrow-left"></i>Go Back
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tabs -->
+                <ul class="mb-3 nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                            aria-controls="home" aria-selected="true">All Contacts <span
+                                class="badge badge-light">0</span></a>
+                    </li>
+                </ul>
+                <div class="p-0 mb-3 ml-0 col-md-6">
+                    <div class="input-group input-daterange">
+                        <input type="text" class="form-control dateSelector" placeholder="Start Date"
+                            data-date-format="dd/mm/yyyy" id="min" />
+                        <span class="input-group-addon">TO</span>
+                        <input type="text" class="form-control dateSelector" placeholder="End Date"
+                            data-date-format="dd/mm/yyyy" id="max" />
+                    </div>
+                </div>
+                <!-- Tabs Pages -->
+                <div class="mb-3 tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="table-responsive">
+                            <table id="contactsTable" class="display nowrap stripe" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Contact Name</th>
+                                        <th>Group</th>
+                                        <th>Created On</th>
+                                        <th>Created By</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Company</th>
+                                        <th>Contact Owner</th>
+                                        <th>Mobile</th>
+                                        <th>Skype ID</th>
+                                        <th>Department</th>
+                                        <th>Source</th>
+                                        <th>Address</th>
+                                        <th>Convert</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for harlos_contact in all_contacts %}
+                                    <tr>
+                                        <td>{{harlos_contact.contact_id}}</td>
+                                        <td>{{harlos_contact.contact_name}}</td>
+                                        <td>
+                                            <a href="" data-toggle="modal"
+                                                data-target="#groupModal{{harlos_contact.contact_id}}">
+                                                {{harlos_contact.group_name}}
+                                                <i class="ml-2 far fa-pencil-square-o"></i>
+                                            </a>
+                                        </td>
+                                        <td>{{harlos_contact.date_created.strftime('%d/%m/%Y')}}</td>
+                                        <td>{{harlos_contact.added_by}}</td>
+                                        <td>{{harlos_contact.firstname}}</td>
+                                        <td>{{harlos_contact.lastname}}</td>
+                                        <td>{{harlos_contact.email}}</td>
+                                        <td>{{harlos_contact.mobile}}</td>
+                                        <td>{{harlos_contact.company}}</td>
+                                        <td>{{harlos_contact.added_by}}</td>
+                                        <td>{{harlos_contact.phone}}</td>
+                                        <td>{{harlos_contact.skype_id}}</td>
+                                        <td>{{harlos_contact.department}}</td>
+                                        <td>{{harlos_contact.mailing_city}}</td>
+                                        <td>{{harlos_contact.address}}</td>
+                                        <td>
+                                            <a href="{{url_for('contacts_bp.convert_to_lead', contact_id = harlos_contact.contact_id)}}"
+                                                class="text-center btn-sm h-btn-sm btn-success">CONVERT</a>
+                                        </td>
+                                        <td>
+                                            {% if harlos_contact.contact_id in to_delete_contacts %}
+                                            <a href="" class="p-2 btn btn-sm btn-warning">
+                                                <i class="mr-2 fas fa-info-circle"></i> PENDING
+                                            </a>
+                                            {% else %}
+                                            <button class="btn btn-sm btn-danger" data-toggle="modal"
+                                                data-target="#deleteModal{{harlos_contact.contact_id}}">
+                                                DELETE <i class="ml-2 fas fa-trash"></i>
+                                            </button>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <!-- Modal -->
+            {% include 'modals/add_new.html' %}
+            <!-- Modal: Contact Group -->
+            {% include 'modals/group_modal.html' %}
+            <!-- Delete Modal -->
+            {% include 'modals/delete-modal.html' %}
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Import CSV File</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="far fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{url_for('contacts_bp.add_new_contacts')}}" enctype="multipart/form-data" method="POST">
+                    <div class="mb-3 custom-file">
+                        <input type="file" class="custom-file-input" id="customFile" name="filepond" required>
+                        <label class="custom-file-label" for="customFile">Choose a file to upload</label>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success h-btn-sm" name="submit" id="btnSubmit">Upload
+                            File</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

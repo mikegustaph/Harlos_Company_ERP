@@ -1,0 +1,46 @@
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-sm modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New Petty Cash
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="far fa-times"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form action="{{url_for('forms_bp.pettycash')}}" enctype="multipart/form-data" method="POST"
+                    class="mr-4 ml-4">
+                    <div class="form-group">
+                        <label for="">Amount <span style="color: crimson;">*</span></label>
+                        <input type="text" class="form-control h-input comNum" name="amount" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Start Date <span style="color: crimson;">*</span></label>
+                        <input type="date" class="form-control h-input" name="start_date" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">End Date <span style="color: crimson;">*</span></label>
+                        <input type="date" class="form-control h-input" name="end_date" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Financial Year</label>
+                        <select class="chosen-select form-control" name="financial_year">
+                            <option selected value="Financial Year 2020">Financial Year 2020</option>
+                        </select>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success h-btn-sm" name="submit" id="btnSubmit">Save
+                            Form
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

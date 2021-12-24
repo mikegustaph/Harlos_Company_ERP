@@ -1,0 +1,123 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'forms' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="pt-2 pb-2 mt-3 mb-3 border-bottom">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="flex-wrap d-flex justify-content-between flex-md-nowrap align-items-center ">
+                                <h1 class="m-0 mt-1 mb-3 main-header"><span class="mr-2 fal fa-file"></span> Forms
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{{url_for('forms_bp.forms_viewer')}}"
+                                class="float-right mb-3 mr-3 shadow-sm btn btn-success h-btn-lg">
+                                New Form <i class="ml-2 fa fa-plus-circle"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <ul class="mb-3 nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{url_for('forms_bp.forms')}}">Forms</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('forms_bp.stock_items')}}">Stock Items
+                            <span class="badge badge-light">0</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="table-responsive">
+                    <div class="table-responsive">
+                        <table id="globalTable" class="display nowrap" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Type</th>
+                                    <th>Requested By</th>
+                                    <th>Prepared By</th>
+                                    <th>Status</th>
+                                    <th>Reference</th>
+                                    <th>Added On</th>
+                                    <th>Description</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for form in all_forms %}
+                                <tr>
+                                    <td>{{form.form.form_id}}</td>
+                                    <td>
+                                        {% if current_user.is_admin %}
+                                        <a
+                                            href="{{url_for('forms_bp.approve_or_disapprove', form_type=form.form.form_type, reference=form.form.reference.replace('/', '-'))}}">
+                                            {{form.form.form_type}}
+                                            <i class="ml-2 far fa-eye"></i>
+                                        </a>
+                                        {% else %}
+                                        {{form.form.form_type}}
+                                        {% endif %}
+                                    </td>
+                                    <td>{{form.raw_data.prepared_by}}</td>
+                                    <td>{{form.raw_data.approved_by}}</td>
+                                    <td>
+                                        {% if form.form.status == "Pending" %}
+                                        <span class="badge badge-info">Pending</span>
+                                        {% elif form.form.status == "Approved" %}
+                                        <span class="badge badge-success">Approved</span>
+                                        {% elif form.form.status == "Rejected" %}
+                                        <span class="badge badge-warning">Rejected</span>
+                                        {% else %}
+                                        <span class="badge badge-success">Approved</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{form.form.reference}}</td>
+                                    <td>{{form.form.date_created.strftime('%d/%m/%Y')}}</td>
+                                    <td>{{form.raw_data.description}}</td>
+                                    <td>
+                                        {% if current_user.is_admin or current_user.role=="adminstrator" %}
+                                        <a href="{{url_for('forms_bp.delete_forms', form_type=form.form.form_type, reference=form.form.reference.replace('/', '-'))}}"
+                                            class="p-2 btn btn-block btn-sm btn-danger">
+                                            <i class="mr-2 fas fa-trash"></i> DELETE
+                                        </a>
+                                        {% elif form.form.reference in d_forms %}
+                                        <a href="" class="p-2 btn btn-sm btn-warning">
+                                            <i class="mr-2 fas fa-info-circle"></i> PENDING
+                                        </a>
+                                        {% else %}
+                                        <button class="btn btn-sm btn-danger" data-toggle="modal"
+                                            data-target="#FdeleteModal{{form.form.form_id}}">
+                                            DELETE <i class="ml-2 fas fa-trash"></i>
+                                        </button>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- Modal View -->
+                {% include 'modals/form-delete.html' %}
+            </main>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

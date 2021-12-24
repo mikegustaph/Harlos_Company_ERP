@@ -1,0 +1,133 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'admin' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="pt-2 pb-2 mt-3 mb-3 border-bottom">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="flex-wrap d-flex justify-content-between flex-md-nowrap align-items-center ">
+                                <h1 class="m-0 mt-1 mb-3 main-header"><span class="mr-2 fal fa-user-shield"></span>
+                                    Admin <span class="badge badge-success"
+                                        style="font-size: 12px; padding: 5px; top: 15px; left: 165px; position: absolute; font-weight: normal;">SUPER
+                                        USER</span>
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="float-right mb-3 mr-3 shadow-sm btn btn-success h-btn-lg" data-toggle="modal"
+                                data-target="#addModal">
+                                Add New User <i class="ml-2 fa fa-plus-circle"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <ul class="mb-3 nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{url_for('admin_bp.admin')}}">Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('admin_bp.roles')}}">Roles</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('admin_bp.actions')}}">Actions</a>
+                    </li>
+                </ul>
+
+                <div class="table-responsive">
+                    <div class="table-responsive">
+                        <table id="globalTable" class="display nowrap" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>User Type</th>
+                                    <th>Signature</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user in users %}
+                                <tr>
+                                    {% if not user.profile_image or user.profile_image == "" %}
+                                    <td>
+                                        <div class="thumbnail user-thumb">
+                                            <img src="{{ url_for( 'static', filename='img/users/default_profile.png') }}"
+                                                class="border rounded" alt="user-photo">
+                                        </div>
+                                    </td>
+                                    {% else %}
+                                    <td>
+                                        <div class="thumbnail user-thumb">
+                                            <img src="{{ url_for( 'static', filename=user.profile_image)}}"
+                                                class="border rounded" alt="user-photo">
+                                        </div>
+                                    </td>
+                                    {% endif %}
+                                    <td>
+                                        <a href="#" data-toggle="modal"
+                                            data-target="#userModal{{user.user_id}}">{{user.fullname}}
+                                            <i class="ml-2 far fa-eye"></i>
+                                        </a>
+                                    </td>
+                                    <td>{{user.email}}</td>
+                                    <td>{{user.role}}</td>
+                                    {% if user.is_admin %}
+                                    <td>Admin</td>
+                                    {% else %}
+                                    <td>Normal User</td>
+                                    {% endif %} {% if user.signature %}
+                                    <td>Attached</td>
+                                    {% else %}
+                                    <td>Not Attached</td>
+                                    {% endif %} {% if user.is_active %}
+                                    <td>Active</td>
+                                    {% else %}
+                                    <td>Not Active</td>
+                                    {% endif %}
+                                    <td>
+                                        {% if not user.is_admin %}
+                                        <a href="{{url_for('admin_bp.delete_user', user_id=user.user_id)}}"
+                                            class="p-2 btn btn-block btn-sm btn-danger">
+                                            <i class="mr-2 fas fa-trash"></i> DELETE
+                                        </a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Modal -->
+                {% include 'modals/add_user_modal.html' %}
+
+                <!-- Modal: User -->
+                {% include 'modals/user_modal.html' %}
+            </main>
+        </div>
+
+    </div>
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,188 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'marketing' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="pt-2 pb-2 mt-3 mb-3 border-bottom">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="flex-wrap d-flex justify-content-between flex-md-nowrap align-items-center ">
+                                <h1 class="m-0 mt-1 mb-3 main-header"><span class="mr-2 fal fa-bullseye-arrow"></span>
+                                    Custom Campaign
+                                </h1>
+                            </div>
+                            <div class="mb-3 h-breadcrumbs">
+                                <span>
+                                    <a href="{{url_for('marketing_bp.marketing')}}">Marketing</a>
+                                </span>/
+                                <span>Custom Campaign</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{{url_for('marketing_bp.marketing')}}" class="float-right mr-3"
+                                style="margin-top: 12px;">
+                                <i class="mr-2 far fa-arrow-left"></i>Go Back
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- Form -->
+                        <form action="" method="POST">
+
+                            <h4 class="mb-3">Campaign Information</h4>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Campaign Owner</label>
+                                        <select class="chosen-select form-control" name="">
+                                            <option name="campaign_owner" selected value="Harlos Containers">Harlos
+                                                Containers</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Type</label>
+                                        <select class="chosen-select form-control" name="campaign_type">
+                                            <option selected value="None">-None-</option>
+                                            <option value="Conference">Conference</option>
+                                            <option value="Webinar">Webinar</option>
+                                            <option value="Trade Show">Trade Show</option>
+                                            <option value="Public Relations">Public Relations</option>
+                                            <option value="Partners">Partners</option>
+                                            <option value="Referral Program">Referral Program</option>
+                                            <option value="Advertisement">Advertisement</option>
+                                            <option value="Banner Ads">Banner Ads</option>
+                                            <option value="Direct mail">Direct mail</option>
+                                            <option value="Email">Email</option>
+                                            <option value="Telemarketing">Telemarketing</option>
+                                            <option value="Others">Others</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Campaign Name</label>
+                                        <input type="text" class="form-control h-input" id="" name="campaign_name">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Status</label>
+                                        <select class="chosen-select form-control" name="campaign_status">
+                                            <option selected value="None">-None-</option>
+                                            <option value="Planning">Planning</option>
+                                            <option value="Active">Active</option>
+                                            <option value="Inactive">Inactive</option>
+                                            <option value="Complete">Complete</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Start Date</label>
+                                        <input type="date" class="form-control h-input" name="start_date"
+                                            data-toggle="datepicker">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">End Date</label>
+                                        <input type="date" class="form-control h-input" name="end_date">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Expected Revenue</label>
+                                        <input type="number" class="form-control h-input" id="" name="expected_revenue">
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Budgeted Cost</label>
+                                        <input type="number" class="form-control h-input" id="" name="budgeted_cost">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Actual Cost</label>
+                                        <input type="number" class="form-control h-input" id="" name="actual_cost">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Expected Response</label>
+                                        <input type="text" class="form-control h-input" id="" name="expected_response">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Numbers Sent</label>
+                                        <input type="number" class="form-control h-input" id="" name="audience_reached">
+                                    </div>
+                                </div>
+                                <div class="col-md-6"></div>
+                            </div>
+
+                            <h4 class="mt-3 mb-3">Description Information</h4>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Description</label>
+                                        <textarea class="form-control h-input" name="decription" cols="4"
+                                            rows="4"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+
+                                </div>
+                            </div>
+
+                            <div class="footer position-sticky">
+                                <button type="submit" name="submit" class="mt-4 mb-4 shadow-sm btn btn-success h-btn-lg"
+                                    id="btnSubmit">Save Campaign</button>
+                            </div>
+                    </div>
+
+                    </form>
+                </div>
+                <div class="col-md-6"></div>
+        </div>
+        </main>
+    </div>
+
+</div>
+</div>
+
+{% endblock %}

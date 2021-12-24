@@ -1,0 +1,63 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'settings' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="pt-2 pb-2 mt-3 mb-3 border-bottom">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="flex-wrap d-flex justify-content-between flex-md-nowrap align-items-center ">
+                                <h1 class="m-0 mt-1 mb-3 main-header"><span class="mr-2 fal fa-cog"></span> General
+                                    Settings
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <ul class="mb-3 nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('settings_bp.settings')}}">Organization</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('settings_bp.display')}}">Display</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{url_for('settings_bp.advanced')}}">Advanced</a>
+                    </li>
+                </ul>
+
+                <form method="POST" action="{{url_for('admin_bp.delete_everything')}}">
+                    <div>
+                        <div class="alert alert-danger mt-3" role="alert">
+                            <b>WARNING: </b>Clicking <b>Delete All Data</b> will permanently clear all the data.
+                            You won't be able retrieve back any data. This action can't be undone.
+                        </div>
+                        <button type="submit" class="pl-5 pr-5 btn btn-danger h-btn-sm" name="">Delete All Data
+                        </button>
+                    </div>
+                </form>
+            </main>
+        </div>
+
+    </div>
+</div>
+
+
+
+{% endblock %}

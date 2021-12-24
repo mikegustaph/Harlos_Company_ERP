@@ -1,0 +1,98 @@
+{% extends "base.html" %} {% block content %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harlos ERP | Login</title>
+    <link rel="icon" type="image/png" sizes="32x32"
+        href="{{ url_for('static', filename='img/favicon/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16"
+        href="{{ url_for('static', filename='img/favicon/favicon-16x16.png') }}">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Bootsrap CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendors/bootstrap/css/bootstrap.min.css') }}">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <!-- Vendors -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendors/normalize/normalize.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fonts/fontawesome/css/all.min.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        #GuidedTourIconSet {
+            display: none;
+        }
+    </style>
+</head>
+
+<div class="container-fluid full-height">
+    <div class="row full-height">
+
+        <div class="col-md-6 position-relative">
+            <div class="p-5 text-center">
+                <img src="{{ url_for('static', filename='img/logo.png') }}" class="img-responsive" width="80">
+            </div>
+
+            <!-- Form -->
+            <form action="{{url_for('auth_bp.signin')}}" method="POST" class="main-form">
+                {% with messages = get_flashed_messages() %} {% if messages %} {% for message in messages %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{message}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %} {% endif %} {% endwith %}
+
+                <h3 class="mb-3">Sign In</h3>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <i class="far fa-user input-icon"></i>
+                    <input type="email" class="form-control h-input h-input-icon" id="userEmail" name="email"
+                        aria-describedby="emailHelp">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <i class="far fa-lock input-icon"></i>
+                    <input type="password" class="form-control h-input h-input-icon" id="userPassword" name="password">
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input name="remember_me" type="checkbox">
+                            <span> Remember Me</span>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <span class="float-right m-0"> Forgot Password?</span>
+                    </div>
+                </div>
+
+                <button type="submit" name="submit" class="mt-4 shadow-sm btn btn-block h-btn-red h-btn-lg"
+                    id="btnSpinner">Login</button>
+            </form>
+
+
+            <div class="text-center position-absolute"
+                style="bottom: 40px; left: 50%; margin-left: -110px; font-size: 14px;">
+                <span>Copyright <script>
+                        new Date().getFullYear() > 2010 && document.write(new Date().getFullYear());
+                    </script> - Harlos Containers</span>
+            </div>
+            <!-- Form End -->
+        </div>
+
+        <div class="col-md-6 auth-cover">
+            <div class="text-center position-absolute" style="bottom: 40px; right: 20px; font-size: 14px; color: #fff">
+                <span><i class="fa fa-question-circle"></i> Need Help? </span>
+            </div>
+            <div class="bg-back"></div>
+            <div class="auth-img"></div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

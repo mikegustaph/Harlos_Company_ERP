@@ -1,0 +1,234 @@
+{% for stock in stocks %}
+<div class="modal fade" id="viewcontModal_{{stock.container_id}}" tabindex="-1" aria-labelledby="viewcontModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-sm modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel_{stock.container_id}">View Container
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="far fa-times"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form action="{{url_for('stock_bp.stock')}}" enctype="multipart/form-data" method="POST"
+                    class="ml-4 mr-4">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Container Number <span style="color: crimson;">*</span></label>
+                                <input type="text" class="form-control h-input" name="container_number"
+                                    value="{{stock.number}}" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Sale Price <span style="color: crimson;">*</span></label>
+                                <input type="text" class="form-control h-input comNum" name="sale_price"
+                                    value="{{stock.sale_price}}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Stock In Date <span style="color: crimson;">*</span></label>
+                                <input type="text" class="form-control h-input dateSelector" name="stock_in_date"
+                                    value="{{stock.stock_in_date.strftime('%d/%m/%Y')}}" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Stock Out Date</label>
+                                <input type="text" class="form-control h-input dateSelector" name="stock_out_date"
+                                    value="{{stock.release_date.strftime('%d/%m/%Y')}}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class=" col-md-6">
+                            <div class="form-group">
+                                <label for="">Category</label>
+                                <select class="custom-select h-padd form-control UniOptions" name="category">
+                                    {% if stock.category == "Dry Unit" %}
+                                    <option selected value="Dry Unit">Dry Unit</option>
+                                    <option value="Reffer">Reffer</option>
+                                    {% else %}
+                                    <option value="Dry Unit">Dry Unit</option>
+                                    <option selected value="Reffer">Reffer</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Size</label>
+                                <select class="custom-select h-padd form-control UniChoices" name="size">
+                                    <option value="{{stock.size}}" disabled selected>Select Category First
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">General Category</label>
+                                <select class="custom-select h-padd form-control" name="general_condition" required>
+                                    {% if stock.general_condition == "Cargo worth" %}
+                                    <option selected value="Cargo worth">Cargo worth</option>
+                                    <option value="Water and wind tight">Water and wind tight</option>
+                                    <option value="As it is">As it is</option>
+                                    {% elif stock.general_condition == "Water and wind tight" %}
+                                    <option value="Cargo worth">Cargo worth</option>
+                                    <option selected value="Water and wind tight">Water and wind tight</option>
+                                    <option value="As it is">As it is</option>
+                                    {% else %}
+                                    <option value="Cargo worth">Cargo worth</option>
+                                    <option value="Water and wind tight">Water and wind tight</option>
+                                    <option selected value="As it is">As it is</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Condition</label>
+                                <select class="custom-select h-padd form-control multi conditions" multiple
+                                    style="width:100%;" id="condition">
+                                    {% set selected_conditions = json.loads(stock.condition) %}
+                                    {% for condition in all_conditions %}
+                                    {% if condition in selected_conditions %}
+                                    <option selected value="{{condition}}">{{condition}}</option>
+                                    {% else %}
+                                    <option value="{{condition}}">{{condition}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select>
+                                <input type="hidden" name="condition"
+                                    class="form-control h-input conditionInput"></input>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Supplier</label>
+                                <select class="custom-select" name="supplier">
+                                    {% if suppliers %}
+                                    {% for supplier in suppliers %}
+                                    {% if supplier.name == stock.supplier %}
+                                    <option selected value="{{supplier.name}}">{{supplier.name}}</option>
+                                    {% else %}
+                                    <option value="{{supplier.name}}">{{supplier.name}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                    {% else %}
+                                    <option>No supplier found!!</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Depot</label>
+                                <select class="custom-select h-padd form-control" name="depot">
+                                    {% if stock.depot == "BAM, Airport" %}
+                                    <option selected value="BAM, Airport">BAM, Airport</option>
+                                    <option value="Fantuzii">Fantuzii</option>
+                                    <option value="National Steel">National Steel</option>
+                                    <option value="KCT">KCT</option>
+                                    {% elif stock.depot == "Fantuzii" %}
+                                    <option value="BAM, Airport">BAM, Airport</option>
+                                    <option selected value="Fantuzii">Fantuzii</option>
+                                    <option value="National Steel">National Steel</option>
+                                    <option value="KCT">KCT</option>
+                                    {% elif stock.depot == "National Steel" %}
+                                    <option value="BAM, Airport">BAM, Airport</option>
+                                    <option value="Fantuzii">Fantuzii</option>
+                                    <option selected value="National Steel">National Steel</option>
+                                    <option value="KCT">KCT</option>
+                                    {% else %}
+                                    <option value="BAM, Airport">BAM, Airport</option>
+                                    <option value="Fantuzii">Fantuzii</option>
+                                    <option value="National Steel">National Steel</option>
+                                    <option selected value="KCT">KCT</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Tax</label>
+                                <select class="custom-select form-control" name="tax">
+                                    <option selected value="18">18%</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Visibilty on Website</label>
+                                <div class="form-group">
+                                    <select class="custom-select h-padd form-control" name="visible_on_website">
+                                        {% if stock.visibility_on_website == 1 %}
+                                        <option selected value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                        {% else %}
+                                        <option value="Yes">Yes</option>
+                                        <option selected value="No">No</option>
+                                        {% endif %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Images -->
+                    <label for="">Images</label>
+                    <div class="row">
+                        {% if not stock.main_image %}
+                        <div class="thumbnail popover-body" data-toggle="popover-hover"
+                            data-img="{{ url_for( 'static', filename='img/container.png')}}">
+                            <img src="{{ url_for( 'static', filename='img/container.png' ) }}" class="border rounded"
+                                alt="container-photo" width="170" height="150">
+                        </div>
+                        {% else %}
+                        {% for an_image in json.loads(stock.main_image) %}
+                        <div class="thumbnail popover-body" data-toggle="popover-hover"
+                            data-img="{{ url_for( 'static', filename=an_image)}}">
+                            <img src="{{ url_for( 'static', filename=an_image)}}" class="border rounded"
+                                alt="container-photo" width="170" height="150">
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                    <!-- Images End -->
+
+
+                    <div class="form-group">
+                        <input type="hidden" name="_method" value="update_container_details">
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" name="_id" value="{{stock.container_id}}">
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success h-btn-sm" name="submit" id="btnSubmit">Save
+                            Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}

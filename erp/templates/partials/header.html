@@ -1,0 +1,58 @@
+<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">
+        <i class="fa fa-th-large mr-2 openSideNav"></i> Harlos ERP
+    </a>
+    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse"
+        data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <ul class="navbar-nav px-8">
+        <div class="h-user-container m-0">
+
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item dropdown" title="Search">
+                            <a class="far fa-search nav-link mr-3" href="#" id="navbarDarkDropdownMenuLink"
+                                role="button" data-toggle="dropdown" aria-expanded="false">
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right animate slideIn"
+                                aria-labelledby="navbarDropdown">
+                                <form class="form-inline my-2 my-lg-0">
+                                    <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                                </form>
+                            </div>
+                        </li>
+                    </ul>
+                    <li class="nav-item mr-4"><i class="far fa-bell" class="Notifications"></i></li>
+                    <!-- <li class="nav-item mr-3" id="tourbutton"><i class="far fa-play" title="Tour"></i></li> -->
+                </div>
+
+                <div class="container-fluid">
+                    <div class="h-user-photo">
+                        <img src="{{ url_for('static', filename=current_user.profile_image) }}">
+                    </div>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink"
+                                    role="button" data-toggle="dropdown" aria-expanded="false">
+                                    {{current_user.fullname}}
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right animate slideIn"
+                                    aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{url_for('profile_bp.profile')}}">Profile</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{{url_for('auth_bp.signout')}}" data-no-instant>Sign
+                                        Out</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </nav>
+
+        </div>
+    </ul>
+</header>

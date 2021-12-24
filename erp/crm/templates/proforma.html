@@ -1,0 +1,159 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'crm' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="pt-2 pb-2 mt-3 mb-3 border-bottom">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="flex-wrap d-flex justify-content-between flex-md-nowrap align-items-center ">
+                                <h1 class="m-0 mt-1 mb-3 main-header"><span class="mr-2 fal fa-file-invoice"></span> Pro
+                                    Forma Invoice
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <button id="printInv" class="float-right ml-2 shadow-sm btn h-btn-lg btn-success">Print PDF
+                                <i class="ml-3 fa fa-file-pdf"></i>
+                            </button>
+                            <button onclick="generatePDF()"
+                                class="float-right shadow-sm btn h-btn-lg btn-success">Export PDF <i
+                                    class="ml-3 fa fa-file-pdf"></i>
+                            </button>
+                            <a href="{{url_for('crm_bp.deals')}}" class="float-right mr-3" style="margin-top: 12px;">
+                                <i class="mr-2 far fa-arrow-left"></i>Go Back
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Invoice -->
+                <div class="mt-3 mb-5 shadow-sm invoice-box" id="invoice">
+                    <div>
+                        <img src="{{ url_for('static', filename='img/logo.png') }}" style="width:100%; max-width:100px;"
+                            class="float-left">
+                        <div>
+                            <div class="float-right r-align">
+                                <h2 class="inv-head">PROFORMA INVOICE</h2>
+                                <span>TIN No. : 129-773-812</span><br>
+                                <span>VRN: 40-027238F</span><br>
+                                <span>Invoice No. : {{deal.invoice_number}}</span><br>
+                                <span>Invoice Date: {{now.strftime('%d %B, %Y')}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="clear: both;"></div>
+                    <div class="mt-4 row inv-font">
+                        <div class="col-md-6 w-50">
+                            <div class="p-4 jumbotron">
+                                <div>From:</div>
+                                <hr>
+                                <div>{{settings.name}}</div>
+                                <div>P.O BOX 45248</span><br>
+                                    <span>Dar-es-salaam</span><br>
+                                    <span>{{settings.telephone}}</span><br>
+                                    <span>{{settings.email}}</span><br>
+                                    <span>www.harloscontainers.com</span><br>
+                                    <span>{{settings.address}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 w-50">
+                            <div class="p-4 jumbotron">
+                                <div>Name / Address</div>
+                                <hr>
+                                <div>{{deal.deal_name}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table table-striped inv-font">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Item</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Qty</th>
+                                <th scope="col">Rate per Unit</th>
+                                <th scope="col">Total</th>
+                                <th scope="col">VAT</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in all_container_orders %}
+                            <tr>
+                                <th>{{order.size}} Container</th>
+                                <td>Tax collected on sales</td>
+                                <td>{{order.quantity}}</td>
+                                <td>
+                                    <span>{{order.unit_price}} {{settings.currency}}</span><br>
+                                </td>
+                                <td>
+                                    <span>{{order.total}} {{settings.currency}}</span><br>
+                                </td>
+                                <td>Tax<br>
+                                    <span class="badge">{{(deal.amount * settings.tax)/100}}</span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            <tr>
+                                <td class="total">Total</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="total">
+                                    {{deal.amount-(settings.tax * deal.amount)/100 + (deal.amount * settings.tax)/100*2}}
+                                    {{settings.currency}}
+                                </td>
+                                <td class="total">
+                                    <!-- {{(deal.amount * settings.tax)/100}} {{settings.currency}} -->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div id="page2el">
+                        <div class="mt-3 inv-terms">
+                            <h5 class="mb-4">TERMS AND CONDITIONS</h5>
+                            <ul>
+                                <li>Containers to be collected within five (5) days after the release notice is issued.
+                                    Failure to do so, customer will incur storage charges. However customer should
+                                    contact Harlos earlier (3 days before deadline) in case
+                                    of anything.
+                                </li>
+                                <li>Buyer is responsible for all other fees of moving container from depo to their
+                                    premises except loading of container onto the truck
+                                </li>
+                                <li>Payment should be made fully in advance prior collecting the container
+                                </li>
+                                <li>This pro forma is valid to 7 days, further to that pro forma is cancelled
+                                    automatically
+                                </li>
+                                <li>Inform us once payment is done through communication details above
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="mt-5 text-center inv-footer">
+                            <div>DEDICATION</div>
+                            <small>We declare that this invoice shows the actual price and goods described and all
+                                particular are true and correct</small>
+                            <div class="mt-4 thanknote">THANK YOU! WE APPRECIATE DOING BUSINESS WITH YOU</div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+{% endblock %}

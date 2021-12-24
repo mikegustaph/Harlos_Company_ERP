@@ -1,0 +1,127 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'crm' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="border-bottom pt-2 pb-2 mb-3 mt-3">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center ">
+                                <h1 class="main-header m-0 mt-1 mb-3"><span class="fal fa-dice-d6 mr-2"></span> Deals
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
+                    {% if role.can_view_lead %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('crm_bp.crm')}}">Leads <span
+                                class="badge badge-light">{{crm_summary.lead_count}}</span></a>
+                    </li>
+                    {% endif %} {% if role.can_view_deal %}
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{url_for('crm_bp.deals')}}">Deals <span
+                                class="badge badge-light">{{crm_summary.deal_count}}</span></a>
+                    </li>
+                    {% endif %} {% if role.can_view_crm_accounts %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('crm_bp.accounts')}}">Accounts <span
+                                class="badge badge-light">{{crm_summary.account_count}}</span></a>
+                    </li>
+                    {% endif %} {% if role.can_view_crm_activity %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('crm_bp.activities')}}">Activities</a>
+                    </li>
+                    {% endif %} {% if role.can_view_crm_contact %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('crm_bp.crm_contacts')}}">Contacts</a>
+                    </li>
+                    {% endif %} {% if role.can_view_crm_settings %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('crm_bp.crm_settings')}}">Settings</a>
+                    </li>
+                    {% endif %}
+
+                </ul>
+
+                <div class="table-responsive">
+                    <div class="table-responsive">
+                        <table id="dealsTable" class="display nowrap" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Deal Name</th>
+                                    <th>Invoice No.</th>
+                                    <th>Account</th>
+                                    <th>Amount</th>
+                                    <th>Expected Revenue</th>
+                                    <th>Probability</th>
+                                    <th>Stage</th>
+                                    <th>Campaign Source</th>
+                                    <th>Contact Role</th>
+                                    <th>Created Date</th>
+                                    <th>Closing Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for deal in all_deals %}
+                                {% if deal.deal_owner == current_user.email or current_user.is_admin or (not current_user.is_sales and role.can_view_deal) %}
+                                <tr>
+                                    <td>{{deal.deal_id}}</td>
+                                    {% if not current_user.is_admin and not current_user.is_sales %}
+                                    <td>{{deal.deal_name}}</td>
+                                    {% else %}
+                                    <td><a href="#dealsModal{{deal.deal_id}}" data-toggle="modal"
+                                            data-target="#dealsModal{{deal.deal_id}}">{{deal.deal_name}}
+                                            <i class="far fa-pencil-square-o ml-2"></i></a></td>
+                                    {% endif %}
+                                    <td>{{deal.invoice_number}}</td>
+                                    <td>{{deal.account_name}}</td>
+                                    <td>{{deal.amount}}</td>
+                                    <td>{{deal.expected_revenue}}</td>
+                                    <td class="pieprogress">{{deal.probability * 100.0}}%</td>
+                                    <td>{{deal.deal_stage}}</td>
+                                    <td></td>
+                                    <td>{{deal.contact_role}}</td>
+                                    <td>{{deal.created_date.strftime('%d/%m/%Y')}}</td>
+                                    <td>{{deal.closing_date.strftime('%d/%m/%Y')}}</td>
+                                    <td>
+                                        <div class="mt-3">
+                                            <a href="{{url_for('crm_bp.proforma', deal_id=deal.deal_id)}}"
+                                                class="btn-sm h-btn-sm btn-success">View Proforma</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endif %} {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- Modal -->
+                {% include 'modals/deals_modal.html' %}
+            </main>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock %}

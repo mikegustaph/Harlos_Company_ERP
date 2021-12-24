@@ -1,0 +1,102 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'admin' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="pt-2 pb-2 mt-3 mb-3 border-bottom">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="flex-wrap d-flex justify-content-between flex-md-nowrap align-items-center ">
+                                <h1 class="m-0 mt-1 mb-3 main-header"><span class="mr-2 fal fa-user-shield"></span>
+                                    Admin <span class="badge badge-success"
+                                        style="font-size: 12px; padding: 5px; top: 15px; left: 165px; position: absolute; font-weight: normal;">SUPER
+                                        USER</span>
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <ul class="mb-3 nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('admin_bp.admin')}}">Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('admin_bp.roles')}}">Roles</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{url_for('admin_bp.actions')}}">Actions</a>
+                    </li>
+                </ul>
+
+                <div class="table-responsive">
+                    <div class="table-responsive">
+                        <table id="globalTable" class="display nowrap" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Delete Requested By</th>
+                                    <th>Requested From & For</th>
+                                    <th>Reason</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for d_item in d_items %}
+                                <tr>
+                                    <td>{{d_item.id}}</td>
+                                    <td>{{d_item.requested_by}}</td>
+                                    <td>
+                                        {{d_item.table_name}}
+                                        <i class="ml-2 mr-2 far fa-arrow-right"></i>
+                                        {{d_item.item_id}}
+                                    </td>
+                                    <td>
+                                        {{d_item.reason}}
+                                    </td>
+                                    <td>
+                                        <a
+                                            href="{{url_for('admin_bp.delete_item', item='{}:{}'.format(d_item.table_name, d_item.item_id))}}">
+                                            <button class="btn btn-sm btn-success" title="Approve">
+                                                <i class="fa fa-check-circle"></i> Approve
+                                            </button>
+                                        </a>
+                                        <a
+                                            href="{{url_for('admin_bp.ignore_delete', item='{}:{}'.format(d_item.table_name, d_item.item_id))}}">
+
+                                            <button class="btn btn-sm btn-danger" title="Reject">
+                                                <i class="fa fa-times-circle"></i> Reject
+                                            </button>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+
+    </div>
+</div>
+
+
+
+{% endblock %}

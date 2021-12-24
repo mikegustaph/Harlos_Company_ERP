@@ -1,0 +1,238 @@
+{% for container in stocks %}
+<div class="modal fade" id="statusEditModal{{container.container_id}}" tabindex="-1"
+    aria-labelledby="statusEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-sm modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Update Status
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="far fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{url_for('stock_bp.stock')}}" enctype="multipart/form-data" method="POST">
+                    <div class="form-group">
+                        <label for="">Status</label>
+                        <select class="custom-select h-padd form-control"
+                            id="container_status_{{container.container_id}}" name="status" onchange="showStatus(this)">
+                            {% if container.status == "Available" %}
+                            <option selected value="{{container.status}}">{{container.status}}</option>
+                            <option value="Booked">Booked</option>
+                            <option value="On Hold">On Hold</option>
+                            <option value="Outwards">Outwards</option>
+                            <option value="Sold">Sold</option>
+                            {% elif container.status == "Booked" %}
+                            <option selected value="{{container.status}}">{{container.status}}</option>
+                            <option value="Available">Available</option>
+                            <option value="On Hold">On Hold</option>
+                            <option value="Outwards">Outwards</option>
+                            <option value="Sold">Sold</option>
+                            {% elif container.status == "On Hold" %}
+                            <option selected value="{{container.status}}">{{container.status}}</option>
+                            <option value="Available">Available</option>
+                            <option value="Booked">Booked</option>
+                            <option value="Outwards">Outwards</option>
+                            <option value="Sold">Sold</option>
+                            {% elif container.status == "Outwards" %}
+                            <option selected value="{{container.status}}">{{container.status}}</option>
+                            <option value="Available">Available</option>
+                            <option value="Booked">Booked</option>
+                            <option value="On Hold">On Hold</option>
+                            <option value="Sold">Sold</option>
+                            {% elif container.status == "Sold" %}
+                            <option selected value="{{container.status}}">{{container.status}}</option>
+                            {% endif %}
+                        </select>
+                    </div>
+
+                    <!-- Booked status field -->
+                    <div id="BookedSel_{{container.container_id}}" style="display: none;">
+                        <div class="form-group">
+                            <label for="">Invoice <span style="color: crimson;">*</span></label>
+                            <select class="custom-select h-padd form-control" name="invoice_number">
+                                {% if container.payment_confirmed %}
+                                {% for raw_deal in deals %}
+                                {% if raw_deal.invoice_number == container.invoice_number %}
+                                <option selected value="raw_deal.invoice_numbers">{{raw_deal.deal_name}}</option>
+                                {% endif %}
+                                {% endfor %}
+                                {% else %}
+                                {% if deals %}
+                                {% for deal in deals %}
+                                {% if deal.invoice_number == container.invoice_number %}
+                                <option selected value="deal.invoice_numbers">{{deal.deal_name}}</option>
+                                {% else %}
+                                <option value="{{deal.invoice_number}}">{{deal.deal_name}}</option>
+                                {% endif %}
+                                {% endfor %}
+                                {% else %}
+                                <option value="No Deal">No Deal</option>
+                                {% endif %}
+                                {% endif %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Hold status field -->
+                    <div id="HoldInput_{{container.container_id}}" style="display: none;">
+                        <div class="form-group">
+                            <label for="">Reason for Holding <span style="color: crimson;">*</span></label>
+                            <textarea class="form-control h-input" cols="3" rows="3"
+                                name="on_hold_reason">{{container.on_hold_reason}}</textarea>
+                        </div>
+                    </div>
+
+                    <!-- Outwards status field -->
+                    <div class="status-info-wrapper" id="OutwardsSel_{{container.container_id}}" style="display: none;">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Driver Name <span style="color: crimson;">*</span></label>
+                                    <input type="text" class="form-control h-input" name="driver_name"
+                                        value="{{container.driver_name}}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Driver Licence No. <span style="color: crimson;">*</span></label>
+                                    <input type="text" class="form-control h-input" name="driver_license"
+                                        value="{{container.driver_license}}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Truck No. <span style="color: crimson;">*</span></label>
+                                    <input type="text" class="form-control h-input required" name="truck_number"
+                                        value="{{container.truck_no}}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Outward No. <span style="color: crimson;">*</span></label>
+                                    <input type="text" class="form-control h-input" name="outward_number"
+                                        value="{{container.outward_no}}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Proforma Invoice <span style="color: crimson;">*</span></label>
+                            <select class="custom-select">
+                                {% if invoices %}
+                                {% for invoice in invoices %}
+                                {% if invoice.invoice_number == container.invoice_number %}
+                                <option selected value="{{invoice.deal_name}}">{{invoice.deal_name}}</option>
+                                {% else %}
+                                <option value="{{invoice.deal_name}}">{{invoice.deal_name}}</option>
+                                {% endif %}
+                                {% endfor %}
+                                {% else %}
+                                <option>No Approved invoice</option>
+                                {% endif %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Sold status field -->
+                    <div id="SoldSel_{{container.container_id}}" style="display: none;">
+                        <div class="form-group">
+                            <label for="">Invoice <span style="color: crimson;">*</span></label>
+                            <select class="custom-select h-padd form-control" name="invoice_number" disabled>
+                                {% if container.payment_confirmed %}
+                                {% for raw_deal in deals %}
+                                {% if raw_deal.invoice_number == container.invoice_number %}
+                                <option selected value="raw_deal.invoice_numbers">{{raw_deal.deal_name}}</option>
+                                {% endif %}
+                                {% endfor %}
+                                {% else %}
+                                {% if deals %}
+                                {% for deal in deals %}
+                                {% if deal.invoice_number == container.invoice_number %}
+                                <option selected value="deal.invoice_numbers">{{deal.deal_name}}</option>
+                                {% else %}
+                                <option value="{{deal.invoice_number}}">{{deal.deal_name}}</option>
+                                {% endif %}
+                                {% endfor %}
+                                {% else %}
+                                <option value="No Deal">No Deal</option>
+                                {% endif %}
+                                {% endif %}
+                            </select>
+                        </div>
+                    </div>
+
+                    {% if not container.payment_confirmed %}
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success h-btn-sm" name="submit">
+                            Update Status
+                        </button>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="hidden" name="container_id" value="{{container.container_id}}">
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" name="_method" value="put">
+                    </div>
+                    {% endif %}
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var current_select = document.getElementById('container_status_{{container.container_id}}');
+    var outwards = document.getElementById('OutwardsSel_{{container.container_id}}');
+    var bookeds = document.getElementById('BookedSel_{{container.container_id}}');
+    var hold = document.getElementById('HoldInput_{{container.container_id}}');
+    var sold = document.getElementById('SoldSel_{{container.container_id}}');
+    display_menus(current_select, outwards, bookeds, hold, sold);
+
+    function display_menus(select, outwards, bookeds, hold, sold) {
+        if (select.value == "Outwards") {
+            outwards.style.display = "block";
+            bookeds.style.display = "none";
+            hold.style.display = "none";
+            sold.style.display = "none";
+        } else if (select.value == "Booked") {
+            bookeds.style.display = "block";
+            outwards.style.display = "none";
+            hold.style.display = "none";
+            sold.style.display = "none";
+        } else if (select.value == "On Hold") {
+            bookeds.style.display = "none";
+            outwards.style.display = "none";
+            hold.style.display = "block";
+            sold.style.display = "none";
+        } else if (select.value == "Sold") {
+            sold.style.display = "block"
+            bookeds.style.display = "none";
+            outwards.style.display = "none";
+            hold.style.display = "none";
+        } else {
+            outwards.style.display = "none";
+            bookeds.style.display = "none";
+            hold.style.display = "none";
+            sold.style.display = "none";
+        }
+    }
+
+    function showStatus(select) {
+        var select_id = $(select).attr('id');
+        var select_id = select_id.slice(17, select_id.length);
+        var outwards = document.getElementById('OutwardsSel_' + select_id);
+        var bookeds = document.getElementById('BookedSel_' + select_id);
+        var hold = document.getElementById('HoldInput_' + select_id);
+        var sold = document.getElementById('SoldSel_' + select_id);
+        display_menus(select = select, outwards = outwards, bookeds = bookeds, hold = hold, sold = sold);
+    }
+</script>
+
+{% endfor %}

@@ -1,0 +1,192 @@
+{% for user in users %}
+<div class="modal fade" id="userModal{{user.user_id}}" tabindex="-1" aria-labelledby="userModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-sm modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">User
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="far fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{url_for('admin_bp.admin')}}" enctype="multipart/form-data" method="POST"
+                    class="ml-4 mr-4" autocomplete="off">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">First Name </label>
+                                <input type="text" class="form-control h-input" name="firstname"
+                                    value="{{user.firstname}}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Last Name </label>
+                                <input type="text" class="form-control h-input" name="lastname"
+                                    value="{{user.lastname}}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Gender</label>
+                                <select class="custom-select h-padd form-control" name="gender" value="{{user.gender}}">
+                                    {% if user.gender == "Male" %}
+                                    <option selected value="Male">Male</option>
+                                    {% elif user.gender in ["Female", None] %}
+                                    <option selected value="Female">Female</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Date of Birth</label>
+                                <input type="text" class="form-control h-input dateSelector" name="date_of_birth"
+                                    value="{{user.date_of_birth.strftime('%d/%m/%Y')}}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Email</label>
+                                <input type="email" class="form-control h-input" name="email" value="{{user.email}}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Password</label>
+                                <input type="password" class="form-control h-input" name="password"
+                                    autocomplete="new-password">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">User Image</label>
+                                <div class="mb-3 custom-file">
+                                    <input type="file" class="custom-file-input" id="uploadFile" name="profile_image"
+                                        accept=".png,.jpeg,.jpg">
+                                    <label class="custom-file-label" for="customFile">Choose a file to upload</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">User Signature</label>
+                                <div class="mb-3 custom-file">
+                                    <input type="file" class="custom-file-input" name="profile_signature"
+                                        accept=".png,.jpeg,.jpg">
+                                    <label class="custom-file-label" for="customFile">Choose a file to upload</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">User Type</label>
+                                <select class="custom-select h-padd form-control" name="user_type" required>
+                                    {% if user.is_admin %}
+                                    <option selected value="admin">Admin - Can access everything</option>
+                                    <option value="user">User - Can access by role assigned</option>
+                                    {% elif not user.is_admin %}
+                                    <option value="admin">Admin - Can access everything</option>
+                                    <option selected value="user">User - Can access by role assigned</option>
+                                    {% else %}
+                                    <option>Select User Type</option>
+                                    <option value="admin">Admin - Can access everything</option>
+                                    <option value="user">User - Can access by role assigned</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Role</label>
+                                <select class="custom-select h-padd form-control" name="role" required>
+                                    {% if user.role == 'administrator' %}
+                                    <option selected value="administrator">Administrator</option>
+                                    <option value="accountant">Accounts</option>
+                                    <option value="marketing">Marketing</option>
+                                    <option value="sales">Sales</option>
+                                    <option value="operation">Operations</option>
+                                    {% elif user.role == 'accountant' %}
+                                    <option value="administrator">Administrator</option>
+                                    <option selected value="accountant">Accounts</option>
+                                    <option value="marketing">Marketing</option>
+                                    <option value="sales">Sales</option>
+                                    <option value="operation">Operations</option>
+                                    {% elif user.role == 'marketing' %}
+                                    <option value="administrator">Administrator</option>
+                                    <option value="accountant">Accounts</option>
+                                    <option selected value="marketing">Marketing</option>
+                                    <option value="sales">Sales</option>
+                                    <option value="operation">Operations</option>
+                                    {% elif user.role == 'sales' %}
+                                    <option value="administrator">Administrator</option>
+                                    <option value="accountant">Accounts</option>
+                                    <option value="marketing">Marketing</option>
+                                    <option selected value="sales">Sales</option>
+                                    <option value="operation">Operations</option>
+                                    {% elif user.role == 'operation' %}
+                                    <option value="administrator">Administrator</option>
+                                    <option value="accountant">Accounts</option>
+                                    <option value="marketing">Marketing</option>
+                                    <option value="sales">Sales</option>
+                                    <option selected value="operation">Operations</option>
+                                    {% else %}
+                                    <option selected>Select Option</option>
+                                    <option value="administrator">Administrator</option>
+                                    <option value="accountant">Accounts</option>
+                                    <option value="marketing">Marketing</option>
+                                    <option value="sales">Sales</option>
+                                    <option value="operation">Operations</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">User Status</label>
+                                <select class="custom-select h-padd form-control" name="user_status">
+                                    {% if user.is_active %}
+                                    <option selected value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                    {% else %}
+                                    <option value="Active">Active</option>
+                                    <option selected value="Inactive">Inactive</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" name="user_id" value="{{user.user_id}}">
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" name="update_user" value="True">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success h-btn-sm" name="submit" id="btnSubmit">Save
+                            Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}

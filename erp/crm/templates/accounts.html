@@ -1,0 +1,120 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'crm' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="pt-2 pb-2 mt-3 mb-3 border-bottom">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="flex-wrap d-flex justify-content-between flex-md-nowrap align-items-center ">
+                                <h1 class="m-0 mt-1 mb-3 main-header"><span class="mr-2 fal fa-dice-d6"></span> Accounts
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <ul class="mb-3 nav nav-tabs" id="myTab" role="tablist">
+                    {% if role.can_view_lead %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('crm_bp.crm')}}">Leads <span
+                                class="badge badge-light">{{crm_summary.lead_count}}</span></a>
+                    </li>
+                    {% endif %} {% if role.can_view_deal %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('crm_bp.deals')}}">Deals <span
+                                class="badge badge-light">{{crm_summary.deal_count}}</span></a>
+                    </li>
+                    {% endif %} {% if role.can_view_crm_accounts %}
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{url_for('crm_bp.accounts')}}">Accounts <span
+                                class="badge badge-light">{{crm_summary.account_count}}</span></a>
+                    </li>
+                    {% endif %} {% if role.can_view_crm_activity %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('crm_bp.activities')}}">Activities</a>
+                    </li>
+                    {% endif %} {% if role.can_view_crm_contact %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('crm_bp.crm_contacts')}}">Contacts</a>
+                    </li>
+                    {% endif %} {% if role.can_view_crm_settings %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('crm_bp.crm_settings')}}">Settings</a>
+                    </li>
+                    {% endif %}
+
+                </ul>
+
+
+                <div class="table-responsive">
+                    <div class="table-responsive">
+                        <table id="accountsTable" class="display nowrap" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Company Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Address</th>
+                                    <th>Account Type</th>
+                                    <th>Persona</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for account in all_accounts %} {% if account.account_owner == current_user.email or
+                                current_user.is_admin or current_user.is_marketing%}
+                                <tr>
+                                    {% if not current_user.is_sales and not current_user.is_admin %}
+                                    <td>{{account.account_name}}</td>
+                                    <td>{{account.company}}</td>
+                                    {% else %}
+                                    <td>
+                                        <a href="#" data-toggle="modal"
+                                            data-target="#accountsModal{{account.account_id}}">{{account.account_name}}</a>
+                                    </td>
+                                    <td> <a href="#" data-toggle="modal"
+                                            data-target="#overviewModal_s{{account.account_id}}">{{account.company}}</a>
+                                    </td>
+                                    {% endif %}
+                                    <td>{{account.email}}</td>
+                                    <td>{{account.phone}}</td>
+                                    <td>{{account.address}}</td>
+                                    <td>{{account.account_type}}</td>
+                                    <td>{{account.persona}}</td>
+                                </tr>
+                                {% endif %} {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Modal -->
+                {% include 'modals/accounts_modal.html' %}
+
+                <!--  -->
+                {% include 'modals/accounts_overview.html' %}
+
+            </main>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock %}

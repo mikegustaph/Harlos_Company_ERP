@@ -1,0 +1,145 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'marketing' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="pt-2 pb-2 mt-3 mb-3 border-bottom">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="flex-wrap d-flex justify-content-between flex-md-nowrap align-items-center ">
+                                <h1 class="m-0 mt-1 mb-3 main-header"><span class="mr-2 fal fa-bullhorn"></span>
+                                    Marketing
+                                </h1>
+                            </div>
+                        </div>
+                        {% if role.can_do_marketing %}
+                        <div class="col-md-6">
+                            <div class="float-right dropdown"
+                                data-tour="step: 1; title: Create Campaigns; content: Start by creating new campaign. Choose SMS, Email or Custom Marketing">
+                                <button class="btn h-btn-lg btn-success dropdown-toggle" type="button"
+                                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                    Create New Campaign
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="{{url_for('marketing_bp.sms_marketing')}}"><span
+                                            class="mr-1 fal fa-sms"></span> SMS Marketing</a>
+                                    <a class="dropdown-item" href="{{url_for('marketing_bp.email_marketing')}}"><span
+                                            class="mr-1 fal fa-envelope-open"></span> Email Marketing</a>
+                                    <a class="dropdown-item" href="{{url_for('marketing_bp.custom_marketing')}}"><span
+                                            class="mr-1 fal fa-bullseye-arrow"></span> Custom Marketing</a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <div class="col-md-4">
+                        <div class="overflow-hidden card"
+                            data-tour="step: 2; title: View All Contacs; content: Click to view and add new contacts. You can convert contacts to leads.">
+                            <a href="{{url_for( 'contacts_bp.contacts')}}" style="color: inherit !important;">
+                                <div class="row">
+                                    <div class="col-md-4" style="background-color: var(--primary-red);">
+                                        <i class="mt-4 ml-4 fad fa-users" style="font-size: 50px; color: #fff;"></i>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="card-body">
+                                            <h6>All Contacts</h6>
+                                            {% if highlights.total_contacts %}
+                                            <h3 class="m-0">{{highlights.total_contacts}}</h3>
+                                            {% else %}
+                                            <h3 class="m-0">0</h3>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="overflow-hidden card"
+                            data-tour="step: 3; title: View Campaigns Status; content: Check your campaigns if they are sent, delivered or replied.">
+                            <a href="{{url_for('marketing_bp.campaign_sent')}}" style="color: inherit !important;">
+                                <div class="row">
+                                    <div class="col-md-4 bg-secondary">
+                                        <i class="mt-4 fad fa-paper-plane"
+                                            style="font-size: 50px; color: #fff;  margin-left: 30px;"></i>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="card-body">
+                                            <h6>Campaigns Sent</h6>
+                                            {% if highlights.no_of_campaigns %}
+                                            <h3 class="m-0">{{highlights.no_of_campaigns}}</h3>
+                                            {% else %}
+                                            <h3 class="m-0">0</h3>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="overflow-hidden card"
+                            data-tour="step: 4; title: View SMS Balance; content: Check SMS balance you are left with to do your campaigns">
+                            <a href="" style="color: inherit !important;">
+                                <div class="row">
+                                    <div class="col-md-4" style="background-color: var(--primary-red);">
+                                        <i class="mt-4 ml-4 fad fa-mail-bulk" style="font-size: 50px; color: #fff;"></i>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="card-body">
+                                            <h6>SMS Balance</h6>
+                                            {% if highlights.remaining_sms %}
+                                            <h3 class="m-0">{{highlights.remaining_sms}}</h3>
+                                            {% else %}
+                                            <h3 class="m-0">0</h3>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Campaign Chart -->
+                    <div class="col-md-6">
+                        <div class="chart" id="Campaignchart"
+                            data-tour="step: 5; title: SMS Campaigns Performance ; content: See how SMS Marketing is performing on monthly and yearly bases.">
+                        </div>
+                    </div>
+
+                    <!-- Customers Chart -->
+                    <div class="col-md-6">
+                        <div class="chart" id="Customerschart"
+                            data-tour="step: 6; title: Email Campaigns Performance ; content: See how Email Marketing is performing on monthly and yearly bases.">
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+    </div>
+</div>
+<script src="{{ url_for('static', filename='vendors/apexcharts/apexcharts.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+
+{% endblock %}

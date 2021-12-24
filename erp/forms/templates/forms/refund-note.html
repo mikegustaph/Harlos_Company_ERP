@@ -1,0 +1,152 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'forms' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="border-bottom pt-2 pb-2 mb-3 mt-3">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center ">
+                                <h1 class="main-header m-0 mt-1 mb-3"><span class="fal fa-file mr-2"></span> Refund Note
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{{url_for('forms_bp.forms_viewer')}}" class="float-right mr-3"
+                                style="margin-top: 12px;">
+                                <i class="far fa-arrow-left mr-2"></i>Go Back
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin: 20px 30px;">
+                    <form action="{{url_for('forms_bp.refund_note')}}" enctype="multipart/form-data" method="POST">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-4">
+                                    <span><b>Client Info</b></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Name</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Address</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="address">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">City</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="city">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Add Info</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="add_info">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-4">
+                                    <span><b>Details of Original Invoice</b></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Proforma Invoice Number</label>
+                                    <input type="text" class="form-control h-input h-input-sm"
+                                        name="proforma_invoice_no">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Amount</label>
+                                    <input type="text" class="form-control h-input h-input-sm comNum"
+                                        name="proforma_invoice_amount">
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-4">
+                                    <span><b>Particulars of refund</b></span><br>
+                                    <i>Amount paid by the client for Reefer testing and Technician Fee</i>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Original Price</label>
+                                    <input type="text" class="form-control h-input h-input-sm comNum"
+                                        name="original_price">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Addjusted Price / Amount deducted</label>
+                                    <input type="text" class="form-control h-input h-input-sm comNum"
+                                        name="adjusted_price">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Total amount to be refunded</label>
+                                    <input type="text" class="form-control h-input h-input-sm comNum"
+                                        name="total_amount">
+                                </div>
+
+                                <div class="mb-4 mt-4">
+                                    <span><b>NOTE 1</b></span><br>
+                                    <i>This refund is applicable only for customers who actually paid for the
+                                        containers. Other wise charges associated with testing are non-refundable (For
+                                        reefers only)</i>
+                                </div>
+
+                                <div class="mb-4 mt-4">
+                                    <span><b>NOTE 2</b></span><br>
+                                    <i>Amount deducted includes all the charges associated with refund the money, like
+                                        bank charges, transportation charges/Fuel (1%)</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Attach File</label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="customFile" name="attachment"
+                                    accept=".pdf" required>
+                                <label class="custom-file-label" for="customFile">Choose a file to upload</label>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Issued By</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="issued_by"
+                                        value="Loserian" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Received By</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="received_by"
+                                        value="Loserian" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <button type="submit" name="submit" class="mr-5 btn btn-success h-btn-sm">Save Form</button>
+                    </form>
+                </div>
+
+            </main>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,173 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'forms' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="border-bottom pt-2 pb-2 mb-3 mt-3">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center ">
+                                <h1 class="main-header m-0 mt-1 mb-3"><span class="fal fa-file mr-2"></span> Refund Note
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            {% if refund_note_data.status in ["Pending", None] %}
+                            <div class="btn shadow-sm btn-danger h-btn-lg float-right mb-3 mr-3" id="formReject">
+                                <a href="{{url_for('forms_bp.form_decision', reference=refund_note_data.reference.replace('/', '-'), decision="Rejected" )}}"
+                                    style="color: whitesmoke;">
+                                    Reject
+                                    <i class="fa fa-times-circle ml-2"></i>
+                                </a>
+                            </div>
+                            <div class="btn shadow-sm btn-success h-btn-lg float-right mb-3 mr-3" id="formApprovee">
+                                <a href="{{url_for('forms_bp.form_decision',reference=refund_note_data.reference.replace('/', '-'), decision="Approved")}}"
+                                    style="color: whitesmoke;">
+                                    Approve
+                                    <i class="fa fa-check-circle ml-2"></i>
+                                </a>
+                            </div>
+                            {% elif refund_note_data.status == "Approved" %}
+                            <div class="btn shadow-sm btn-success h-btn-lg float-right mb-3 mr-3" id="formApproved">
+                                Approved
+                                <i class="fa fa-check-circle ml-2"></i>
+                            </div>
+                            {% elif refund_note_data.status == "Rejected" %}
+                            <div class="btn shadow-sm btn-danger h-btn-lg float-right mb-3 mr-3" id="formRejected">
+                                Rejected <i class="fa fa-times-circle ml-2"></i>
+                            </div>
+                            {% endif %}
+                            <a href="{{url_for('forms_bp.forms')}}" class="float-right mr-3" style="margin-top: 12px;">
+                                <i class="far fa-arrow-left mr-2"></i>Go Back
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin: 20px 30px;">
+                    <form action="" method="POST">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-4">
+                                    <span><b>Client Info</b></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Name</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="name"
+                                        value="{{refund_note_data.name}}" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Address</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="address"
+                                        value="{{refund_note_data.address}}" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">City</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="city"
+                                        value="{{refund_note_data.city}}" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Add Info</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="add_info"
+                                        value="{{refund_note_data.add_info}}" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-4">
+                                    <span><b>Details of Original Invoice</b></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Proforma Invoice Number</label>
+                                    <input type="text" class="form-control h-input h-input-sm"
+                                        name="proforma_invoice_no" value="{{refund_note_data.proforma_invoice_no}}"
+                                        disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Amount</label>
+                                    <input type="text" class="form-control h-input h-input-sm comNum"
+                                        name="proforma_invoice_amount"
+                                        value="{{refund_note_data.proforma_invoice_amount}}" disabled>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-4">
+                                    <span><b>Particulars of refund</b></span><br>
+                                    <i>Amount paid by the client for Reefer testing and Technician Fee</i>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Original Price</label>
+                                    <input type="text" class="form-control h-input h-input-sm comNum"
+                                        name="original_price" value="{{refund_note_data.original_price}}" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Addjusted Price / Amount deducted</label>
+                                    <input type="text" class="form-control h-input h-input-sm comNum"
+                                        name="adjusted_price" value="{{refund_note_data.adjusted_price}}" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Total amount to be refunded</label>
+                                    <input type="text" class="form-control h-input h-input-sm comNum"
+                                        name="total_amount" value="{{refund_note_data.total_amount}}" disabled>
+                                </div>
+
+                                <div class="mb-4 mt-4">
+                                    <span><b>NOTE 1</b></span><br>
+                                    <i>This refund is applicable only for customers who actually paid for the
+                                        containers. Other wise charges associated with testing are non-refundable (For
+                                        reefers only)</i>
+                                </div>
+
+                                <div class="mb-4 mt-4">
+                                    <span><b>NOTE 2</b></span><br>
+                                    <i>Amount deducted includes all the charges associated with refund the money, like
+                                        bank charges, transportation charges/Fuel (1%)</i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Issued By</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="issued_by"
+                                        value="Loserian" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Received By</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="received_by"
+                                        value="Loserian" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </form>
+                </div>
+
+            </main>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

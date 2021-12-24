@@ -1,0 +1,187 @@
+{% for account in all_accounts %}
+<div class="modal fade" id="overviewModal_s{{account.account_id}}" tabindex="-1" aria-labelledby="overviewModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Account Overview
+                </h5>
+                <button class="btn btn-success h-btn-sm pulse-button" id="modalBtn_s{{account.account_id}}">
+                    Add Contact
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div id="mainView_s{{account.account_id}}">
+                    <!-- All deals by a company -->
+                    <div class="mt-2 border-bottom">
+                        <h6>Deals made</h6>
+                    </div>
+                    <table class="table table-sm table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Deal Name</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col">Stage</th>
+                                <th scope="col">Probability</th>
+                                <th scope="col">Contact role</th>
+                                <th scope="col">Closing Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for deal in all_deals %} {% if deal.company == account.company %}
+                            <tr>
+                                <th>{{deal.deal_name}}</th>
+                                <td>{{deal.amount}}</td>
+                                <td>{{deal.deal_stage}}</td>
+                                <td>{{deal.probability}}</td>
+                                <td>{{deal.contact_role}}</td>
+                                <td>{{deal.closing_date}}</td>
+                            </tr>
+                            {% endif %} {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <!-- All contacts of a company -->
+                    <div class="mt-4 border-bottom">
+                        <h6>Contact assigned</h6>
+                    </div>
+                    <table class="table table-sm table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Contact Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Phone</th>
+                                <th scope="col">Mobile</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Date created</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for crm_contact in all_crm_contacts %} {% if crm_contact.company == account.company %}
+                            <tr>
+                                <th>{{crm_contact.contact_name}}</th>
+                                <td>{{crm_contact.email}}</td>
+                                <td>{{crm_contact.phone}}</td>
+                                <td>{{crm_contact.phone}}</td>
+                                <td>{{crm_contact.contact_role}}</td>
+                                <td>{{crm_contact.date_created}}</td>
+                            </tr>
+                            {% endif %} {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="secView_s{{account.account_id}}" class="secMod">
+                    <form action="{{url_for('crm_bp.accounts')}}" enctype="multipart/form-data" method="POST"
+                        class="ml-4 mr-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">First Name</label>
+                                    <input type="text" class="form-control h-input" id="" name="firstname">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Last Name</label>
+                                    <input type="text" class="form-control h-input" id="" name="lastname">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Email</label>
+                                    <input type="email" class="form-control h-input" id="" name="email">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Phone</label>
+                                    <input type="number" class="form-control h-input" id="" name="phone">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label for="">Contact Role <span style="color: crimson;">*</span></label>
+                                        <select class="custom-select h-padd form-control" name="contact_role" required>
+                                            <option selected value="None">None</option>
+                                            <option value="Developer/Evaluator">Developer/Evaluator</option>
+                                            <option value="Decision Maker">Decision Maker</option>
+                                            <option value="Purchasing">Purchasing</option>
+                                            <option value="Excutive Sponsor">Excutive Sponsor</option>
+                                            <option value="Engineering Lead">Engineering Lead</option>
+                                            <option value="Economic Decision Maker">Economic Decision Maker</option>
+                                            <option value="Product Manager">Product Manager</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" class="form-control h-input" name="account_id"
+                                value="{{account.account_id}}">
+                        </div>
+
+                        <div class="form-group">
+                            <input type="hidden" class="form-control h-input" name="_method" value="special_post">
+                        </div>
+
+                        <div class="modal-footer">
+                            <a class="btn h-btn-disabled h-btn-sm" id="cancelBtn_s{{account.account_id}}">Cancel</a>
+                            <button type="submit" class="btn btn-success h-btn-sm" name="submit" id="btnSubmit">Save
+                                Contact</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function switchVisible(view_number, event) {
+        console.log(view_number);
+        var mainView = document.getElementById('mainView_s' + view_number),
+            secView = document.getElementById('secView_s' + view_number);
+
+        if (!mainView) return;
+        if (getComputedStyle(mainView).display == 'block') {
+            mainView.style.display = 'none';
+            secView.style.display = 'block';
+        } else {
+            mainView.style.display = 'block';
+            secView.style.display = 'none';
+        }
+    }
+
+    function cancelVisible(view_number, event) {
+        console.log(view_number);
+        var mainView = document.getElementById('mainView_s' + view_number),
+            secView = document.getElementById('secView_s' + view_number);
+
+        if (!mainView) return;
+        if (getComputedStyle(secView).display == 'block') {
+            mainView.style.display = 'block';
+            secView.style.display = 'none';
+        } else {
+            mainView.style.display = 'none';
+            convBtn.style.display = 'none';
+            secView.style.display = 'block';
+        }
+    }
+
+    document.getElementById('cancelBtn_s{{account.account_id}}').addEventListener('click', cancelVisible.bind(event,
+        '{{account.account_id}}'), false);
+    document.getElementById('modalBtn_s{{account.account_id}}').addEventListener('click', switchVisible.bind(event,
+        '{{account.account_id}}'), false);
+</script>
+{% endfor %}

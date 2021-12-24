@@ -1,0 +1,741 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'admin' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="border-bottom pt-2 pb-2 mb-3 mt-3">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center ">
+                                <h1 class="main-header m-0 mt-1 mb-3"><span class="fal fa-user-shield mr-2"></span>
+                                    Admin <span class="badge badge-success"
+                                        style="font-size: 12px; padding: 5px; top: 15px; left: 165px; position: absolute; font-weight: normal;">SUPER
+                                        USER</span>
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{{url_for('admin_bp.roles')}}" class="float-right mr-3" style="margin-top: 12px;">
+                                <i class="far fa-arrow-left mr-2"></i>Go Back
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Marketing -->
+                <div class="mb-5">
+                    <form action="{{url_for('admin_bp.roles_viewer', role_name=role_type.role_name)}}"
+                        enctype="multipart/form-data" method="POST" class="mr-4 ml-4" autocomplete="off">
+                        <table class="display rolesTable" cellspacing="0" width="100%">
+                            <h3>Marketing</h3>
+                            <thead>
+                                <tr>
+                                    <th rowspan="3">Task</th>
+                                    <th colspan="4">Permissions</th>
+                                </tr>
+                                <tr>
+                                    <th>Create</th>
+                                    <th>Read</th>
+                                    <th>Update</th>
+                                    <th>Delete</th>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Marketing</td>
+                                    {% if role_type.can_do_marketing %}
+                                    <td><input type="checkbox" name="can_do_marketing" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_do_marketing"></td>
+                                    {% endif %} {% if role_type.can_view_marketing %}
+                                    <td><input type="checkbox" name="can_view_marketing" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_view_marketing"></td>
+                                    {% endif %} {% if role_type.can_update_marketing %}
+                                    <td><input type="checkbox" name="can_update_marketing" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_update_marketing"></td>
+                                    {% endif %} {% if role_type.can_delete_marketing %}
+                                    <td><input type="checkbox" name="can_delete_marketing" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_delete_marketing"></td>
+                                    {% endif %}
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="form-group">
+                            <input type="hidden" name="form_type" value="marketing">
+                        </div>
+                        <button type="submit" name="submit" class="btn btn-sm btn-success mt-4 pl-3 pr-3">Save</button>
+                    </form>
+                </div>
+                <!-- /Marketing -->
+
+                <!-- CRM-->
+                <div class="mb-5">
+                    <form action="{{url_for('admin_bp.roles_viewer', role_name=role_type.role_name)}}"
+                        enctype="multipart/form-data" method="POST" class="mr-4 ml-4" autocomplete="off">
+                        <table class="display rolesTable" cellspacing="0" width="100%">
+                            <h3>CRM</h3>
+                            <thead>
+                                <tr>
+                                    <th rowspan="3">Task</th>
+                                    <th colspan="4">Permissions</th>
+                                </tr>
+                                <tr>
+                                    <th>Create</th>
+                                    <th>Read</th>
+                                    <th>Update</th>
+                                    <th>Delete</th>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Leads</td>
+                                    {% if role_type.can_add_lead %}
+                                    <td><input type="checkbox" name="can_add_lead" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_add_lead"></td>
+                                    {% endif %} {% if role_type.can_view_lead %}
+                                    <td><input type="checkbox" name="can_view_lead" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_view_lead"></td>
+                                    {% endif %} {% if role_type.can_edit_lead %}
+                                    <td><input type="checkbox" name="can_edit_lead" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_edit_lead"></td>
+                                    {% endif %} {% if role_type.can_delete_lead %}
+                                    <td><input type="checkbox" name="can_delete_lead" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_delete_lead"></td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <td>Deals</td>
+                                    {% if role_type.can_add_deal %}
+                                    <td><input type="checkbox" name="can_add_deal" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_add_deal"></td>
+                                    {% endif %} {% if role_type.can_view_deal %}
+                                    <td><input type="checkbox" name="can_view_deal" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_view_deal"></td>
+                                    {% endif %} {% if role_type.can_edit_deal %}
+                                    <td><input type="checkbox" name="can_edit_deal" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_edit_deal"></td>
+                                    {% endif %} {% if role_type.can_delete_deal %}
+                                    <td><input type="checkbox" name="can_delete_deal" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_delete_deal"></td>
+                                    {% endif %}
+                                </tr>
+
+                                <tr>
+                                    <td>Accounts</td>
+                                    {% if role_type.can_add_crm_accounts %}
+                                    <td><input type="checkbox" name="can_add_crm_accounts" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_add_crm_accounts"></td>
+                                    {% endif %} {% if role_type.can_view_crm_accounts %}
+                                    <td><input type="checkbox" name="can_view_crm_accounts" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_view_crm_accounts"></td>
+                                    {% endif %} {% if role_type.can_edit_crm_accounts %}
+                                    <td><input type="checkbox" name="can_edit_crm_accounts" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_edit_crm_accounts"></td>
+                                    {% endif %} {% if role_type.can_delete_crm_accounts %}
+                                    <td><input type="checkbox" name="can_delete_crm_accounts" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_delete_crm_accounts"></td>
+                                    {% endif %}
+                                </tr>
+
+                                <tr>
+                                    <td>Activities</td>
+                                    {% if role_type.can_create_crm_activity %}
+                                    <td><input type="checkbox" name="can_create_crm_activity" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_create_crm_activity"></td>
+                                    {% endif %} {% if role_type.can_view_crm_activity %}
+                                    <td><input type="checkbox" name="can_view_crm_activity" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_view_crm_activity"></td>
+                                    {% endif %} {% if role_type.can_edit_crm_activity %}
+                                    <td><input type="checkbox" name="can_edit_crm_activity" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_edit_crm_activity"></td>
+                                    {% endif %} {% if role_type.can_delete_crm_activity %}
+                                    <td><input type="checkbox" name="can_delete_crm_activity" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_delete_crm_activity"></td>
+                                    {% endif %}
+                                </tr>
+
+
+                                <tr>
+                                    <td>Contacts</td>
+                                    {% if role_type.can_add_crm_contact %}
+                                    <td><input type="checkbox" name="can_add_crm_contact" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_add_crm_contact"></td>
+                                    {% endif %} {% if role_type.can_view_crm_contact %}
+                                    <td><input type="checkbox" name="can_view_crm_contact" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_view_crm_contact"></td>
+                                    {% endif %} {% if role_type.can_edit_crm_contact %}
+                                    <td><input type="checkbox" name="can_edit_crm_contact" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_edit_crm_contact"></td>
+                                    {% endif %} {% if role_type.can_delete_crm_contact %}
+                                    <td><input type="checkbox" name="can_delete_crm_contact" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_delete_crm_contact"></td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <td>Settings</td>
+                                    {% if role_type.can_add_crm_settings %}
+                                    <td><input type="checkbox" name="can_add_crm_settings" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_add_crm_settings"></td>
+                                    {% endif %} {% if role_type.can_view_crm_settings %}
+                                    <td><input type="checkbox" name="can_view_crm_settings" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_view_crm_settings"></td>
+                                    {% endif %} {% if role_type.can_edit_crm_settings %}
+                                    <td><input type="checkbox" name="can_edit_crm_settings" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_edit_crm_settings"></td>
+                                    {% endif %} {% if role_type.can_delete_crm_settings %}
+                                    <td><input type="checkbox" name="can_delete_crm_settings" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_delete_crm_settings"></td>
+                                    {% endif %}
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="form-group">
+                            <input type="hidden" name="form_type" value="crm">
+                        </div>
+                        <button type="submit" name="submit" class="btn btn-sm btn-success mt-4 pl-3 pr-3">Save</button>
+                    </form>
+                </div>
+                <!-- /CRM -->
+
+
+                <!--Stock -->
+                <div class="mb-5">
+                    <form action="{{url_for('admin_bp.roles_viewer', role_name=role_type.role_name)}}"
+                        enctype="multipart/form-data" method="POST" class="mr-4 ml-4" autocomplete="off">
+                        <table class="display rolesTable" cellspacing="0" width="100%">
+                            <h3>Stock</h3>
+                            <thead>
+                                <tr>
+                                    <th rowspan="3">Task</th>
+                                    <th colspan="4">Permissions</th>
+                                </tr>
+                                <tr>
+                                    <th>Create</th>
+                                    <th>Read</th>
+                                    <th>Update</th>
+                                    <th>Delete</th>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Stock</td>
+                                    {% if role_type.can_add_stock %}
+                                    <td><input type="checkbox" name="can_add_stock" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_add_stock"></td>
+                                    {% endif %} {% if role_type.can_view_stock %}
+                                    <td><input type="checkbox" name="can_view_stock" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_view_stock"></td>
+                                    {% endif %} {% if role_type.can_edit_stock %}
+                                    <td><input type="checkbox" name="can_edit_stock" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_edit_stock"></td>
+                                    {% endif %} {% if role_type.can_delete_stock %}
+                                    <td><input type="checkbox" name="can_delete_stock" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_delete_stock"></td>
+                                    {% endif %}
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="form-group">
+                            <input type="hidden" name="form_type" value="stock">
+                        </div>
+                        <button type="submit" name="submit" class="btn btn-sm btn-success mt-4 pl-3 pr-3">Save</button>
+                    </form>
+                </div>
+                <!-- /Stock -->
+
+                <!--Purchases -->
+                <div class="mb-5">
+                    <form action="{{url_for('admin_bp.roles_viewer', role_name=role_type.role_name)}}"
+                        enctype="multipart/form-data" method="POST" class="mr-4 ml-4" autocomplete="off">
+                        <table class="display rolesTable" cellspacing="0" width="100%">
+                            <h3>Accounting</h3>
+                            <thead>
+                                <tr>
+                                    <th rowspan="3">Task</th>
+                                    <th colspan="4">Permissions</th>
+                                </tr>
+                                <tr>
+                                    <th>Create</th>
+                                    <th>Read</th>
+                                    <th>Update</th>
+                                    <th>Delete</th>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Accounting</td>
+                                    {% if role_type.can_do_accounting %}
+                                    <td><input type="checkbox" name="can_do_accounting" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_do_accounting"></td>
+                                    {% endif %} {% if role_type.can_view_accounting %}
+                                    <td><input type="checkbox" name="can_view_accounting" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_view_accounting"></td>
+                                    {% endif %} {% if role_type.can_update_accounting %}
+                                    <td><input type="checkbox" name="can_update_accounting" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_update_accounting"></td>
+                                    {% endif %} {% if role_type.can_delete_accounting %}
+                                    <td><input type="checkbox" name="can_delete_accounting" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_delete_accounting"></td>
+                                    {% endif %}
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="form-group">
+                            <input type="hidden" name="form_type" value="accounting">
+                        </div>
+                        <button type="submit" name="submit" class="btn btn-sm btn-success mt-4 pl-3 pr-3">Save</button>
+                    </form>
+                </div>
+                <!-- /Accounting -->
+
+
+                <!--Purchases -->
+                <div class="mb-5">
+                    <form action="{{url_for('admin_bp.roles_viewer', role_name=role_type.role_name)}}"
+                        enctype="multipart/form-data" method="POST" class="mr-4 ml-4" autocomplete="off">
+                        <table class="display rolesTable" cellspacing="0" width="100%">
+                            <h3>Purchases</h3>
+                            <thead>
+                                <tr>
+                                    <th rowspan="3">Task</th>
+                                    <th colspan="4">Permissions</th>
+                                </tr>
+                                <tr>
+                                    <th>Create</th>
+                                    <th>Read</th>
+                                    <th>Update</th>
+                                    <th>Delete</th>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Purchases</td>
+                                    {% if role_type.can_add_supplier %}
+                                    <td><input type="checkbox" name="can_add_supplier" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_add_supplier"></td>
+                                    {% endif %} {% if role_type.can_view_supplier %}
+                                    <td><input type="checkbox" name="can_view_supplier" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_view_supplier"></td>
+                                    {% endif %} {% if role_type.can_edit_supplier %}
+                                    <td><input type="checkbox" name="can_edit_supplier" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_edit_supplier"></td>
+                                    {% endif %} {% if role_type.can_delete_supplier %}
+                                    <td><input type="checkbox" name="can_delete_supplier" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="can_delete_supplier"></td>
+                                    {% endif %}
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="form-group">
+                            <input type="hidden" name="form_type" value="purchase">
+                        </div>
+                        <button type="submit" name="submit" class="btn btn-sm btn-success mt-4 pl-3 pr-3">Save</button>
+                    </form>
+                </div>
+                <!-- /Purchases -->
+
+                <!--Forms -->
+                <div class="mb-5">
+                    <form action="{{url_for('admin_bp.roles_viewer', role_name=role_type.role_name)}}"
+                        enctype="multipart/form-data" method="POST" class="mr-4 ml-4" autocomplete="off">
+                        <table class="display rolesTable" cellspacing="0" width="100%">
+                            <h3>Forms</h3>
+                            <thead>
+                                <tr>
+                                    <th rowspan="3">Task</th>
+                                    <th colspan="4">Permissions</th>
+                                </tr>
+                                <tr>
+                                    <th>Create</th>
+                                    <th>Read</th>
+                                    <th>Update</th>
+                                    <th>Delete</th>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Cash Deposit Form</td>
+                                    {% if role_type.cash_deposit_form_create %}
+                                    <td><input type="checkbox" name="cash_deposit_form_create" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="cash_deposit_form_create"></td>
+                                    {% endif %} {% if role_type.cash_deposit_form_view %}
+                                    <td><input type="checkbox" name="cash_deposit_form_view" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="cash_deposit_form_view"></td>
+                                    {% endif %} {% if role_type.cash_deposit_form_edit %}
+                                    <td><input type="checkbox" name="cash_deposit_form_edit" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="cash_deposit_form_edit"></td>
+                                    {% endif %} {% if role_type.cash_deposit_form_delete %}
+                                    <td><input type="checkbox" name="cash_deposit_form_delete" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="cash_deposit_form_delete"></td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <td>Cash Register Form</td>
+                                    {% if role_type.cash_register_form_create %}
+                                    <td><input type="checkbox" name="cash_register_form_create" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="cash_register_form_create"></td>
+                                    {% endif %} {% if role_type.cash_register_form_view %}
+                                    <td><input type="checkbox" name="cash_register_form_view" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="cash_register_form_view"></td>
+                                    {% endif %} {% if role_type.cash_register_form_edit %}
+                                    <td><input type="checkbox" name="cash_register_form_edit" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="cash_register_form_edit"></td>
+                                    {% endif %} {% if role_type.cash_register_form_delete %}
+                                    <td><input type="checkbox" name="cash_register_form_delete" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="cash_register_form_delete"></td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <td>Cash Requisition Form</td>
+                                    {% if role_type.cash_requisition_form_create %}
+                                    <td><input type="checkbox" name="cash_requisition_form_create" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="cash_requisition_form_create"></td>
+                                    {% endif %} {% if role_type.cash_requisition_form_view %}
+                                    <td><input type="checkbox" name="cash_requisition_form_view" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="cash_requisition_form_view"></td>
+                                    {% endif %} {% if role_type.cash_requisition_form_edit %}
+                                    <td><input type="checkbox" name="cash_requisition_form_edit" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="cash_requisition_form_edit"></td>
+                                    {% endif %} {% if role_type.cash_requisition_form_delete %}
+                                    <td><input type="checkbox" name="cash_requisition_form_delete" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="cash_requisition_form_delete"></td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <td>Cash Retirement Form</td>
+                                    {% if role_type.cash_retirement_form_create %}
+                                    <td><input type="checkbox" name="cash_retirement_form_create" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="cash_retirement_form_create"></td>
+                                    {% endif %} {% if role_type.cash_retirement_form_view %}
+                                    <td><input type="checkbox" name="cash_retirement_form_view" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="cash_retirement_form_view"></td>
+                                    {% endif %} {% if role_type.cash_retirement_form_edit %}
+                                    <td><input type="checkbox" name="cash_retirement_form_edit" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="cash_retirement_form_edit"></td>
+                                    {% endif %} {% if role_type.cash_retirement_form_delete %}
+                                    <td><input type="checkbox" name="cash_retirement_form_delete" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="cash_retirement_form_delete"></td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <td>Claim Form</td>
+                                    {% if role_type.claim_form_create %}
+                                    <td><input type="checkbox" name="claim_form_create" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="claim_form_create"></td>
+                                    {% endif %} {% if role_type.claim_form_view %}
+                                    <td><input type="checkbox" name="claim_form_view" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="claim_form_view"></td>
+                                    {% endif %} {% if role_type.claim_form_edit %}
+                                    <td><input type="checkbox" name="claim_form_edit" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="claim_form_edit"></td>
+                                    {% endif %} {% if role_type.claim_form_delete %}
+                                    <td><input type="checkbox" name="claim_form_delete" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="claim_form_delete"></td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <td>Material Purchase Form</td>
+                                    {% if role_type.material_purchase_form_create %}
+                                    <td><input type="checkbox" name="material_purchase_form_create" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="material_purchase_form_create"></td>
+                                    {% endif %} {% if role_type.material_purchase_form_view %}
+                                    <td><input type="checkbox" name="material_purchase_form_view" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="material_purchase_form_view"></td>
+                                    {% endif %} {% if role_type.material_purchase_form_edit %}
+                                    <td><input type="checkbox" name="material_purchase_form_edit" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="material_purchase_form_edit"></td>
+                                    {% endif %} {% if role_type.material_purchase_form_delete %}
+                                    <td><input type="checkbox" name="material_purchase_form_delete" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="material_purchase_form_delete"></td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <td>Material Requisition Form</td>
+                                    {% if role_type.material_requisition_form_create %}
+                                    <td><input type="checkbox" name="material_requisition_form_create" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="material_requisition_form_create"></td>
+                                    {% endif %} {% if role_type.material_requisition_form_view %}
+                                    <td><input type="checkbox" name="material_requisition_form_view" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="material_requisition_form_view"></td>
+                                    {% endif %} {% if role_type.material_requisition_form_edit %}
+                                    <td><input type="checkbox" name="material_requisition_form_edit" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="material_requisition_form_edit"></td>
+                                    {% endif %} {% if role_type.material_requisition_form_delete %}
+                                    <td><input type="checkbox" name="material_requisition_form_delete" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="material_requisition_form_delete"></td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <td>Payment Voucher</td>
+                                    {% if role_type.payment_voucher_form_create %}
+                                    <td><input type="checkbox" name="payment_voucher_form_create" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="payment_voucher_form_create"></td>
+                                    {% endif %} {% if role_type.payment_voucher_form_view %}
+                                    <td><input type="checkbox" name="payment_voucher_form_view" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="payment_voucher_form_view"></td>
+                                    {% endif %} {% if role_type.payment_voucher_form_edit %}
+                                    <td><input type="checkbox" name="payment_voucher_form_edit" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="payment_voucher_form_edit"></td>
+                                    {% endif %} {% if role_type.payment_voucher_form_delete %}
+                                    <td><input type="checkbox" name="payment_voucher_form_delete" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="payment_voucher_form_delete"></td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <td>Petty Cash Reconciliation</td>
+                                    {% if role_type.petty_cash_reconciliation_form_create %}
+                                    <td><input type="checkbox" name="petty_cash_reconciliation_form_create" checked>
+                                    </td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="petty_cash_reconciliation_form_create"></td>
+                                    {% endif %} {% if role_type.petty_cash_reconciliation_form_view %}
+                                    <td><input type="checkbox" name="petty_cash_reconciliation_form_view" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="petty_cash_reconciliation_form_view"></td>
+                                    {% endif %} {% if role_type.petty_cash_reconciliation_form_edit %}
+                                    <td><input type="checkbox" name="petty_cash_reconciliation_form_edit" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="petty_cash_reconciliation_form_edit"></td>
+                                    {% endif %} {% if role_type.petty_cash_reconciliation_form_delete %}
+                                    <td><input type="checkbox" name="petty_cash_reconciliation_form_delete" checked>
+                                    </td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="petty_cash_reconciliation_form_delete"></td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <td>Petty Cash Voucher</td>
+                                    {% if role_type.petty_cash_voucher_form_create %}
+                                    <td><input type="checkbox" name="petty_cash_voucher_form_create" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="petty_cash_voucher_form_create"></td>
+                                    {% endif %} {% if role_type.petty_cash_voucher_form_view %}
+                                    <td><input type="checkbox" name="petty_cash_voucher_form_view" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="petty_cash_voucher_form_view"></td>
+                                    {% endif %} {% if role_type.petty_cash_voucher_form_edit %}
+                                    <td><input type="checkbox" name="petty_cash_voucher_form_edit" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="petty_cash_voucher_form_edit"></td>
+                                    {% endif %} {% if role_type.petty_cash_voucher_form_delete %}
+                                    <td><input type="checkbox" name="petty_cash_voucher_form_delete" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="petty_cash_voucher_form_delete"></td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <td>Refund Note</td>
+                                    {% if role_type.refund_note_form_create %}
+                                    <td><input type="checkbox" name="refund_note_form_create" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="refund_note_form_create"></td>
+                                    {% endif %} {% if role_type.refund_note_form_view %}
+                                    <td><input type="checkbox" name="refund_note_form_view" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="refund_note_form_view"></td>
+                                    {% endif %} {% if role_type.refund_note_form_edit %}
+                                    <td><input type="checkbox" name="refund_note_form_edit" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="refund_note_form_edit"></td>
+                                    {% endif %} {% if role_type.refund_note_form_delete %}
+                                    <td><input type="checkbox" name="refund_note_form_delete" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="refund_note_form_delete"></td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <td>Sales Commission</td>
+                                    {% if role_type.sales_commission_form_create %}
+                                    <td><input type="checkbox" name="sales_commission_form_create" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="sales_commission_form_create"></td>
+                                    {% endif %} {% if role_type.sales_commission_form_view %}
+                                    <td><input type="checkbox" name="sales_commission_form_view" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="sales_commission_form_view"></td>
+                                    {% endif %} {% if role_type.sales_commission_form_edit %}
+                                    <td><input type="checkbox" name="sales_commission_form_edit" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="sales_commission_form_edit"></td>
+                                    {% endif %} {% if role_type.sales_commission_form_delete %}
+                                    <td><input type="checkbox" name="sales_commission_form_delete" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="sales_commission_form_delete"></td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <td>Quatation form</td>
+                                    {% if role_type.quotation_form_create %}
+                                    <td><input type="checkbox" name="quotation_form_create" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="quotation_form_create"></td>
+                                    {% endif %} {% if role_type.quotation_form_view %}
+                                    <td><input type="checkbox" name="quotation_form_view" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="quotation_form_view"></td>
+                                    {% endif %} {% if role_type.quotation_form_edit %}
+                                    <td><input type="checkbox" name="quotation_form_edit" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="quotation_form_edit"></td>
+                                    {% endif %} {% if role_type.quotation_form_delete %}
+                                    <td><input type="checkbox" name="quotation_form_delete" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="quotation_form_delete"></td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <td>Stock Items</td>
+                                    {% if role_type.stock_items_create %}
+                                    <td><input type="checkbox" name="stock_items_create" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="stock_items_create"></td>
+                                    {% endif %} {% if role_type.stock_items_view %}
+                                    <td><input type="checkbox" name="stock_items_view" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="stock_items_view"></td>
+                                    {% endif %} {% if role_type.stock_items_edit %}
+                                    <td><input type="checkbox" name="stock_items_edit" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="stock_items_edit"></td>
+                                    {% endif %} {% if role_type.stock_items_delete %}
+                                    <td><input type="checkbox" name="stock_items_delete" checked></td>
+                                    {% else %}
+                                    <td><input type="checkbox" name="stock_items_delete"></td>
+                                    {% endif %}
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="form-group">
+                            <input type="hidden" name="form_type" value="form_roles">
+                        </div>
+
+                        <button type="submit" name="submit" class="btn btn-sm btn-success mt-4 pl-3 pr-3">Save</button>
+                    </form>
+                </div>
+                <!-- /Forms -->
+
+            </main>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

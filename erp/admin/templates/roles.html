@@ -1,0 +1,116 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'admin' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="pt-2 pb-2 mt-3 mb-3 border-bottom">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="flex-wrap d-flex justify-content-between flex-md-nowrap align-items-center ">
+                                <h1 class="m-0 mt-1 mb-3 main-header"><span class="mr-2 fal fa-user-shield"></span>
+                                    Admin <span class="badge badge-success"
+                                        style="font-size: 12px; padding: 5px; top: 15px; left: 165px; position: absolute; font-weight: normal;">SUPER
+                                        USER</span>
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <ul class="mb-3 nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('admin_bp.admin')}}">Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{url_for('admin_bp.roles')}}">Roles</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('admin_bp.actions')}}">Actions</a>
+                    </li>
+                </ul>
+
+
+                <div class="table-responsive">
+                    <div class="table-responsive">
+                        <table id="globalTable" class="display nowrap" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Role Name</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Administrator </td>
+                                    <td>
+                                        <a href="{{url_for('admin_bp.roles_viewer', role_name= 'administrator')}}"
+                                            class="btn btn-sm btn-success">
+                                            View Roles <i class="ml-2 far fa-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Accounts </td>
+                                    <td>
+                                        <a href="{{url_for('admin_bp.roles_viewer', role_name= 'accountant')}}"
+                                            class="btn btn-sm btn-success">
+                                            View Roles <i class="ml-2 far fa-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Operations</td>
+                                    <td>
+                                        <a href="{{url_for('admin_bp.roles_viewer', role_name= 'operation')}}"
+                                            class="btn btn-sm btn-success">
+                                            View Roles <i class="ml-2 far fa-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Sales</td>
+                                    <td>
+                                        <a href="{{url_for('admin_bp.roles_viewer', role_name= 'sales')}}"
+                                            class="btn btn-sm btn-success">
+                                            View Roles <i class="ml-2 far fa-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Marketing</td>
+                                    <td>
+                                        <a href="{{url_for('admin_bp.roles_viewer', role_name= 'marketing')}}"
+                                            class="btn btn-sm btn-success">
+                                            View Roles <i class="ml-2 far fa-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+
+    </div>
+</div>
+
+
+
+{% endblock %}

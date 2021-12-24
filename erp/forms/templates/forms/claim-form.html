@@ -1,0 +1,179 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'forms' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="pt-2 pb-2 mt-3 mb-3 border-bottom">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="flex-wrap d-flex justify-content-between flex-md-nowrap align-items-center ">
+                                <h1 class="m-0 mt-1 mb-3 main-header"><span class="mr-2 fal fa-file"></span> Claim Form
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{{url_for('forms_bp.forms_viewer')}}" class="float-right mr-3"
+                                style="margin-top: 12px;">
+                                <i class="mr-2 far fa-arrow-left"></i>Go Back
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin: 20px 30px;">
+                    <form action="{{url_for('forms_bp.claim_form')}}" enctype="multipart/form-data" method="POST">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Employee Name</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="employee_name"
+                                        value="{{current_user.fullname}}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">ID</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="employee_id">
+                                </div>
+                                <hr>
+                                <div class="form-group">
+                                    <label for="">Manager Name</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="manager_name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Department</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="department">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Signed By</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="signed_by"
+                                        value="Loserian">
+                                </div>
+                                <hr>
+                                <div class="form-group">
+                                    <label for="">Business Purpose</label>
+                                    <textarea class="form-control h-input h-input-sm" name="bussiness_purpose"
+                                        cols="5"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Expense Period</label>
+                                    <input type="text" class="mb-3 form-control h-input h-input-sm dateSelector"
+                                        name="expense_start_date" placeholder="From">
+                                    <input type="text" class="form-control h-input h-input-sm dateSelector"
+                                        name="expense_end_date" placeholder="To">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div>
+                            <div class="repeatable-container"></div>
+                            <input type="button" value="Add New Item" class="add btn h-btn-sm btn-success" />
+                            <div class="mt-3 form-group">
+                                <label for="">Attach File</label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="customFile" name="attachment"
+                                        accept=".pdf" required>
+                                    <label class="custom-file-label" for="customFile">Choose a file to upload</label>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Employee Signature</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="" value="Loserian"
+                                        disabled>
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Cashier Signature</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="" value="Loserian"
+                                        disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Approval Signature</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="" value="Loserian"
+                                        disabled>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+                        <button type="submit" name="submit" class="mr-5 btn btn-success h-btn-sm">Save Form</button>
+                    </form>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+
+<!-- New Item JS Template - Jquery Repeatable -->
+<script type="text/template" id="FormsAddMore">
+    <div class="row field-group">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="">Date</label>
+                <input type="date" class="form-control h-input" name="{?}">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="">Description</label>
+                <input type="text" class="form-control h-input h-input-sm" name="description_{?}">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="">Category</label>
+                <select class="chosen-select form-control" name="category_{?}" required>
+                    <option value="Business Cards">Business Cards</option>
+                    <option value="Business Meals">Business Meals</option>
+                    <option value="Dues">Dues</option>
+                    <option value="Legal Fees">Legal Fees</option>
+                    <option value="License Fees">License Fees</option>
+                    <option value="Mileage">Mileage</option>
+                    <option value="Office Supplies">Office Supplies</option>
+                    <option value="Passport fee">Passport fee</option>
+                    <option value="Yard Operation">Yard Operation</option>
+                    <option value="Domain name">Domain name</option>
+                    <option value="Printer Paper">Printer Paper</option>
+                    <option value="Software">Software</option>
+                    <option value="Stationery">Stationery</option>
+                    <option value="Subscriptions">Subscriptions</option>
+                    <option value="Telephones">Telephones</option>
+                    <option value="Tools">Tools</option>
+                    <option value="Training Fees">Training Fees</option>
+                    <option value="Travel">Travel</option>
+                    <option value="Work Clothing">Work Clothing</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="">Amount</label>
+                <input type="text" class="form-control h-input h-input-sm comNum" name="cost_{?}">
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="hidden" name="no_of_claim_expenditure_{?}" value="{?}">
+        </div>
+        <div class="form-group">
+            <input type="button" class="btn btn-danger h-btn-sm delete" value="Remove" style="margin-top:30px" />
+        </div>
+    </div>
+</script>
+{% endblock %}

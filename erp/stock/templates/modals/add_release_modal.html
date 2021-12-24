@@ -1,0 +1,75 @@
+<div class="modal fade" id="addreleaseModal" tabindex="-1" aria-labelledby="addreleaseModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-sm modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create Release Order
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="far fa-times"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form action="" enctype="multipart/form-data" method="POST" class="mr-4 ml-4">
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Container Number </label>
+                                <input type="text" class="form-control h-input" name="" value="HRT-3239 000 4349"
+                                    disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Type</label>
+                                <input type="text" class="form-control h-input" name="" required>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Released To</label>
+                                <input type="text" class="form-control h-input" name="" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Released Date</label>
+                                <input type="text" class="form-control h-input dateSelector" name="" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Location</label>
+                                <textarea class="form-control h-input" name=""></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Depot Details</label>
+                                <textarea class="form-control h-input" name=""></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="hidden" class="_method" name="just_post" value="1">
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success h-btn-sm" name="submit" id="btnSubmit">Release
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

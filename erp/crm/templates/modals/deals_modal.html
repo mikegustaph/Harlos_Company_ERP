@@ -1,0 +1,268 @@
+{% for deal in all_deals %}
+{% if (deal.approved_invoice) or (deal.deal_stage == "Closed Lost") or deal.dont_edit or (deal.deal_stage=="Closed Won") %}
+<div class="modal fade" id="dealsModal{{deal.deal_id}}" tabindex="-1" aria-labelledby="dealsModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Deal
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="far fa-times"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form action="#" enctype="multipart/form-data" method="POST" class="mr-4 ml-4">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Deal Name</label>
+                                <input type="text" class="form-control h-input" name="deal_name"
+                                    value="{{deal.deal_name}}" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Account</label>
+                                <input type="text" class="form-control h-input" name="account_name"
+                                    value="{{deal.account_name}}" disabled>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Stage <span style="color: crimson;">*</span></label>
+                                <select class="custom-select h-padd form-control" name="deal_stage" disabled>
+                                    <option selected value="{{deal.deal_stage}}">{{deal.deal_stage}}</option>
+                                    <option value="Qualification">Qualification</option>
+                                    <option value="Needs Analysis">Needs Analysis</option>
+                                    <option value="Value Proposition">Value Proposition</option>
+                                    <option value="Identify Decision Makers">Id.Decision Makers</option>
+                                    <option value="Proposal/Price Quote">Proposal/Price Quote</option>
+                                    <option value="Negotiation/Review">Negotiation/Review</option>
+                                    <option value="Closed Won">Closed Won</option>
+                                    <option value="Closed Lost">Closed Lost</option>
+                                    <option value="Closed Lost to Competition">Closed Lost to Competition</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Contact Role <span style="color: crimson;">*</span></label>
+                                <select class="custom-select h-padd form-control" name="contact_role" disabled>
+                                    <option selected value="{{deal.contact_role}}">{{deal.contact_role}}</option>
+                                    <option value="None">None</option>
+                                    <option value="Developer/Evaluator">Developer/Evaluator</option>
+                                    <option value="Decision Maker">Decision Maker</option>
+                                    <option value="Purchasing">Purchasing</option>
+                                    <option value="Excutive Sponsor">Excutive Sponsor</option>
+                                    <option value="Engineering Lead">Engineering Lead</option>
+                                    <option value="Economic Decision Maker">Economic Decision Maker</option>
+                                    <option value="Product Manager">Product Manager</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group input_fields_wrap">
+                                <label for="">Containers <span style="color: crimson;">*</span></label> {% set
+                                deal_containers = [json.loads(deal.containers)] %} {% for containers in deal_containers
+                                %} {% for container in containers %}
+
+                                <div class="mb-2">
+                                    <div class="row" style="margin-left: 0px;">
+                                        <div class="col-md-4 p-1">
+                                            <select class="custom-select h-padd form-control" name="size_{{loop.index}}"
+                                                disabled>
+                                                <option selected value="{{container}}">{{container}}</option>
+                                                <option value="40HC">40HC</option>
+                                                <option value="40DV">40DV</option>
+                                                <option value="40RH">40RH</option>
+                                                <option value="20DV">20DV</option>
+                                                <option value="20RF">20RF</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 p-1">
+                                            <input type="number" class="form-control h-input"
+                                                name="quantity_{{loop.index}}"
+                                                value="{{containers[container]['quantity']}}" disabled>
+                                        </div>
+                                        <div class="col-md-4 p-1">
+                                            <input type="number" class="form-control h-input"
+                                                name="price_{{loop.index}}"
+                                                value="{{containers[container]['unit_price']}}" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %} {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Closing Date <span style="color: crimson;">*</span></label>
+                                <input type="text" class="form-control h-input dateSelector" name="deal_end_date"
+                                    value="{{deal.closing_date}}" disabled>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+
+            <div class="form-group">
+                <input type="hidden" name="total_rows" value="{{deal.no_container_types}}">
+            </div>
+            <div class="form-group">
+                <input type="hidden" name="deal_id" value="{{deal.deal_id}}">
+            </div>
+            <div class="form-group">
+                <input type="hidden" name="_method" value="put">
+            </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{% else %}
+<!-- render this if deal not have a payslip -->
+<div class="modal fade" id="dealsModal{{deal.deal_id}}" tabindex="-1" aria-labelledby="dealsModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Deal
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="far fa-times"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form action="{{url_for('crm_bp.deals')}}" enctype="multipart/form-data" method="POST"
+                    class="mr-4 ml-4">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Deal Name</label>
+                                <input type="text" class="form-control h-input" name="deal_name"
+                                    value="{{deal.deal_name}}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Account</label>
+                                <input type="text" class="form-control h-input" name="account_name"
+                                    value="{{deal.account_name}}" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Stage <span style="color: crimson;">*</span></label>
+                                <select class="custom-select h-padd form-control" name="deal_stage" required>
+                                    <option selected value="{{deal.deal_stage}}">{{deal.deal_stage}}</option>
+                                    <option value="Qualification">Qualification</option>
+                                    <option value="Needs Analysis">Needs Analysis</option>
+                                    <option value="Value Proposition">Value Proposition</option>
+                                    <option value="Identify Decision Makers">Id.Decision Makers</option>
+                                    <option value="Proposal/Price Quote">Proposal/Price Quote</option>
+                                    <option value="Negotiation/Review">Negotiation/Review</option>
+                                    <option value="Closed Won">Closed Won</option>
+                                    <option value="Closed Lost">Closed Lost</option>
+                                    <option value="Closed Lost to Competition">Closed Lost to Competition</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Contact Role <span style="color: crimson;">*</span></label>
+                                <select class="custom-select h-padd form-control" name="contact_role" required>
+                                    <option selected value="{{deal.contact_role}}">{{deal.contact_role}}</option>
+                                    <option value="None">None</option>
+                                    <option value="Developer/Evaluator">Developer/Evaluator</option>
+                                    <option value="Decision Maker">Decision Maker</option>
+                                    <option value="Purchasing">Purchasing</option>
+                                    <option value="Excutive Sponsor">Excutive Sponsor</option>
+                                    <option value="Engineering Lead">Engineering Lead</option>
+                                    <option value="Economic Decision Maker">Economic Decision Maker</option>
+                                    <option value="Product Manager">Product Manager</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group input_fields_wrap">
+                                <label for="">Containers <span style="color: crimson;">*</span></label> {% set
+                                deal_containers = [json.loads(deal.containers)] %} {% for containers in deal_containers
+                                %} {% for container in containers %}
+
+                                <div class="mb-2">
+                                    <div class="row" style="margin-left: 0px;">
+                                        <div class="col-md-4 p-1">
+                                            <select class="custom-select h-padd form-control" name="size_{{loop.index}}"
+                                                required>
+                                                <option selected value="{{container}}">{{container}}</option>
+                                                <option value="40HC">40HC</option>
+                                                <option value="40DV">40DV</option>
+                                                <option value="40RH">40RH</option>
+                                                <option value="20DV">20DV</option>
+                                                <option value="20RF">20RF</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 p-1">
+                                            <input type="number" class="form-control h-input"
+                                                name="quantity_{{loop.index}}"
+                                                value="{{containers[container]['quantity']}}" required>
+                                        </div>
+                                        <div class="col-md-4 p-1">
+                                            <input type="number" class="form-control h-input"
+                                                name="price_{{loop.index}}"
+                                                value="{{containers[container]['unit_price']}}" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %} {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Closing Date <span style="color: crimson;">*</span></label>
+                                <input type="text" class="form-control h-input dateSelector" name="deal_end_date"
+                                    value="{{deal.closing_date}}" required>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+
+            <div class="form-group">
+                <input type="hidden" name="total_rows" value="{{deal.no_container_types}}">
+            </div>
+            <div class="form-group">
+                <input type="hidden" name="deal_id" value="{{deal.deal_id}}">
+            </div>
+            <div class="form-group">
+                <input type="hidden" name="_method" value="put">
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success h-btn-sm" name="submit" id="btnSubmit">Save
+                    Changes
+                </button>
+            </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endfor %}

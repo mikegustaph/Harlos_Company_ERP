@@ -1,0 +1,255 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'forms' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="border-bottom pt-2 pb-2 mb-3 mt-3">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center ">
+                                <h1 class="main-header m-0 mt-1 mb-3"><span class="fal fa-file mr-2"></span> Forms
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{{url_for('forms_bp.forms')}}" class="float-right mr-3" style="margin-top: 12px;">
+                                <i class="far fa-arrow-left mr-2"></i>Go Back
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                {% if role.cash_deposit_form_view or role.cash_register_form_view or role.cash_requisition_form_view or role.cash_retirement_form_view %}
+                <div class="row mb-3">
+                    {% if role.cash_deposit_form_view %}
+                    <div class="col-md-3">
+                        <div class="card overflow-hidden">
+                            <a href="{{url_for('forms_bp.cash_deposit')}}" style="color: inherit !important;">
+                                <div class="row">
+                                    <div class="col-md-1" style="background-color: var(--primary-red);">
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="card-body">
+                                            <h6>Cash Deposit</h6>
+                                            <h3 class="m-0"></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %} {% if role.cash_register_form_view %}
+                    <div class="col-md-3">
+                        <div class="card overflow-hidden">
+                            <a href="{{url_for('forms_bp.cash_register')}}" style="color: inherit !important;">
+                                <div class="row">
+                                    <div class="col-md-1" style="background-color: var(--primary-red);">
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="card-body">
+                                            <h6>Cash Register Form</h6>
+                                            <h3 class="m-0"></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %} {% if role.cash_requisition_form_view %}
+                    <div class="col-md-3">
+                        <div class="card overflow-hidden">
+                            <a href="{{url_for('forms_bp.cash_requisition')}}" style="color: inherit !important;">
+                                <div class="row">
+                                    <div class="col-md-1" style="background-color: var(--primary-red);">
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="card-body">
+                                            <h6>Cash Requisition Form</h6>
+                                            <h3 class="m-0"></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %} {% if role.cash_retirement_form_view %}
+                    <div class="col-md-3">
+                        <div class="card overflow-hidden">
+                            <a href="{{url_for('forms_bp.cash_retirement')}}" style="color: inherit !important;">
+                                <div class="row">
+                                    <div class="col-md-1" style="background-color: var(--primary-red);">
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="card-body">
+                                            <h6>Cash Retirement Form</h6>
+                                            <h3 class="m-0"></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %} {% if role.claim_form_view or role.payment_voucher_form_view or role.material_purchase_form_view or role.material_requisition_form_view %}
+                <div class="row mb-3">
+                    {% if role.claim_form_view %}
+                    <div class="col-md-3">
+                        <div class="card overflow-hidden">
+                            <a href="{{url_for('forms_bp.claim_form')}}" style="color: inherit !important;">
+                                <div class="row">
+                                    <div class="col-md-1" style="background-color: var(--primary-red);">
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="card-body">
+                                            <h6>Claim Form</h6>
+                                            <h3 class="m-0"></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %} {% if role.material_purchase_form_view %}
+                    <div class="col-md-3">
+                        <div class="card overflow-hidden">
+                            <a href="{{url_for('forms_bp.material_purchase')}}" style="color: inherit !important;">
+                                <div class="row">
+                                    <div class="col-md-1" style="background-color: var(--primary-red);">
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="card-body">
+                                            <h6>Material Purchase</h6>
+                                            <h3 class="m-0"></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %} {% if role.material_requisition_form_view %}
+                    <div class="col-md-3">
+                        <div class="card overflow-hidden">
+                            <a href="{{url_for('forms_bp.material_requisition')}}" style="color: inherit !important;">
+                                <div class="row">
+                                    <div class="col-md-1" style="background-color: var(--primary-red);">
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="card-body">
+                                            <h6>Material Requisition</h6>
+                                            <h3 class="m-0"></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %} {% if role.payment_voucher_form_view %}
+                    <div class="col-md-3">
+                        <div class="card overflow-hidden">
+                            <a href="{{url_for('forms_bp.payment_voucher')}}" style="color: inherit !important;">
+                                <div class="row">
+                                    <div class="col-md-1" style="background-color: var(--primary-red);">
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="card-body">
+                                            <h6>Payment Voucher</h6>
+                                            <h3 class="m-0"></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %} {% if role.petty_cash_reconciliation_form_view or role.petty_cash_voucher_form_view or role.refund_note_form_view %}
+                <div class="row">
+                    {% if role.petty_cash_reconciliation_form_view %}
+                    <div class="col-md-3">
+                        <div class="card overflow-hidden">
+                            <a href="{{url_for('forms_bp.petty_cash_reconciliation')}}" style="color: inherit !important;">
+                                <div class="row">
+                                    <div class="col-md-1" style="background-color: var(--primary-red);">
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="card-body">
+                                            <h6>Petty C. Reconciliation</h6>
+                                            <h3 class="m-0"></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %} {% if role.petty_cash_voucher_form_view %}
+                    <div class="col-md-3">
+                        <div class="card overflow-hidden">
+                            <a href="{{url_for('forms_bp.petty_cash_voucher')}}" style="color: inherit !important;">
+                                <div class="row">
+                                    <div class="col-md-1" style="background-color: var(--primary-red);">
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="card-body">
+                                            <h6>Petty Cash Voucher</h6>
+                                            <h3 class="m-0"></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %} {% if role.quotation_form_view %}
+                    <div class="col-md-3">
+                        <div class="card overflow-hidden">
+                            <a href="{{url_for('forms_bp.quotation_form')}}" style="color: inherit !important;">
+                                <div class="row">
+                                    <div class="col-md-1" style="background-color: var(--primary-red);">
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="card-body">
+                                            <h6>Quotation Form</h6>
+                                            <h3 class="m-0"></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %} {% if role.sales_commission_form_view %}
+                    <div class="col-md-3">
+                        <div class="card overflow-hidden">
+                            <a href="{{url_for('forms_bp.sales_comission')}}" style="color: inherit !important;">
+                                <div class="row">
+                                    <div class="col-md-1" style="background-color: var(--primary-red);">
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="card-body">
+                                            <h6>Sales Commission</h6>
+                                            <h3 class="m-0"></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </main>
+        </div>
+    </div>
+</div>
+{% endblock %}

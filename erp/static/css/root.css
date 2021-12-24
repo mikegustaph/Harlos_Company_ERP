@@ -1,0 +1,14 @@
+/* -------------------------
+ * Author: Geofrey Xvr & Kalebu Jordan
+ * Copyright: Harlos Limited
+ * Year: 2020
+---------------------------*/
+
+:root {
+    /* ----Colors---- */
+    --primary-red: #cc3333;
+    --secondary-red: #a32323;
+    --white: #fff;
+    --black: rgb(39, 39, 39);
+    --gray: #d1d1d1;
+}

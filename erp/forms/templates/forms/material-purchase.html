@@ -1,0 +1,140 @@
+{% extends "base.html" %} {% block content %} {% set active_page = 'forms' %}
+
+<!-- Header -->
+{% include 'partials/header.html' %}
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            {% include 'partials/sidebar.html' %}
+        </div>
+
+        <!-- Main -->
+        <div class="col-md-10">
+            <main>
+                <div class="border-bottom pt-2 pb-2 mb-3 mt-3">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center ">
+                                <h1 class="main-header m-0 mt-1 mb-3"><span class="fal fa-file mr-2"></span> Material
+                                    Purchase Form
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{{url_for('forms_bp.forms_viewer')}}" class="float-right mr-3"
+                                style="margin-top: 12px;">
+                                <i class="far fa-arrow-left mr-2"></i>Go Back
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin: 20px 30px;">
+                    <form action="{{url_for('forms_bp.material_purchase')}}" enctype="multipart/form-data"
+                        method="POST">
+                        <div class=" repeatable-container"></div>
+
+                        <input type="button" value="Add New Item" class="add btn h-btn-sm btn-success" />
+
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <label for="">Attach File</label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="customFile" name="attachment"
+                                        accept=".pdf" required>
+                                    <label class="custom-file-label" for="customFile">Choose a file to
+                                        upload</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Supplier</label>
+                                    <select class="chosen-select" name="supplier">
+                                        {% if suppliers %}
+                                        {% for supplier in suppliers %}
+                                        <option value="{{supplier.name}}">{{supplier.name}}</option>
+                                        {% endfor %}
+                                        {% else %}
+                                        <option>No supplier found!!</option>
+                                        {% endif %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Prepared By</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="prepared_by"
+                                        value="Loserian">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Requested By</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="requested_by"
+                                        value="Loserian">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Request To</label>
+                                    <input type="text" class="form-control h-input h-input-sm" name="requested_to"
+                                        value="Loserian">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <button type="submit" name="submit" class="mr-5 btn btn-success h-btn-sm">Save Form</button>
+                    </form>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+
+<!-- New Item JS Template - Jquery Repeatable -->
+<script type="text/template" id="FormsAddMore">
+    <div class="row field-group">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for=" ">Item Name</label>
+                <input type="text" class="form-control h-input h-input-sm" name="item_name_{?}" id="a{?}" list="items">
+                <datalist id="items">
+                    <option>Coffee</option>
+                    <option>Tea</option>
+                    <option>Tissue</option>
+                    <option>Water</option>
+                </datalist>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for=" ">Description</label>
+                <input type="text" class="form-control h-input h-input-sm" name="description_{?}" id="a{?}">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for=" ">Quantity</label>
+                <input type="text" class="form-control h-input h-input-sm" name="quantity_{?}" id="a{?}">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for=" ">Amount</label>
+                <input type="text" class="form-control h-input h-input-sm comNum" name="amount_{?}" id="a{?}">
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="hidden" name="no_of_purchases_{?}" value="{?}">
+        </div>
+
+        <div class="form-group">
+            <input type="button" class="btn btn-danger h-btn-sm delete" value="Remove" style="margin-top:30px" />
+        </div>
+    </div>
+</script>
+{% endblock %}
