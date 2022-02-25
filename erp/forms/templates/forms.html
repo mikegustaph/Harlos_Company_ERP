@@ -89,7 +89,7 @@
                                     </td>
                                     <td>{{form.form.reference}}</td>
                                     <td>{{form.form.date_created.strftime('%d/%m/%Y')}}</td>
-                                    <td>{{form.raw_data.description}}</td>
+                                    <td>{{form.raw_data.description_of_expense}}</td>
                                     <td>
                                         {% if current_user.is_admin or current_user.role=="adminstrator" %}
                                         <a href="{{url_for('forms_bp.delete_forms', form_type=form.form.form_type, reference=form.form.reference.replace('/', '-'))}}"

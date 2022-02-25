@@ -134,9 +134,11 @@ def is_already_added(table_name, item_id):
 def get_current_role():
     try:
         role_name = flask_login.current_user.role
+        print(role_name)
         return UserRoles.query.filter_by(role_name=role_name).first()
     except Exception as bug:
         print("Failed to get the current role")
+
         print(bug)
         return None
 

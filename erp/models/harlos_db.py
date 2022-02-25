@@ -159,7 +159,7 @@ class UserRoles(db.Model):
     can_edit_lead = db.Column(db.Boolean, default=False)
     can_delete_lead = db.Column(db.Boolean, default=False)
 
-    # --------------------CRM DEALS -----------------------------------
+    # -----------------c---CRM DEALS -----------------------------------
 
     can_add_deal = db.Column(db.Boolean, default=False)
     can_view_deal = db.Column(db.Boolean, default=False)
@@ -826,7 +826,7 @@ class Container(db.Model):
     sale_price = db.Column(db.Float, nullable=True)
     tax = db.Column(db.Integer, nullable=True)
     depot = db.Column(db.String(120), nullable=True)
-    main_image = db.Column(db.String(200), nullable=True)
+    main_image = db.Column(db.String(2000), nullable=True)
     visibility_on_website = db.Column(db.Boolean, default=False)
     general_condition = db.Column(db.String(200), nullable=True)
 
@@ -927,6 +927,7 @@ class CashDepositForm(db.Model):
     attachment = db.Column(db.String(200), nullable=True)
     date_created = db.Column(db.Date, default=datetime.date.today())
     updated_on = db.Column(db.Date, default=datetime.date.today())
+    description_of_expense = db.Column(db.String(300), nullable=True)
 
     def __str__(self):
         return f"<CashDepositForm {self.form_id}>"
@@ -944,6 +945,7 @@ class CashRegisterForm(db.Model):
     paid_to = db.Column(db.String(120), nullable=True)
     amount = db.Column(db.Float, nullable=True)
     amount_in_words = db.Column(db.String(120), nullable=True)
+    description_of_expense = db.Column(db.String(500), nullable=False)
     prepared_by = db.Column(db.String(120), nullable=True)
     requested_by = db.Column(db.String(120), nullable=True)
     requested_to = db.Column(db.String(120), nullable=True)
@@ -1001,6 +1003,7 @@ class CashRetirementForm(db.Model):
     balance_received_by = db.Column(db.String(120), nullable=True)
     date_created = db.Column(db.Date, default=datetime.date.today())
     updated_on = db.Column(db.Date, default=datetime.date.today())
+    description_of_expense = db.Column(db.String(300), nullable=True)
 
     def __str__(self):
         return f"<CashRetirementForm {self.form_id}>"
@@ -1028,6 +1031,7 @@ class ClaimForm(db.Model):
     expense_end_date = db.Column(db.Date, default=datetime.date.today())
     date_created = db.Column(db.Date, default=datetime.date.today())
     updated_on = db.Column(db.Date, default=datetime.date.today())
+    description_of_expense = db.Column(db.String(300), nullable=True)
 
     def __str__(self):
         return f"<ClaimForm {self.form_id}> {self.employee_name}"
@@ -1045,6 +1049,7 @@ class StockItems(db.Model):
     stock_amount = db.Column(db.String(120), nullable=True)
     date_created = db.Column(db.Date, default=datetime.date.today())
     updated_on = db.Column(db.Date, default=datetime.date.today())
+    description_of_expense = db.Column(db.String(300), nullable=True)
 
     def add_items(self, quantity):
         quantity = abs(quantity)
@@ -1079,6 +1084,7 @@ class MaterialPurchaseForm(db.Model):
     requested_to = db.Column(db.String(120), nullable=True)
     date_created = db.Column(db.Date, default=datetime.date.today())
     updated_on = db.Column(db.Date, default=datetime.date.today())
+    description_of_expense = db.Column(db.String(300), nullable=True)
 
     @property
     def _status(self):
@@ -1132,6 +1138,7 @@ class MaterialRequisitionForm(db.Model):
     prepared_by = db.Column(db.String(120), nullable=True)
     requested_by = db.Column(db.String(120), nullable=True)
     requested_to = db.Column(db.String(120), nullable=True)
+    description_of_expense = db.Column(db.String(300), nullable=True)
     date_created = db.Column(db.Date, default=datetime.date.today())
     updated_on = db.Column(db.Date, default=datetime.date.today())
 
@@ -1158,6 +1165,7 @@ class PaymentVoucher(db.Model):
     approved_by = db.Column(db.String(120), nullable=True)
     date_created = db.Column(db.Date, default=datetime.date.today())
     updated_on = db.Column(db.Date, default=datetime.date.today())
+    description_of_expense = db.Column(db.String(300), nullable=True)
 
     def __str__(self):
         return f"<PaymentVoucher {self.form_id}>"
@@ -1175,6 +1183,7 @@ class PettyCashReconciliation(db.Model):
     reference = db.Column(db.String(120), nullable=True)
     cheq_no = db.Column(db.String(120), nullable=True)
     orm_no = db.Column(db.String(120), nullable=True)
+    description_of_expense = db.Column(db.String(300), nullable=True)
 
     # --------------Petty Cash vouchers -----------------
 
@@ -1220,7 +1229,7 @@ class PettyCashVoucher(db.Model):
     attachment = db.Column(db.String(200), nullable=True)
     prepared_by = db.Column(db.String(120), nullable=True)
     approved_by = db.Column(db.String(120), nullable=True)
-    description = db.Column(db.String(300), nullable=True)
+    description_of_expense = db.Column(db.String(300), nullable=True)
     requisition_ref = db.Column(db.String(120), nullable=True)
     date_created = db.Column(db.Date, default=datetime.date.today())
     updated_on = db.Column(db.Date, default=datetime.date.today())
@@ -1270,6 +1279,7 @@ class RefundNote(db.Model):
     approved_by = db.Column(db.String(120), nullable=True)
     date_created = db.Column(db.Date, default=datetime.date.today())
     updated_on = db.Column(db.Date, default=datetime.date.today())
+    description_of_expense = db.Column(db.String(300), nullable=True)
 
     def __str__(self):
         return f"<RefundNote {self.form_id}>"
@@ -1312,7 +1322,7 @@ class QuatationForm(db.Model):
     name = db.Column(db.String(120), nullable=True)
     address = db.Column(db.String(120), nullable=True)
     city = db.Column(db.String(120), nullable=True)
-    description = db.Column(db.String(120), nullable=True)
+    description_of_expense = db.Column(db.String(300), nullable=True)
     quotation_date = db.Column(db.Date, default=datetime.date.today())
     expiry_date = db.Column(db.Date, default=datetime.date.today())
     quotation_no = db.Column(db.String(120), nullable=True)

@@ -198,6 +198,7 @@ def register_deal():
         [Response]: [(Message, status_code)]
     """
     deal_data = request.get_json()
+    print(deal_data)
     return add_deal_todb(deal_data)
 
 

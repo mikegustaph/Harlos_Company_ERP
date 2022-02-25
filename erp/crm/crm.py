@@ -242,7 +242,7 @@ def add_deal_to_db(user_data: dict) -> bool:
                         email=new_deal.email,
                         persona=new_deal.persona,
                         source=lead.lead_source,
-                        title=lead.lead_tile,
+                        title=lead.lead_title,
                         group=lead.group,
                         industry=new_deal.industry,
                         description=lead.description,

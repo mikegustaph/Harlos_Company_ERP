@@ -43,8 +43,12 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="">Stock Out Date</label>
+                                {% if stock.release_date is not none %}
                                 <input type="text" class="form-control h-input dateSelector" name="stock_out_date"
                                     value="{{stock.release_date.strftime('%d/%m/%Y')}}">
+                                {% else %}
+                                <input type="text" class="form-control h-input dateSelector" name="stock_out_date">
+                                {% endif %}
                             </div>
                         </div>
                     </div>

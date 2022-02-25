@@ -3,12 +3,14 @@ import time
 import json
 import typing
 import datetime
+from pprint import pprint
+
 import flask_login
 from PIL import Image
 from typing import Any
 from flask.helpers import total_seconds
 from flask_login import login_required
-from flask import current_app as app
+from flask import current_app as app, jsonify
 from erp.crm.crm import format_the_date
 from erp.purchase.purchase import load_all_suppliers
 from erp.general import is_already_added, tobe_deleted_items
@@ -355,7 +357,12 @@ def all_condition_viewable():
 
 def load_all_stocks():
     try:
-        return Container.query.all() if Container.query.all() else []
+        containers = Container.query.all()
+        if containers:
+            return containers
+        else:
+            return []
+
     except Exception as bug:
         print(bug)
         print("Bug raised while loading all stocks")
@@ -413,15 +420,21 @@ def stock():
 
             return redirect(url_for("home_bp._401"))
         else:
+
+            print(load_all_stocks())
+            print(load_all_suppliers())
+            print(load_approved_invoices())
+            print(load_all_deals())
+
             return render_template(
                 "stock.html",
-                title="Stock | Containers",
+                title="Stock Containers",
                 json=json,
                 deals=load_all_deals(),
                 all_conditions=all_condition_viewable(),
                 invoices=load_approved_invoices(),
                 suppliers=load_all_suppliers(),
-                stocks=load_all_stocks(),
+                stocks= load_all_stocks(),
                 stock_summary=generate_stock_summary(),
                 role=get_current_role(),
                 d_stocks=tobe_deleted_items("Stock"),

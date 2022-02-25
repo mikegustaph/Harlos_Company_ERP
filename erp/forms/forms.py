@@ -68,6 +68,7 @@ def add_cash_deposit_form(cash_deposit_data: dict) -> bool:
             approved_by = cash_deposit_data.get("signed_by")
             reference = generate_reference_number("CashDepositForm")
             attachment = save_attachement("CashDepositForm", reference)
+            description = cash_deposit_data.get("description_of_expense")
             amount = format_the_amount(amount)
             print(f"{prepared_by} testing damn it")
 
@@ -79,6 +80,7 @@ def add_cash_deposit_form(cash_deposit_data: dict) -> bool:
                 approved_by=approved_by,
                 attachment=attachment,
                 reference=reference,
+                description_of_expense=description
             )
 
             new_form = Forms(
@@ -107,6 +109,7 @@ def add_cash_register_form(cash_register_data: dict) -> bool:
             requested_by = cash_register_data.get("requested_by")
             requested_to = cash_register_data.get("requested_to")
             reference = generate_reference_number("CashRegisterForm")
+            description = cash_register_data.get("description_of_expense")
             attachement = save_attachement("CashRegisterForm", reference)
 
             amount = format_the_price(amount)
@@ -119,6 +122,7 @@ def add_cash_register_form(cash_register_data: dict) -> bool:
                 prepared_by=prepared_by,
                 requested_by=requested_by,
                 requested_to=requested_to,
+                description_of_expense=description,
             )
             new_form = Forms(form_type="CashRegisterForm", reference=reference)
             db.session.add(new_cash_register)
@@ -207,6 +211,7 @@ def add_cash_retirement_form(cash_retirement_data: dict) -> bool:
             cash_received_by = cash_retirement_data.get("cash_received_by")
             balance_returned_by = cash_retirement_data.get("balance_returned_by")
             balance_received_by = cash_retirement_data.get("balance_received_by")
+            description_of_expense = cash_retirement_data.get("description_of_expense")
             reference = generate_reference_number("CashRetirementForm")
             attachment = save_attachement("CashRetirementForm", reference)
 
@@ -230,6 +235,7 @@ def add_cash_retirement_form(cash_retirement_data: dict) -> bool:
                 cash_received_by=cash_received_by,
                 balance_returned_by=balance_returned_by,
                 balance_received_by=balance_received_by,
+                description_of_expense= description_of_expense
             )
             new_form = Forms(form_type="CashRetirementForm", reference=reference)
             db.session.add(new_cash_retirement)
@@ -279,7 +285,7 @@ def get_claim_expenditure(claim_data: dict, no: int) -> str:
         expenditures = []
         for index in range(no):
             expenditure = {
-                "date": claim_data.get(f"date_new{index}"),
+                "date": claim_data.get(f"date_claimed_{index}"),
                 "description": claim_data.get(f"description_new{index}"),
                 "category": claim_data.get(f"category_new{index}"),
                 "cost": claim_data.get(f"cost_new{index}"),
@@ -304,6 +310,7 @@ def add_claim_form(claim_data: dict) -> bool:
             bussiness_purpose = claim_data.get("bussiness_purpose")
             reference = generate_reference_number("ClaimForm")
             attachment = save_attachement("ClaimForm", reference)
+            description = claim_data.get("description_of_expense")
 
             expense_start_date = format_the_date(expense_start_date)
             expense_end_date = format_the_date(expense_end_date)
@@ -320,6 +327,7 @@ def add_claim_form(claim_data: dict) -> bool:
                 expense_start_date=expense_start_date,
                 expense_end_date=expense_end_date,
                 claim_expenditure=claim_expenditures,
+                description_of_expense = description
             )
             new_form = Forms(form_type="ClaimForm", reference=reference)
             db.session.add(new_claim)
@@ -375,6 +383,7 @@ def add_material_purchase_form(material_purchase_data: dict) -> bool:
             prepared_by = material_purchase_data.get("prepared_by")
             requested_by = material_purchase_data.get("requested_by")
             requested_to = material_purchase_data.get("requested_to")
+            description = material_purchase_data.get("description_of_expense")
             reference = generate_reference_number("MaterialPurchaseForm")
             attachement = save_attachement("MaterialPurchaseForm", reference)
             no_of_purchase = get_no_purchases(material_purchase_data)
@@ -391,6 +400,7 @@ def add_material_purchase_form(material_purchase_data: dict) -> bool:
                 prepared_by=prepared_by,
                 requested_by=requested_by,
                 requested_to=requested_to,
+                description_of_expense=description
             )
             new_form = Forms(form_type="MaterialPurchaseForm", reference=reference)
             db.session.add(new_material_purchase)
@@ -439,6 +449,7 @@ def add_material_requisition_form(material_requisition_data: dict) -> bool:
             prepared_by = material_requisition_data.get("prepared_by")
             requested_by = material_requisition_data.get("requested_by")
             requested_to = material_requisition_data.get("requested_to")
+            description = material_requisition_data.get("description_of_expense")
             reference = generate_reference_number("MaterialRequisitionForm")
             attachment = save_attachement("MaterialRequisitionForm", reference)
 
@@ -451,8 +462,9 @@ def add_material_requisition_form(material_requisition_data: dict) -> bool:
                 attachment=attachment,
                 requisitions=requisitions,
                 prepared_by=prepared_by,
-                requested_by=requested_by,
+                requested_by= requested_by,
                 requested_to=requested_to,
+                description_of_expense= description,
             )
             new_form = Forms(form_type="MaterialRequisitionForm", reference=reference)
             db.session.add(new_material_requisition)
@@ -508,6 +520,7 @@ def add_payment_voucher_form(payment_voucher_data: dict) -> bool:
             voucher_type = payment_voucher_data.get("voucher_type")
             reference = generate_reference_number("PaymentVoucher")
             attachement = save_attachement("PaymentVoucher", reference)
+            description = payment_voucher_data.get("description_of_expense")
 
             date_made = format_the_date(date_made)
             no_payment_vouchers = get_no_payment_vouchers(payment_voucher_data)
@@ -524,6 +537,7 @@ def add_payment_voucher_form(payment_voucher_data: dict) -> bool:
                 voucher_type=voucher_type,
                 total_amount=total_amount,
                 voucher_items=json.dumps(payment_voucher_items),
+                description_of_expense=description
             )
             new_form = Forms(form_type="PaymentVoucher", reference=reference)
             db.session.add(new_payment_voucher)
@@ -583,6 +597,7 @@ def add_PettyCashReconciliation(pettycash_rec_data: dict) -> bool:
             end_p_date = pettycash_rec_data.get("end_p_date")
             reference = generate_reference_number("PettyCashReconciliationForm")
             attachment = save_attachement("PettyCashReconciliation", reference)
+            description = pettycash_rec_data.get("description_of_expense")
 
             prev_date = format_the_date(prev_date)
             start_p_date = format_the_date(start_p_date)
@@ -612,6 +627,7 @@ def add_PettyCashReconciliation(pettycash_rec_data: dict) -> bool:
                 cash_handler=cash_handler,
                 finance_handler=finance_handler,
                 ceo_handler=ceo_handler,
+                description_of_expense=description
             )
             new_form = Forms(form_type="PettyCashReconciliation", reference=reference)
             db.session.add(new_petty_cash_reconciliation)
@@ -663,6 +679,7 @@ def add_pettycash_voucher(pettycash_voucher_data: dict) -> bool:
             requisition_ref = pettycash_voucher_data.get("requisition_ref")
             reference = generate_reference_number("PettyCashVoucher")
             attachment = save_attachement("PettyCashVoucher", reference)
+            description = pettycash_voucher_data.get("description_of_expense")
 
             no_voucher_items = get_no_petty_cash_voucher(pettycash_voucher_data)
             total_amount, voucher_items = get_petty_voucher_items(
@@ -677,6 +694,7 @@ def add_pettycash_voucher(pettycash_voucher_data: dict) -> bool:
                 total_amount=total_amount,
                 attachment=attachment,
                 voucher_items=json.dumps(voucher_items),
+                description_of_expense=description
             )
             new_petty_cash_voucher.requisition = requisition_ref
             new_form = Forms(form_type="PettyCashVoucher", reference=reference)
@@ -707,6 +725,7 @@ def add_refund_note(refund_note_data: dict) -> bool:
             adjusted_price = format_the_price(adjusted_price)
             total_amount = format_the_price(total_amount)
             proforma_invoice_amount = format_the_price(proforma_invoice_amount)
+            description = cash_register_data.get("description_of_expense")
 
             new_refund_note = RefundNote(
                 reference=reference,
@@ -719,6 +738,7 @@ def add_refund_note(refund_note_data: dict) -> bool:
                 total_amount=total_amount,
                 proforma_invoice_no=proforma_invoice_no,
                 proforma_invoice_amount=proforma_invoice_amount,
+                description_of_expense=description
             )
             new_form = Forms(form_type="RefundNote", reference=reference)
             db.session.add(new_refund_note)
@@ -744,8 +764,6 @@ def add_stock_items(stock_items: dict) -> bool:
         with app.app_context():
             pass
     except Exception as bug:
-        print("Failed to add stock items")
-        print(bug)
         return False
 
 
@@ -816,6 +834,7 @@ def add_quotation_form(quotation_form_data: dict) -> bool:
             prepared_by = quotation_form_data.get("prepared_by")
             reference = generate_reference_number("QuotationForm")
             attachment = save_attachement("QuotationForm", reference)
+            description = quotation_form_data.get("description_of_expense")
 
             quotation_date = format_the_date(quotation_date)
             expiry_date = format_the_date(expiry_date)
@@ -836,6 +855,7 @@ def add_quotation_form(quotation_form_data: dict) -> bool:
                 amount=amount,
                 tax_collected=tax_collected,
                 prepared_by=prepared_by,
+                description_of_expense=description
             )
             new_form = Forms(reference=reference, form_type="QuotationForm")
             db.session.add(new_form)
@@ -883,6 +903,11 @@ def forms():
 @forms_bp.route("/forms-viewer")
 @login_required
 def forms_viewer():
+    print("Form viewer has opened.")
+    print(f'Can view cash deposit form view {get_current_role().cash_deposit_form_view}')
+    print(f'Can view cash register form view {get_current_role().cash_register_form_view}')
+    print(f'Can view cash requisition form view {get_current_role().cash_requisition_form_view}')
+    print(f"Can view cash retirement form view {get_current_role().cash_retirement_form_view}")
     return render_template("forms-viewer.html", title="Forms", role=get_current_role())
 
 
