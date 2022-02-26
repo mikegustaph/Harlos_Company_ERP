@@ -34,11 +34,14 @@ def get_current_role():
 def load_all_deals(deal_id=None):
     if not deal_id:
         deals = Deals.query.all()
+        for deal in deals:
+            print(deal.attached_slip)
         if deals:
             return deals
         return []
 
     deal = Deals.query.filter_by(deal_id=deal_id).first()
+    # print(f'This is deal : {deal}')
     if deal:
         return deal
     return []

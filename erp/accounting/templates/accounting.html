@@ -71,7 +71,7 @@
                                 {% else %}
                                 <td><span class="p-2 badge badge-warning">Not Paid</span></td>
                                 {% endif %}
-                                {% if not proforma.approved_invoice and proforma.deal_stage != "Closed Lost" %}
+                                {% if not proforma.approved_invoice and proforma.deal_stage != "Closed Lost" and proforma.attached_slip %}
                                 <td>
                                     <a data-toggle="modal" data-target="#convModal{{proforma.deal_id}}"
                                         class="btn-sm h-btn-sm btn-success">Convert</a>
@@ -79,6 +79,10 @@
                                 {% elif proforma.deal_stage == "Closed Lost" %}
                                 <td>
                                     <span class="badge badge-danger">Deal Closed</span>
+                                </td>
+                                {% elif not proforma.attached_slip %}
+                                <td>
+                                    <a class="btn-sm h-btn-sm btn-success">Convert</a>
                                 </td>
                                 {% else %}
                                 <td>
@@ -115,18 +119,18 @@
                                 <form action="{{url_for('accounting_bp.accounting')}}" enctype="multipart/form-data"
                                     method="POST" class="ml-4 mr-4">
                                     <div class="form-group">
-                                        <label for="">Upload Payslip <span style="color: crimson;">*</span></label>
+                                        <label for="uploadFile">Upload Payslip <span style="color: crimson;">*</span></label>
                                         <div class="mb-3 custom-file">
                                             <input type="file" class="custom-file-input" id="uploadFile" name="payslip"
                                                 accept=".pdf,.csv,.jpg,.png,.doc" required>
-                                            <label class="custom-file-label" for="customFile">Choose a file to
+                                            <label class="custom-file-label" for="uploadFile">Choose a file to
                                                 upload</label>
                                         </div>
                                         <div class="form-group">
                                             <input type="hidden" name="deal_id" value="{{proforma.deal_id}}">
                                         </div>
                                     </div>
-                                    {% if not proforma.approved_invoice %}
+                                    {% if not proforma.approved_invoice  %}
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-success h-btn-sm" name="submit"
                                             id="btnSubmit"> Convert
